@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en" x-data="eduApp()" x-init="init()" x-cloak :class="theme">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduCenterJM | Secondary School Management — Preview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Geist:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        [x-cloak] { display: none !important; }
+        * { transition: background-color 0.3s ease, color 0.2s ease, border-color 0.3s ease; }
+        body { font-family: 'Geist', sans-serif; }
+        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Playfair Display', serif; }
+        :root {
+            --bg-body: 248 250 252; --bg-card: 255 255 255; --bg-input: 255 255 255;
+            --text-main: 30 41 59; --text-muted: 71 85 105; --border: 203 213 225;
+            --accent: 5 150 105; --accent-hover: 4 120 87; --ring: 16 185 129;
+        }
+        html.dark {
+            --bg-body: 15 23 42; --bg-card: 30 41 59; --bg-input: 51 65 85;
+            --text-main: 241 245 249; --text-muted: 148 163 184; --border: 51 65 85;
+        }
+        body { background-color: rgb(var(--bg-body)); color: rgb(var(--text-main)); }
+        .bg-body { background-color: rgb(var(--bg-body)) !important; }
+        .bg-card { background-color: rgb(var(--bg-card)); }
+        .bg-input { background-color: rgb(var(--bg-input)); }
+        .text-muted { color: rgb(var(--text-muted)); }
+        .text-main { color: rgb(var(--text-main)); }
+        .border-app { border-color: rgb(var(--border)); }
+        .glass {
+            background: rgba(255,255,255,0.75); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.6); box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+        }
+        html.dark .glass { background: rgba(30,41,59,0.75); border: 1px solid rgba(255,255,255,0.08); }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgb(var(--border)); border-radius: 4px; }
+        .fade-slide { animation: fadeSlide 0.4s cubic-bezier(0.16,1,0.3,1); }
+        @keyframes fadeSlide { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(5,150,105,0.08); }
+        .nav-item.active { background-color: rgb(5 150 105); color: white; }
+        input:focus, select:focus, textarea:focus { outline: none; box-shadow: 0 0 0 2px rgba(16,185,129,0.4); border-color: rgb(16 185 129); }
+    </style>
+</head>
+<body class="font-sans antialiased bg-body text-main">
+
+<!-- LOGIN SCREEN -->
+<div x-show="!currentUser" x-transition class="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden" style="background: linear-gradient(135deg, #ecfdf5, #f0fdfa, #ecfeff);">
+    <div class="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-emerald-400/20 blur-3xl"></div>
+    <div class="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-teal-400/20 blur-3xl"></div>
+    <button @click="theme = theme === 'dark' ? 'light' : 'dark'" class="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-app bg-white/80 shadow-sm backdrop-blur hover:scale-105 transition">
+        <svg x-show="theme === 'dark'" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M3 12H4m14.243-6.243l-.707.707M6.464 17.536l-.707.707m12.728 0l-.707-.707M6.464 6.464l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        <svg x-show="theme !== 'dark'" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+    </button>
+    <div class="glass relative z-10 w-full max-w-md rounded-3xl p-8 shadow-2xl">
+        <div class="mb-6 flex flex-col items-center text-center">
+            <div class="mb-4 flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-xl shadow-emerald-500/30 ring-4 ring-white/40">
+                <svg class="h-11 w-11" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+            </div>
+            <h1 class="font-serif text-3xl font-bold tracking-tight">
+                <span class="text-emerald-600">Edu</span>Center<span class="text-emerald-600">JM</span>
+            </h1>
+            <p class="mt-1.5 text-sm font-medium text-slate-600">Secondary School Management System</p>
+        </div>
+        <div class="mb-6 flex border-b border-app">
+            <button @click="loginRole = 'Staff'" :class="loginRole === 'Staff' ? 'border-emerald-500 text-emerald-600' : 'border-transparent text-muted'" class="flex flex-1 items-center justify-center gap-2 border-b-2 py-3 text-sm font-semibold transition">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.948 11.948 0 0112 2.944a11.948 11.948 0 01-8.618 5.04A12.078 12.078 0 003 9.536c0 5.552 3.84 10.224 9 11.536 5.16-1.312 9-5.984 9-11.536 0-1.106-.18-2.166-.512-3.168z"/></svg>
+                Staff Portal
+            </button>
+            <button @click="loginRole = 'Student'" :class="loginRole === 'Student' ? 'border-emerald-500 text-emerald-600' : 'border-transparent text-muted'" class="flex flex-1 items-center justify-center gap-2 border-b-2 py-3 text-sm font-semibold transition">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/></svg>
+                Student Portal
+            </button>
+        </div>
+        <form @submit.prevent="login()" class="space-y-4">
+            <div class="space-y-2">
+                <label class="text-sm font-medium">Email</label>
+                <div class="relative">
+                    <svg class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    <input x-model="loginForm.email" type="email" required placeholder="you@edu.edu" class="w-full rounded-lg border border-app bg-input py-2.5 pl-10 pr-3 text-sm">
+                </div>
+            </div>
+            <div class="space-y-2">
+                <label class="text-sm font-medium">Password</label>
+                <div class="relative">
+                    <svg class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m0 0V11M5 11h14l-1 8H6L5 11z"/></svg>
+                    <input x-model="loginForm.password" type="password" required placeholder="••••••••" class="w-full rounded-lg border border-app bg-input py-2.5 pl-10 pr-3 text-sm">
+                </div>
+            </div>
+            <button type="submit" class="w-full rounded-lg bg-emerald-600 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-600/25 transition hover:bg-emerald-700 active:scale-[0.98] flex items-center justify-center gap-2">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5-4V3a2 2 0 00-2-2H6a2 2 0 00-2 2v14"/></svg>
+                Sign In
+            </button>
+        </form>
+        <div class="mt-6 rounded-xl border border-dashed border-emerald-300 bg-emerald-50/40 p-3">
+            <p class="mb-2.5 text-center text-xs font-semibold uppercase tracking-wide text-emerald-700">Demo accounts — click to autofill</p>
+            <div class="grid grid-cols-3 gap-2">
+                <button @click="quickLogin('admin')" class="rounded-lg border border-app bg-white px-2 py-2.5 text-xs font-semibold transition hover:scale-105 hover:border-emerald-400 hover:shadow-sm">Admin</button>
+                <button @click="quickLogin('teacher')" class="rounded-lg border border-app bg-white px-2 py-2.5 text-xs font-semibold transition hover:scale-105 hover:border-emerald-400 hover:shadow-sm">Teacher</button>
+                <button @click="quickLogin('student')" class="rounded-lg border border-app bg-white px-2 py-2.5 text-xs font-semibold transition hover:scale-105 hover:border-emerald-400 hover:shadow-sm">Student</button>
+            </div>
+        </div>
+    </div>
+    <p class="relative z-10 mt-6 text-center text-xs text-slate-500">© 2026 EduCenterJM · Secured with care</p>
+</div>
+
+<!-- APP SHELL -->
+<div x-show="currentUser" x-transition class="flex h-screen flex-col overflow-hidden bg-body">
+    <div class="flex min-h-0 flex-1 overflow-hidden">
+        <!-- Sidebar (desktop) -->
+        <aside :class="sidebarCollapsed ? 'w-20' : 'w-64'" class="hidden shrink-0 flex-col border-r border-app bg-card transition-all duration-300 md:flex">
+            <button @click="activeView = 'dashboard'" class="flex h-16 items-center gap-3 border-b border-app px-4 hover:bg-slate-50">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-md">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/></svg>
+                </div>
+                <div x-show="!sidebarCollapsed" class="min-w-0 text-left">
+                    <p class="truncate font-serif text-base font-bold leading-tight"><span class="text-emerald-600">Edu</span>Center<span class="text-emerald-600">JM</span></p>
+                    <p class="truncate text-[10px] text-muted" x-text="currentUser?.role + ' Portal'"></p>
+                </div>
+            </button>
+            <nav class="flex-1 space-y-0.5 overflow-y-auto p-3">
+                <template x-for="item in filteredNav()" :key="item.id">
+                    <button @click="activeView = item.id" :class="activeView === item.id ? 'bg-emerald-600 text-white shadow-md' : 'text-muted hover:bg-slate-100 hover:text-main'" class="group relative flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all" :title="sidebarCollapsed ? item.label : ''">
+                        <span x-html="item.icon" class="shrink-0 [&>svg]:h-5 [&>svg]:w-5"></span>
+                        <span x-show="!sidebarCollapsed" class="truncate" x-text="item.label"></span>
+                        <span x-show="activeView === item.id && !sidebarCollapsed" class="absolute left-0 top-1/2 h-5 w-1 -translate-y-1/2 rounded-r-full bg-white/80"></span>
+                    </button>
+                </template>
+            </nav>
+            <div class="border-t border-app p-3">
+                <button @click="logout()" class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-500 transition hover:bg-red-50">
+                    <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                    <span x-show="!sidebarCollapsed">Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="flex min-h-0 min-w-0 flex-1 flex-col">
+            <!-- Header -->
+            <header class="flex h-16 shrink-0 items-center gap-2 border-b border-app bg-card/80 px-3 backdrop-blur sm:px-4 lg:px-6">
+                <button @click="sidebarCollapsed = !sidebarCollapsed" class="hidden rounded-lg p-2 text-muted hover:bg-slate-100 hover:text-main md:flex">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+                <h1 class="min-w-0 truncate font-serif text-base font-semibold sm:text-lg md:text-xl" x-text="viewTitle()"></h1>
+                <div class="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-2">
+                    <button class="flex items-center gap-2 rounded-lg border border-app bg-slate-100 px-2.5 py-1.5 text-sm text-muted transition hover:bg-slate-200">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                        <span class="hidden lg:inline">Search...</span>
+                        <kbd class="hidden rounded border border-app bg-white px-1.5 py-0.5 font-mono text-[10px] lg:inline">⌘K</kbd>
+                    </button>
+                    <button @click="theme = theme === 'dark' ? 'light' : 'dark'" class="rounded-lg p-2 text-muted hover:bg-slate-100 hover:text-main">
+                        <svg x-show="theme === 'dark'" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M3 12H4m14.243-6.243l-.707.707M6.464 17.536l-.707.707m12.728 0l-.707-.707M6.464 6.464l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                        <svg x-show="theme !== 'dark'" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                    </button>
+                    <button @click="activeView = 'notifications'" class="relative rounded-lg p-2 text-muted hover:bg-slate-100 hover:text-main">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                        <span x-show="unreadCount > 0" class="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white" x-text="unreadCount"></span>
+                    </button>
+                    <div class="mx-0.5 h-6 w-px bg-app sm:mx-1"></div>
+                    <button @click="activeView = 'profile'" class="flex items-center gap-2 rounded-lg p-1 pr-2 transition hover:bg-slate-100">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold text-white" :class="currentUser?.role === 'Student' ? 'bg-emerald-500' : 'bg-teal-600'">
+                            <span x-text="currentUser?.name?.charAt(0)"></span>
+                        </div>
+                        <div class="hidden text-left sm:block">
+                            <p class="max-w-[100px] truncate text-sm font-medium leading-tight" x-text="currentUser?.name"></p>
+                            <p class="text-[10px] text-muted" x-text="currentUser?.role"></p>
+                        </div>
+                    </button>
+                </div>
+            </header>
+            <!-- Content -->
+            <main class="min-h-0 flex-1 overflow-y-auto p-4 lg:p-6">
+                <div x-show="activeView === 'dashboard'" class="fade-slide space-y-6" x-html="dashboardHTML()"></div>
+                <div x-show="activeView === 'students'" class="fade-slide space-y-6" x-html="studentsHTML()"></div>
+                <div x-show="activeView === 'grades'" class="fade-slide space-y-6" x-html="gradesHTML()"></div>
+                <div x-show="activeView === 'attendance'" class="fade-slide space-y-6" x-html="attendanceHTML()"></div>
+                <div x-show="activeView === 'timetable'" class="fade-slide space-y-6" x-html="timetableHTML()"></div>
+                <div x-show="activeView === 'fees'" class="fade-slide space-y-6" x-html="feesHTML()"></div>
+                <div x-show="activeView === 'announcements'" class="fade-slide space-y-6" x-html="announcementsHTML()"></div>
+                <div x-show="activeView === 'messages'" class="fade-slide space-y-6" x-html="messagesHTML()"></div>
+                <div x-show="activeView === 'assignments'" class="fade-slide space-y-6" x-html="assignmentsHTML()"></div>
+                <div x-show="activeView === 'library'" class="fade-slide space-y-6" x-html="libraryHTML()"></div>
+                <div x-show="activeView === 'settings'" class="fade-slide space-y-6" x-html="settingsHTML()"></div>
+                <div x-show="activeView === 'profile'" class="fade-slide" x-html="profileHTML()"></div>
+                <div x-show="activeView === 'help'" class="fade-slide space-y-6" x-html="helpHTML()"></div>
+                <div x-show="!['dashboard','students','grades','attendance','timetable','fees','announcements','messages','assignments','library','settings','profile','help'].includes(activeView)" class="fade-slide flex h-64 flex-col items-center justify-center gap-3 text-muted">
+                    <svg class="h-12 w-12 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l7-3 7 3z"/></svg>
+                    <p class="text-sm font-medium" x-text="viewTitle() + ' is available in the full app'"></p>
+                    <button @click="activeView = 'dashboard'" class="text-sm text-emerald-600 hover:underline">← Back to Dashboard</button>
+                </div>
+            </main>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="relative z-10 shrink-0 border-t border-app bg-card/95 px-4 py-2.5 text-xs text-muted backdrop-blur lg:px-6">
+        <div class="flex flex-col items-center justify-between gap-1 sm:flex-row">
+            <p class="flex items-center gap-1.5">
+                <svg class="h-3.5 w-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/></svg>
+                <span class="font-medium text-main">EduCenterJM</span> · © 2026 Secondary School Management System
+            </p>
+            <p class="text-muted">Crafted with care for educators & students</p>
+        </div>
+    </footer>
+</div>
+
+<script>
+function eduApp() {
+    return {
+        // Auth
+        currentUser: null,
+        loginRole: 'Staff',
+        loginForm: { email: '', password: '' },
+        // UI
+        activeView: 'dashboard',
+        theme: 'light',
+        sidebarCollapsed: false,
+        unreadCount: 2,
+        // Mock data
+        students: [
+            { id: 'EDU-001', name: 'Jane Doe', grade: 10, className: '10A', guardian: 'Alice Doe', phone: '555-0100', feeStatus: 'Pending', status: 'Active' },
+            { id: 'EDU-002', name: 'Michael Brown', grade: 10, className: '10A', guardian: 'Bob Brown', phone: '555-0101', feeStatus: 'Paid', status: 'Active' },
+            { id: 'EDU-003', name: 'Sarah Williams', grade: 10, className: '10A', guardian: 'Sue Williams', phone: '555-0102', feeStatus: 'Pending', status: 'Active' },
+            { id: 'EDU-004', name: 'David Cameron', grade: 9, className: '9A', guardian: 'Dan Cameron', phone: '555-0103', feeStatus: 'Paid', status: 'Active' },
+            { id: 'EDU-005', name: 'Emily Stewart', grade: 9, className: '9A', guardian: 'Eve Stewart', phone: '555-0104', feeStatus: 'Pending', status: 'Active' },
+            { id: 'EDU-006', name: 'Joshua Haye', grade: 8, className: '8A', guardian: 'Joe Haye', phone: '555-0105', feeStatus: 'Paid', status: 'Active' },
+            { id: 'EDU-007', name: 'Aaliyah Reid', grade: 8, className: '8A', guardian: 'Amy Reid', phone: '555-0106', feeStatus: 'Pending', status: 'Active' },
+            { id: 'EDU-008', name: 'Tyrone Grant', grade: 7, className: '7A', guardian: 'Tom Grant', phone: '555-0107', feeStatus: 'Paid', status: 'Active' },
+        ],
+        staff: [
+            { id: 'STF-001', name: 'Dr. Admin', role: 'Admin', department: 'Administration', status: 'Active' },
+            { id: 'STF-003', name: 'Ms. Teacher', role: 'Teacher', department: 'Sciences', status: 'Active' },
+            { id: 'STF-004', name: 'Mr. Shakespeare', role: 'Teacher', department: 'Languages', status: 'Active' },
+            { id: 'STF-005', name: 'Nurse Betty', role: 'Nurse', department: 'Health', status: 'Active' },
+        ],
+        announcements: [
+            { id: 1, title: 'Midterm Exams Approaching', body: 'Midterm examinations begin Monday. Please ensure all students are prepared and arrive 15 minutes early.', author: 'Dr. Admin', role: 'Admin' },
+            { id: 2, title: 'Science Fair Registration Open', body: 'Sign up at the front office for the annual Science Fair. Prizes for top 3 projects!', author: 'Ms. Teacher', role: 'Teacher' },
+            { id: 3, title: 'PTA Meeting Scheduled', body: 'The next Parent-Teacher Association meeting is scheduled for the 20th at 5:30 PM in the main hall.', author: 'Dr. Admin', role: 'Admin' },
+        ],
+        books: [
+            { id: 1, title: 'To Kill a Mockingbird', author: 'Harper Lee', category: 'Fiction', copies: 5, available: 3 },
+            { id: 2, title: 'A Brief History of Time', author: 'Stephen Hawking', category: 'Science', copies: 3, available: 2 },
+            { id: 3, title: 'Calculus: Early Transcendentals', author: 'James Stewart', category: 'Mathematics', copies: 8, available: 5 },
+            { id: 4, title: '1984', author: 'George Orwell', category: 'Fiction', copies: 7, available: 4 },
+            { id: 5, title: 'Chemistry: The Central Science', author: 'T.L. Brown', category: 'Science', copies: 5, available: 2 },
+            { id: 6, title: 'Pride and Prejudice', author: 'Jane Austen', category: 'Fiction', copies: 6, available: 6 },
+        ],
+        assignments: [
+            { id: 1, title: 'Algebra Worksheet 4', subject: 'Mathematics', className: '10A', dueDate: '2026-12-18', status: 'Pending' },
+            { id: 2, title: "Newton's Laws Lab Report", subject: 'Physics', className: '10A', dueDate: '2026-12-22', status: 'Submitted' },
+            { id: 3, title: 'Shakespeare Essay', subject: 'English', className: '10A', dueDate: '2026-12-25', status: 'Pending' },
+        ],
+        grades: [
+            { student: 'Jane Doe', subject: 'Mathematics', score: 85, term: 'Term 1' },
+            { student: 'Jane Doe', subject: 'English Language', score: 78, term: 'Term 1' },
+            { student: 'Jane Doe', subject: 'Biology', score: 92, term: 'Term 1' },
+            { student: 'Michael Brown', subject: 'Mathematics', score: 71, term: 'Term 1' },
+            { student: 'Michael Brown', subject: 'English Language', score: 65, term: 'Term 1' },
+            { student: 'Sarah Williams', subject: 'Mathematics', score: 95, term: 'Term 1' },
+        ],
+        conversations: [
+            { id: 1, name: 'Ms. Teacher', role: 'Teacher', lastMessage: 'Welcome to the new school term!', time: '2h ago', unread: 1 },
+            { id: 2, name: 'Dr. Admin', role: 'Admin', lastMessage: 'Reminder: grade submission deadline.', time: '1d ago', unread: 0 },
+        ],
+        // Nav
+        navItems: [
+            { id: 'dashboard', label: 'Dashboard', roles: [], icon: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>' },
+            { id: 'profile', label: 'My Profile', roles: [], icon: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>' },
+            { id: 'students', label: 'Students', roles: ['Admin','Principal','Teacher','Nurse'], icon: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>' },
+            { id: 'grades', label: 'Academics & Grades', roles: ['Teacher','Admin','Student'], icon: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>' },
+            { id: 'attendance', label: 'Attendance', roles: ['Teacher','Admin','Student'], icon: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.948 11.948 0 0112 2.944a11.948 11.948 0 01-8.618 5.04A12.078 12.078 0 003 9.536c0 5.552 3.84 10.224 9 11.536 5.16-1.312 9-5.984 9-11.536 0-1.106-.18-2.166-.512-3.168z"/></svg>' },
+            { id: 'timetable', label: 'Timetable', roles: ['Student','Teacher'], icon: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m3 18H5a2 2 0 01-2-2V8a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2z"/></svg>' },
+            { id: 'fees', label: 'Fee Management', roles: ['Admin','Student'], icon: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>' },
+            { id: 'announcements', label: 'Announcements', roles: [], icon: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.594l-2.147-6.15M18 13a3 3 0 01-3 3m-6-6H5a2 2 0 00-2 2v3a2 2 0 002 2h2m13 0V7a2 2 0 00-2-2H9.5"/></svg>' },
+            { id: 'messages', label: 'Messages', roles: [], icon: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>' },
+            { id: 'assignments', label: 'Assignments', roles: ['Teacher','Student'], icon: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>' },
+            { id: 'library', label: 'Library', roles: [], icon: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>' },
+            { id: 'settings', label: 'System Settings', roles: ['Admin'], icon: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>' },
+            { id: 'help', label: 'Help & FAQ', roles: [], icon: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>' },
+        ],
+
+        init() {
+            this.theme = localStorage.getItem('edu-theme') || 'light';
+        },
+        filteredNav() {
+            if (!this.currentUser) return [];
+            return this.navItems.filter(n => n.roles.length === 0 || n.roles.includes(this.currentUser.role));
+        },
+        viewTitle() {
+            const titles = { dashboard:'Dashboard', profile:'My Profile', students:'Students', grades:'Academics & Grades', attendance:'Attendance', timetable:'Timetable', fees:'Fee Management', announcements:'Announcements', messages:'Messages', assignments:'Assignments', library:'Library', settings:'System Settings', help:'Help & FAQ' };
+            return titles[this.activeView] || this.navItems.find(n => n.id === this.activeView)?.label || 'EduCenterJM';
+        },
+        login() {
+            const accounts = {
+                'admin@edu.edu': { name: 'Dr. Admin', role: 'Admin', email: 'admin@edu.edu' },
+                'staff@edu.edu': { name: 'Ms. Teacher', role: 'Teacher', email: 'staff@edu.edu' },
+                'student@edu.edu': { name: 'Jane Doe', role: 'Student', email: 'student@edu.edu', grade: 10, className: '10A' },
+            };
+            const user = accounts[this.loginForm.email.toLowerCase()];
+            if (user) { this.currentUser = user; this.activeView = 'dashboard'; }
+        },
+        quickLogin(type) {
+            const accounts = {
+                admin: { email: 'admin@edu.edu', password: 'admin123', role: 'Staff' },
+                teacher: { email: 'staff@edu.edu', password: 'staff123', role: 'Staff' },
+                student: { email: 'student@edu.edu', password: 'student123', role: 'Student' },
+            };
+            const acc = accounts[type];
+            this.loginForm = { email: acc.email, password: acc.password };
+            this.loginRole = acc.role;
+            this.login();
+        },
+        logout() { this.currentUser = null; this.loginForm = { email: '', password: '' }; },
+
+        // ===== HTML generators for each view =====
+        dashboardHTML() {
+            const isStudent = this.currentUser?.role === 'Student';
+            const firstName = this.currentUser?.name?.split(' ')[0] || '';
+            const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+            return `
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 p-6 text-white shadow-xl sm:p-7">
+                <div class="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl"></div>
+                <div class="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl"></div>
+                <div class="relative flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+                    <div class="min-w-0">
+                        <p class="flex items-center gap-1.5 text-sm font-medium text-emerald-50/90"><span class="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-200"></span>${today}</p>
+                        <h2 class="mt-1.5 font-serif text-2xl font-bold tracking-tight sm:text-3xl">Welcome back, ${firstName}! 👋</h2>
+                        <p class="mt-1.5 text-sm text-emerald-50/85">${isStudent ? "Here's what's happening in your classes today." : "Here's your school overview at a glance."}</p>
+                    </div>
+                    <button onclick="document.querySelector('[x-data]').__x.$data.activeView='${isStudent ? 'assignments' : 'students'}'" class="shrink-0 rounded-lg bg-white/15 px-4 py-2 text-sm font-medium backdrop-blur ring-1 ring-white/20 transition hover:bg-white/25">${isStudent ? '📋 My Assignments' : '👥 View Students'}</button>
+                </div>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                ${this.statCard('Total Students', '41', '+12 this term', 'emerald', 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857')}
+                ${this.statCard('Staff Members', '5', 'All active', 'teal', 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857')}
+                ${this.statCard('Fees Collected', '$15,600', 'of $49,200', 'amber', 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8')}
+                ${this.statCard('Attendance', '85%', '10% late', 'cyan', 'M9 12l2 2 4-4m5.618-4.016A11.948 11.948 0 0112 2.944')}
+            </div>
+            <div class="grid gap-6 lg:grid-cols-3">
+                <div class="space-y-6 lg:col-span-2">
+                    <div class="rounded-xl border border-app bg-card p-5">
+                        <h3 class="mb-4 font-serif text-base font-semibold flex items-center gap-2"><svg class="h-4 w-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/></svg> Grade Distribution</h3>
+                        <div class="flex h-40 items-end gap-3">
+                            ${['Math','English','Biology','Physics','History'].map((s,i) => {
+                                const scores = [85, 78, 92, 81, 75];
+                                return `<div class="flex flex-1 flex-col items-center gap-2"><div class="w-full rounded-t-lg bg-emerald-500 transition-all hover:bg-emerald-600" style="height:${scores[i]}%"></div><span class="text-[10px] text-muted">${s}</span></div>`;
+                            }).join('')}
+                        </div>
+                    </div>
+                    <div class="rounded-xl border border-app bg-card p-5">
+                        <h3 class="mb-4 font-serif text-base font-semibold flex items-center gap-2"><svg class="h-4 w-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.594l-2.147-6.15"/></svg> Announcements</h3>
+                        <div class="space-y-3">
+                            ${this.announcements.map(a => `
+                                <div class="rounded-lg border border-app p-3 transition hover:bg-slate-50">
+                                    <div class="flex items-start justify-between gap-2">
+                                        <p class="text-sm font-semibold">${a.title}</p>
+                                    </div>
+                                    <p class="mt-1 line-clamp-2 text-xs text-muted">${a.body}</p>
+                                    <p class="mt-2 text-xs font-medium text-emerald-600">— ${a.author}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <div class="rounded-xl border border-app bg-card p-5">
+                        <h3 class="mb-3 font-serif text-base font-semibold">Quick Actions</h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            ${(isStudent ? [['My Grades','grades'],['Assignments','assignments'],['Borrow Book','library'],['Reports','help']] : [['Students','students'],['Grades','grades'],['Announce','announcements'],['Reports','help']]).map(([label,view],i) => {
+                                const colors = ['bg-emerald-50 text-emerald-700','bg-teal-50 text-teal-700','bg-amber-50 text-amber-700','bg-cyan-50 text-cyan-700'];
+                                const icons = ['M9 5H7a2 2 0 00-2 2v12','M12 6.253v13','M12 6.253v13m0-13C10.832 5.477','M9 5H7a2 2 0 00-2 2v12'];
+                                return `<button onclick="document.querySelector('[x-data]').__x.$data.activeView='${view}'" class="stat-card flex flex-col items-center gap-2 rounded-xl border border-app bg-card p-3 transition-all hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-md"><div class="flex h-10 w-10 items-center justify-center rounded-lg ${colors[i]}"><svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${icons[i]}"/></svg></div><span class="text-xs font-medium">${label}</span></button>`;
+                            }).join('')}
+                        </div>
+                    </div>
+                    <div class="rounded-xl border border-app bg-card p-5">
+                        <h3 class="mb-3 font-serif text-base font-semibold">Today's Attendance</h3>
+                        <div class="flex items-center justify-center">
+                            <div class="relative h-32 w-32">
+                                <svg class="h-full w-full -rotate-90" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgb(226 232 240)" stroke-width="12"/><circle cx="50" cy="50" r="40" fill="none" stroke="rgb(16 185 129)" stroke-width="12" stroke-dasharray="213.6 251.2" stroke-linecap="round"/></svg>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center"><span class="text-2xl font-bold">85%</span><span class="text-[10px] text-muted">Present</span></div>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex justify-around text-xs"><span class="flex items-center gap-1"><span class="h-2 w-2 rounded-full bg-emerald-500"></span>Present 85%</span><span class="flex items-center gap-1"><span class="h-2 w-2 rounded-full bg-amber-500"></span>Late 10%</span><span class="flex items-center gap-1"><span class="h-2 w-2 rounded-full bg-red-500"></span>Absent 5%</span></div>
+                    </div>
+                </div>
+            </div>`;
+        },
+        statCard(label, value, trend, color, iconPath) {
+            const colors = { emerald: 'bg-emerald-100 text-emerald-700', teal: 'bg-teal-100 text-teal-700', amber: 'bg-amber-100 text-amber-700', cyan: 'bg-cyan-100 text-cyan-700' };
+            return `<div class="stat-card group cursor-pointer overflow-hidden rounded-xl border border-app bg-card p-5 transition-all hover:-translate-y-0.5 hover:shadow-lg"><div class="flex items-center justify-between"><div class="flex h-11 w-11 items-center justify-center rounded-xl ${colors[color]} transition group-hover:scale-110"><svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${iconPath}"/></svg></div></div><p class="mt-3 text-2xl font-bold tracking-tight">${value}</p><p class="text-xs font-medium text-muted">${label}</p><p class="mt-1 text-[10px] font-semibold text-emerald-600">${trend}</p></div>`;
+        },
+        studentsHTML() {
+            return `
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 p-6 text-white shadow-xl sm:p-7">
+                <div class="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl"></div>
+                <h2 class="relative font-serif text-2xl font-bold tracking-tight">Students</h2>
+                <p class="relative mt-1.5 text-sm text-emerald-50/85">Manage student records and enrollment.</p>
+            </div>
+            <div class="rounded-xl border border-app bg-card p-4">
+                <div class="flex flex-col gap-3 lg:flex-row lg:items-center">
+                    <div class="relative flex-1"><svg class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg><input type="text" placeholder="Search by name or ID..." class="w-full rounded-lg border border-app bg-input py-2 pl-10 pr-3 text-sm"></div>
+                    <button class="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-emerald-700">+ Add Student</button>
+                </div>
+            </div>
+            <div class="overflow-hidden rounded-xl border border-app bg-card">
+                <table class="w-full text-sm">
+                    <thead class="border-b border-app bg-slate-50"><tr><th class="p-3 text-left font-medium">Student</th><th class="hidden p-3 text-left font-medium md:table-cell">Form</th><th class="hidden p-3 text-left font-medium lg:table-cell">Guardian</th><th class="p-3 text-left font-medium">Fees</th><th class="p-3 text-left font-medium">Status</th></tr></thead>
+                    <tbody>
+                        ${this.students.map(s => `
+                            <tr class="border-b border-app transition hover:bg-slate-50">
+                                <td class="p-3"><div class="flex items-center gap-3"><div class="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-xs font-semibold text-emerald-700">${s.name.charAt(0)}</div><div><p class="font-medium">${s.name}</p><p class="text-xs text-muted">${s.id} · ${s.className}</p></div></div></td>
+                                <td class="hidden p-3 md:table-cell"><span class="rounded-full border border-app px-2 py-0.5 text-xs">${s.grade <= 7 ? '1st Form' : s.grade <= 8 ? '2nd Form' : s.grade <= 9 ? '3rd Form' : s.grade <= 10 ? '4th Form' : '5th Form'}</span></td>
+                                <td class="hidden p-3 lg:table-cell"><p class="text-sm">${s.guardian}</p><p class="text-xs text-muted">${s.phone}</p></td>
+                                <td class="p-3"><span class="rounded-full px-2 py-0.5 text-xs font-medium ${s.feeStatus === 'Paid' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">${s.feeStatus}</span></td>
+                                <td class="p-3"><span class="rounded-full px-2 py-0.5 text-xs font-medium ${s.status === 'Active' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}">${s.status}</span></td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>`;
+        },
+        gradesHTML() {
+            const isStudent = this.currentUser?.role === 'Student';
+            if (isStudent) {
+                return `<div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 p-6 text-white shadow-xl sm:p-7"><div class="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl"></div><h2 class="relative font-serif text-2xl font-bold tracking-tight">My Grades</h2><p class="relative mt-1.5 text-sm text-emerald-50/85">Term 1 results</p></div>
+                <div class="grid gap-4 sm:grid-cols-3">${this.statCard('Average Score','85%','','emerald','M9 5H7a2 2 0 00-2 2v12')}${this.statCard('Subjects','3','','teal','M12 6.253v13')}${this.statCard('Top Grade','A','','amber','M5 3v4M3 5h4M6 17v4m-2-2h4m5-16v4m-2-2h4m5 16v4m-2-2h4')}</div>
+                <div class="space-y-2">${this.grades.filter(g => g.student === 'Jane Doe').map(g => `<div class="flex items-center gap-3 rounded-lg border border-app bg-card p-3"><div class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 font-bold text-emerald-700">${g.score}%</div><div class="flex-1"><p class="text-sm font-medium">${g.subject}</p><p class="text-xs text-muted">${g.term}</p></div><span class="rounded-full border border-emerald-300 px-2 py-0.5 text-xs font-bold text-emerald-600">${g.score >= 90 ? 'A+' : g.score >= 80 ? 'A' : g.score >= 70 ? 'B' : 'C'}</span></div>`).join('')}</div>`;
+            }
+            return `<div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 p-6 text-white shadow-xl sm:p-7"><div class="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl"></div><h2 class="relative font-serif text-2xl font-bold tracking-tight">Academics & Grades</h2><p class="relative mt-1.5 text-sm text-emerald-50/85">Record and track student performance.</p></div>
+            <div class="grid gap-4 sm:grid-cols-3">${this.statCard('Graded','3/3','','emerald','M9 5H7a2 2 0 00-2 2v12')}${this.statCard('Class Avg','85%','','teal','M9 5H7a2 2 0 00-2 2v12')}${this.statCard('Subject','Math','','amber','M12 6.253v13')}</div>
+            <div class="overflow-hidden rounded-xl border border-app bg-card"><table class="w-full text-sm"><thead class="border-b border-app bg-slate-50"><tr><th class="p-3 text-left font-medium">Student</th><th class="p-3 text-left font-medium">Score</th><th class="p-3 text-left font-medium">Grade</th></tr></thead><tbody>${this.students.filter(s => s.className === '10A').map(s => { const g = this.grades.find(gr => gr.student === s.name && gr.subject === 'Mathematics') || {score: 0}; return `<tr class="border-b border-app hover:bg-slate-50"><td class="p-3 font-medium">${s.name}</td><td class="p-3"><input type="number" value="${g.score}" class="w-16 rounded border border-app bg-input px-2 py-1 text-sm" /></td><td class="p-3"><span class="rounded-full border px-2 py-0.5 text-xs font-bold ${g.score >= 80 ? 'border-emerald-300 text-emerald-600' : 'border-amber-300 text-amber-600'}">${g.score >= 90 ? 'A+' : g.score >= 80 ? 'A' : g.score >= 70 ? 'B' : 'C'}</span></td></tr>`; }).join('')}</tbody></table></div>`;
+        },
+        attendanceHTML() {
+            return `<div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 p-6 text-white shadow-xl sm:p-7"><div class="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl"></div><h2 class="relative font-serif text-2xl font-bold tracking-tight">Attendance</h2><p class="relative mt-1.5 text-sm text-emerald-50/85">Record and monitor student attendance.</p></div>
+            <div class="overflow-hidden rounded-xl border border-app bg-card"><table class="w-full text-sm"><thead class="border-b border-app bg-slate-50"><tr><th class="p-3 text-left font-medium">Student</th><th class="p-3 text-left font-medium">Status</th></tr></thead><tbody>${this.students.slice(0,5).map((s,i) => `<tr class="border-b border-app hover:bg-slate-50"><td class="p-3 font-medium">${s.name}</td><td class="p-3"><select class="rounded border border-app bg-input px-2 py-1 text-xs"><option ${i%4===0?'selected':''}>Present</option><option ${i%7===0?'selected':''}>Late</option><option>Absent</option><option>Excused</option></select></td></tr>`).join('')}</tbody></table></div>`;
+        },
+        timetableHTML() {
+            const days = ['Mon','Tue','Wed','Thu','Fri'];
+            const slots = ['08:00','09:00','10:00','11:00','11:45','12:30','13:30'];
+            const subs = ['Mathematics','English','Biology','Physics','Lunch','Spanish','PE'];
+            const colors = ['bg-emerald-100 text-emerald-700 border-emerald-300','bg-teal-100 text-teal-700 border-teal-300','bg-amber-100 text-amber-700 border-amber-300','bg-cyan-100 text-cyan-700 border-cyan-300','bg-rose-100 text-rose-700 border-rose-300'];
+            return `<div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 p-6 text-white shadow-xl sm:p-7"><div class="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl"></div><h2 class="relative font-serif text-2xl font-bold tracking-tight">Weekly Timetable</h2></div>
+            <div class="overflow-x-auto rounded-xl border border-app bg-card"><table class="w-full text-sm"><thead class="border-b border-app bg-slate-50"><tr><th class="p-3 text-left font-medium">Time</th>${days.map(d => `<th class="p-3 text-center font-medium">${d}</th>`).join('')}</tr></thead><tbody>${slots.map((t,i) => `<tr class="border-b border-app"><td class="p-3 font-medium text-xs text-muted">${t}${i===4?'<br><span class="text-amber-600">Lunch</span>':''}</td>${days.map((d,j) => { if(i===4) return `<td class="p-2"><div class="rounded border-2 border-amber-300 bg-amber-50 p-2 text-center text-xs text-amber-700">☕ Break</div></td>`; const sub = subs[(i+j)%subs.length]; return `<td class="p-2"><div class="rounded border p-2 text-center text-xs ${colors[(i+j)%colors.length]}">${sub}</div></td>`; }).join('')}</tr>`).join('')}</tbody></table></div>`;
+        },
+        feesHTML() {
+            const isStudent = this.currentUser?.role === 'Student';
+            if (isStudent) return `<div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 p-6 text-white shadow-xl sm:p-7"><div class="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl"></div><h2 class="relative font-serif text-2xl font-bold tracking-tight">Fee Management</h2></div><div class="rounded-xl border border-amber-300 bg-amber-50 p-6"><p class="text-sm font-semibold text-amber-800">Outstanding: $1,200</p><p class="mt-1 text-xs text-amber-700">Due Dec 15, 2026 — Please contact the finance office.</p><button class="mt-3 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white">Pay Now</button></div>`;
+            return `<div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 p-6 text-white shadow-xl sm:p-7"><div class="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl"></div><h2 class="relative font-serif text-2xl font-bold tracking-tight">Fee Management</h2></div>
+            <div class="grid gap-4 sm:grid-cols-4">${this.statCard('Collected','$15,600','','emerald','M12 8c-1.657 0-3')}${this.statCard('Pending','$33,600','','amber','M12 8c-1.657 0-3')}${this.statCard('Rate','32%','','teal','M9 5H7a2 2 0 00-2 2v12')}${this.statCard('Paid','3/8','','cyan','M9 12l2 2 4-4')}</div>
+            <div class="overflow-hidden rounded-xl border border-app bg-card"><table class="w-full text-sm"><thead class="border-b border-app bg-slate-50"><tr><th class="p-3 text-left font-medium">Student</th><th class="p-3 text-left font-medium">Amount</th><th class="p-3 text-left font-medium">Status</th></tr></thead><tbody>${this.students.slice(0,5).map(s => `<tr class="border-b border-app hover:bg-slate-50"><td class="p-3 font-medium">${s.name}</td><td class="p-3">$1,200</td><td class="p-3"><span class="rounded-full px-2 py-0.5 text-xs font-medium ${s.feeStatus === 'Paid' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">${s.feeStatus}</span></td></tr>`).join('')}</tbody></table></div>`;
+        },
+        announcementsHTML() {
+            const canCompose = ['Admin','Principal','Teacher'].includes(this.currentUser?.role);
+            return `<div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 p-6 text-white shadow-xl sm:p-7"><div class="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl"></div><div class="relative flex items-center justify-between"><div><h2 class="font-serif text-2xl font-bold tracking-tight">Announcements</h2><p class="mt-1.5 text-sm text-emerald-50/85">Stay up to date with school news.</p></div>${canCompose ? '<button class="shrink-0 rounded-lg bg-white/15 px-4 py-2 text-sm font-medium backdrop-blur ring-1 ring-white/20 hover:bg-white/25">+ New</button>' : ''}</div></div>
+            <div class="grid gap-4">${this.announcements.map(a => `<div class="stat-card rounded-xl border border-app bg-card p-5 transition-all hover:-translate-y-0.5 hover:shadow-md"><div class="flex items-start gap-3"><div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-teal-100 text-sm font-semibold text-teal-700">${a.author.charAt(0)}</div><div class="min-w-0 flex-1"><p class="text-sm font-semibold">${a.title}</p><p class="mt-1 text-xs text-muted">${a.body}</p><p class="mt-2 text-xs font-medium text-emerald-600">— ${a.author} · ${a.role}</p></div></div></div>`).join('')}</div>`;
+        },
+        messagesHTML() {
+            return `<div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 p-6 text-white shadow-xl sm:p-7"><div class="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl"></div><h2 class="relative font-serif text-2xl font-bold tracking-tight">Messages</h2></div>
+            <div class="grid gap-4 lg:grid-cols-3">
+                <div class="space-y-2 lg:col-span-1">${this.conversations.map(c => `<div class="flex cursor-pointer items-center gap-3 rounded-lg border border-app bg-card p-3 transition hover:bg-slate-50"><div class="flex h-10 w-10 items-center justify-center rounded-full bg-teal-100 text-sm font-semibold text-teal-700">${c.name.charAt(0)}</div><div class="min-w-0 flex-1"><p class="truncate text-sm font-medium">${c.name}</p><p class="truncate text-xs text-muted">${c.lastMessage}</p></div>${c.unread ? '<span class="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-[10px] font-bold text-white">'+c.unread+'</span>' : ''}</div>`).join('')}</div>
+                <div class="lg:col-span-2"><div class="flex h-96 flex-col rounded-xl border border-app bg-card"><div class="flex items-center gap-3 border-b border-app p-4"><div class="flex h-10 w-10 items-center justify-center rounded-full bg-teal-100 text-sm font-semibold text-teal-700">M</div><div><p class="text-sm font-medium">Ms. Teacher</p><p class="text-xs text-muted">Teacher</p></div></div><div class="flex-1 space-y-3 overflow-y-auto p-4"><div class="flex justify-start"><div class="max-w-[70%] rounded-2xl rounded-tl-sm border border-app bg-slate-50 px-4 py-2 text-sm">Welcome to the new school term, Jane! Let me know if you need help.</div></div><div class="flex justify-end"><div class="max-w-[70%] rounded-2xl rounded-tr-sm bg-emerald-600 px-4 py-2 text-sm text-white">Thank you, Ms. Teacher! I'm excited for this term.</div></div></div><div class="border-t border-app p-3"><div class="flex gap-2"><input type="text" placeholder="Type a message..." class="flex-1 rounded-lg border border-app bg-input px-3 py-2 text-sm" /><button class="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white">Send</button></div></div></div></div>
+            </div>`;
+        },
+        assignmentsHTML() {
+            const isStudent = this.currentUser?.role === 'Student';
+            return `<div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 p-6 text-white shadow-xl sm:p-7"><div class="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl"></div><div class="relative flex items-center justify-between"><div><h2 class="font-serif text-2xl font-bold tracking-tight">Assignments</h2><p class="mt-1.5 text-sm text-emerald-50/85">${isStudent ? 'Your pending and submitted assignments.' : 'Create and manage assignments.'}</p></div>${!isStudent ? '<button class="shrink-0 rounded-lg bg-white/15 px-4 py-2 text-sm font-medium backdrop-blur ring-1 ring-white/20 hover:bg-white/25">+ Create</button>' : ''}</div></div>
+            <div class="space-y-3">${this.assignments.map(a => `<div class="stat-card rounded-xl border-l-4 border-emerald-400 border-y border-r border-app bg-card p-4 transition-all hover:shadow-md"><div class="flex items-start justify-between gap-2"><div><p class="text-sm font-semibold">${a.title}</p><p class="mt-0.5 text-xs text-muted">${a.subject} · ${a.className} · Due ${a.dueDate}</p></div><span class="shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${a.status === 'Submitted' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">${a.status}</span></div>${isStudent && a.status !== 'Submitted' ? '<button class="mt-3 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white">Submit</button>' : ''}</div>`).join('')}</div>`;
+        },
+        libraryHTML() {
+            const catColors = { Fiction: 'bg-emerald-100 text-emerald-700', Science: 'bg-teal-100 text-teal-700', Mathematics: 'bg-amber-100 text-amber-700' };
+            return `<div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 p-6 text-white shadow-xl sm:p-7"><div class="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl"></div><h2 class="relative font-serif text-2xl font-bold tracking-tight">Library</h2><p class="relative mt-1.5 text-sm text-emerald-50/85">Browse, borrow, and track books.</p></div>
+            <div class="grid gap-4 sm:grid-cols-4">${this.statCard('Titles','6','','emerald','M12 6.253v13')}${this.statCard('Available','22','','teal','M9 12l2 2 4-4')}${this.statCard('Borrowed','7','','amber','M9 5H7a2 2 0 00-2 2v12')}${this.statCard('Overdue','1','','cyan','M12 9v2m0 4h.01')}</div>
+            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">${this.books.map(b => `<div class="stat-card rounded-xl border border-app bg-card p-4 transition-all hover:-translate-y-0.5 hover:shadow-md"><div class="mb-2 h-1 rounded-full ${b.category === 'Fiction' ? 'bg-emerald-500' : b.category === 'Science' ? 'bg-teal-500' : 'bg-amber-500'}"></div><p class="text-sm font-semibold">${b.title}</p><p class="text-xs text-muted">${b.author}</p><div class="mt-2 flex items-center justify-between"><span class="rounded-full px-2 py-0.5 text-xs font-medium ${catColors[b.category] || 'bg-slate-100 text-slate-700'}">${b.category}</span><span class="text-xs ${b.available > 0 ? 'text-emerald-600' : 'text-red-500'}">${b.available}/${b.copies}</span></div>${b.available > 0 ? '<button class="mt-3 w-full rounded-lg bg-emerald-600 py-1.5 text-xs font-medium text-white">Borrow</button>' : '<button class="mt-3 w-full rounded-lg bg-slate-200 py-1.5 text-xs font-medium text-muted">Unavailable</button>'}</div>`).join('')}</div>`;
+        },
+        settingsHTML() {
+            return `<div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 p-6 text-white shadow-xl sm:p-7"><div class="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl"></div><h2 class="relative font-serif text-2xl font-bold tracking-tight">System Settings</h2></div>
+            <div class="rounded-xl border border-app bg-card p-5"><h3 class="mb-4 font-serif text-base font-semibold">School Branding</h3><div class="space-y-3"><div><label class="text-xs font-medium uppercase text-muted">School Name</label><input type="text" value="EduCenterJM" class="mt-1 w-full rounded-lg border border-app bg-input px-3 py-2 text-sm" /></div><div><label class="text-xs font-medium uppercase text-muted">Tagline</label><input type="text" value="Secondary School Management System" class="mt-1 w-full rounded-lg border border-app bg-input px-3 py-2 text-sm" /></div><button class="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white">Save Branding</button></div></div>
+            <div class="rounded-xl border border-app bg-card p-5"><h3 class="mb-4 font-serif text-base font-semibold">Color Scheme</h3><div class="grid grid-cols-4 gap-3 sm:grid-cols-8">${['#10b981','#14b8a6','#84cc16','#eab308','#f59e0b','#f97316','#ef4444','#06b6d4'].map(c => `<button class="h-10 w-10 rounded-lg ring-2 ring-transparent transition hover:ring-emerald-300" style="background:${c}"></button>`).join('')}</div></div>
+            <div class="rounded-xl border border-red-200 bg-red-50 p-5"><h3 class="mb-2 font-serif text-base font-semibold text-red-800">Danger Zone</h3><p class="mb-3 text-xs text-red-700">Reseeds the database with fresh demo content.</p><button class="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white">Reset Demo Data</button></div>`;
+        },
+        profileHTML() {
+            const u = this.currentUser || {};
+            const isStudent = u.role === 'Student';
+            return `<div class="mx-auto max-w-3xl space-y-6">
+                <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl"><div class="h-24"></div><div class="px-6 pb-6"><div class="-mt-12 flex items-end gap-4"><div class="flex h-20 w-20 items-center justify-center rounded-full border-4 border-white bg-emerald-500 text-2xl font-bold text-white">${u.name?.charAt(0) || 'U'}</div><div class="flex-1 pb-1"><h2 class="font-serif text-xl font-bold">${u.name}</h2><p class="text-sm text-emerald-50/85">${u.role}${isStudent ? ' · 4th Form · 10A' : ''}</p></div></div></div></div>
+                <div class="rounded-xl border border-app bg-card p-5"><h3 class="mb-3 font-serif text-base font-semibold">Personal Information</h3><div class="space-y-2 text-sm"><div class="flex gap-3"><span class="w-24 text-muted">Email</span><span class="font-medium">${u.email}</span></div><div class="flex gap-3"><span class="w-24 text-muted">Role</span><span class="font-medium">${u.role}</span></div>${isStudent ? '<div class="flex gap-3"><span class="w-24 text-muted">Class</span><span class="font-medium">10A</span></div>' : ''}</div></div>
+                <div class="rounded-xl border border-app bg-card p-5"><h3 class="mb-3 font-serif text-base font-semibold">Gamification</h3><div class="flex items-center justify-between"><div class="flex items-center gap-2"><div class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-orange-500 text-white"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg></div><div><p class="text-2xl font-bold">196 pts</p><p class="text-xs text-muted">Level 2 · 3 Badges</p></div></div></div><div class="mt-3"><div class="mb-1 flex justify-between text-xs text-muted"><span>Level 2</span><span>196/250 pts</span></div><div class="h-2 rounded-full bg-slate-200"><div class="h-2 rounded-full bg-emerald-500" style="width:78%"></div></div></div></div>
+            </div>`;
+        },
+        helpHTML() {
+            const faqs = [
+                ['How do I reset my password?', 'Use the "Forgot Password?" link on the login screen. A reset link will be sent to your email.'],
+                ['How do I upload a profile picture?', 'Go to My Profile, click the camera icon on your avatar, and select an image.'],
+                ['How do I search for a student or staff?', 'Press Cmd+K (Mac) or Ctrl+K (Windows) to open the search.'],
+                ['How do teachers create assignments?', 'Go to Assignments, click "Create Assignment", fill in the details, and save.'],
+                ['How do I borrow a library book?', 'Go to Library, find a book with available copies, and click "Borrow".'],
+                ['How do I change the theme?', 'Click the moon/sun icon in the header to toggle dark mode.'],
+            ];
+            return `<div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 p-6 text-white shadow-xl sm:p-7"><div class="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl"></div><h2 class="relative font-serif text-2xl font-bold tracking-tight">Help & FAQ</h2><p class="relative mt-1.5 text-sm text-emerald-50/85">Get started and find answers to common questions.</p></div>
+            <div class="rounded-xl border border-app bg-card p-5"><h3 class="mb-4 font-serif text-base font-semibold">Getting Started (${this.currentUser?.role})</h3><div class="space-y-2">${['Check your dashboard for announcements','View your grades in Academics & Grades','Submit assignments on time','Borrow books from the Library','View your profile and upload a picture'].map((s,i) => `<div class="flex items-center gap-3"><span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-bold text-emerald-700">${i+1}</span><span class="text-sm">${s}</span></div>`).join('')}</div></div>
+            <div class="rounded-xl border border-app bg-card p-5"><h3 class="mb-4 font-serif text-base font-semibold">Frequently Asked Questions</h3><div class="space-y-2">${faqs.map(([q,a]) => `<details class="group rounded-lg border border-app p-3"><summary class="cursor-pointer text-sm font-medium list-none">${q}<span class="float-right text-muted">▼</span></summary><p class="mt-2 text-xs text-muted">${a}</p></details>`).join('')}</div></div>`;
+        },
+    }
+}
+</script>
+</body>
+</html>
