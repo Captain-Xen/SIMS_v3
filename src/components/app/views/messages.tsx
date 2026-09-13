@@ -166,11 +166,11 @@ export function MessagesView() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 className="flex items-center gap-2 font-serif text-xl font-bold">
-            <MessagesSquare className="h-5 w-5 text-emerald-600" /> Messages
+            <MessagesSquare className="h-5 w-5 text-brand" /> Messages
           </h2>
           <p className="text-sm text-muted-foreground">Chat with students, staff, and parents in real time.</p>
         </div>
-        <Button className="bg-emerald-600 text-white hover:bg-emerald-700" onClick={() => setShowNew(true)}>
+        <Button className="bg-brand text-brand-foreground hover:bg-brand-strong" onClick={() => setShowNew(true)}>
           <Plus className="h-4 w-4" /> New Message
         </Button>
       </div>
@@ -203,7 +203,7 @@ export function MessagesView() {
                       onClick={() => openConversation(c.id)}
                       className={cn(
                         'flex w-full items-start gap-3 border-b border-border p-3 text-left transition hover:bg-muted/50',
-                        activeId === c.id && 'bg-emerald-50 dark:bg-emerald-950/20'
+                        activeId === c.id && 'bg-brand/5 dark:bg-brand/10'
                       )}
                     >
                       <UserAvatar name={c.name} avatar={partner.avatar} role={partner.role} size="md" />
@@ -215,7 +215,7 @@ export function MessagesView() {
                         <div className="flex items-center justify-between gap-2">
                           <p className="truncate text-xs text-muted-foreground">{c.lastMessage}</p>
                           {c.unread > 0 && (
-                            <span className="ml-auto flex h-5 min-w-[20px] items-center justify-center rounded-full bg-emerald-600 px-1.5 text-[10px] font-bold text-white">
+                            <span className="ml-auto flex h-5 min-w-[20px] items-center justify-center rounded-full bg-brand px-1.5 text-[10px] font-bold text-white">
                               {c.unread}
                             </span>
                           )}
@@ -271,7 +271,7 @@ export function MessagesView() {
                               className={cn(
                                 'rounded-2xl px-4 py-2 text-sm shadow-sm',
                                 mine
-                                  ? 'rounded-br-md bg-emerald-600 text-white'
+                                  ? 'rounded-br-md bg-brand text-brand-foreground'
                                   : 'rounded-bl-md border border-border bg-card'
                               )}
                             >
@@ -303,7 +303,7 @@ export function MessagesView() {
                         }
                       }}
                     />
-                    <Button onClick={send} disabled={sending || !draft.trim()} className="bg-emerald-600 text-white hover:bg-emerald-700" size="icon">
+                    <Button onClick={send} disabled={sending || !draft.trim()} className="bg-brand text-brand-foreground hover:bg-brand-strong" size="icon">
                       {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
                     </Button>
                   </div>
@@ -417,7 +417,7 @@ function NewMessageDialog({ currentId, avatarMap, onClose, onSent }: {
                     onClick={() => setSelected(u.id)}
                     className={cn(
                       'flex w-full items-center gap-3 border-b border-border p-2.5 text-left transition last:border-0 hover:bg-muted/50',
-                      selected === u.id && 'bg-emerald-50 dark:bg-emerald-950/20'
+                      selected === u.id && 'bg-brand/5 dark:bg-brand/10'
                     )}
                   >
                     <UserAvatar name={u.name} avatar={meta.avatar} role={meta.role} size="sm" />
@@ -445,7 +445,7 @@ function NewMessageDialog({ currentId, avatarMap, onClose, onSent }: {
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>Cancel</Button>
-          <Button onClick={send} disabled={sending || !selected || !body.trim()} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={send} disabled={sending || !selected || !body.trim()} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             Send
           </Button>

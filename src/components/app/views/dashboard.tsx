@@ -19,7 +19,7 @@ import {
 } from 'recharts'
 
 const EVENT_COLORS: Record<string, string> = {
-  Exam: '#ef4444', Event: '#10b981', Holiday: '#8b5cf6', Meeting: '#f59e0b',
+  Exam: '#ef4444', Event: 'var(--chart-1)', Holiday: '#8b5cf6', Meeting: '#f59e0b',
 }
 
 export function DashboardView() {
@@ -105,7 +105,7 @@ export function DashboardView() {
   }
 
   const attendanceData = [
-    { name: 'Present', value: stats.present, color: '#10b981' },
+    { name: 'Present', value: stats.present, color: 'var(--chart-1)' },
     { name: 'Late', value: stats.late, color: '#f59e0b' },
     { name: 'Absent', value: stats.absent, color: '#ef4444' },
   ].filter((d) => d.value > 0)
@@ -113,17 +113,17 @@ export function DashboardView() {
   return (
     <div className="space-y-6">
       {/* Welcome banner */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
           <div className="min-w-0">
-            <p className="flex items-center gap-1.5 text-sm font-medium text-emerald-50/90">
-              <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-200" />
+            <p className="flex items-center gap-1.5 text-sm font-medium text-brand-foreground/90">
+              <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-brand/20" />
               {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
             </p>
             <h2 className="mt-1.5 font-serif text-2xl font-bold tracking-tight sm:text-3xl">Welcome back, {user.name.split(' ')[0]}! 👋</h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">
+            <p className="mt-1.5 text-sm text-brand-foreground/85">
               {isStudent ? "Here's what's happening in your classes today." : "Here's your school overview at a glance."}
             </p>
           </div>
@@ -173,7 +173,7 @@ export function DashboardView() {
                     <XAxis dataKey="subject" tick={{ fontSize: 12 }} />
                     <YAxis domain={[0, 100]} tick={{ fontSize: 12 }} />
                     <Tooltip cursor={{ fill: 'rgba(16,185,129,0.08)' }} />
-                    <Bar dataKey="avg" fill="#10b981" radius={[6, 6, 0, 0]} />
+                    <Bar dataKey="avg" fill="var(--chart-1)" radius={[6, 6, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </CardContent>
@@ -184,7 +184,7 @@ export function DashboardView() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
-                <CardTitle className="text-base flex items-center gap-2"><Megaphone className="h-4 w-4 text-emerald-600" /> Announcements</CardTitle>
+                <CardTitle className="text-base flex items-center gap-2"><Megaphone className="h-4 w-4 text-brand" /> Announcements</CardTitle>
                 <CardDescription>Latest news from the school</CardDescription>
               </div>
               <Button variant="ghost" size="sm" onClick={() => setActiveView('announcements')}>View all <ArrowRight className="ml-1 h-4 w-4" /></Button>
@@ -200,7 +200,7 @@ export function DashboardView() {
                       <span className="shrink-0 text-xs text-muted-foreground">{timeAgo(a.createdAt)}</span>
                     </div>
                     <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{a.body}</p>
-                    <p className="mt-2 text-xs font-medium text-emerald-600">— {a.authorName}</p>
+                    <p className="mt-2 text-xs font-medium text-brand">— {a.authorName}</p>
                   </div>
                 ))
               )}
@@ -258,7 +258,7 @@ export function DashboardView() {
           {/* Calendar */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="text-base flex items-center gap-2"><CalendarDays className="h-4 w-4 text-emerald-600" /> {monthName} {year}</CardTitle>
+              <CardTitle className="text-base flex items-center gap-2"><CalendarDays className="h-4 w-4 text-brand" /> {monthName} {year}</CardTitle>
               <div className="flex gap-1">
                 <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setCalMonth(new Date(year, month - 1, 1))}><ChevronLeft className="h-4 w-4" /></Button>
                 <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setCalMonth(new Date(year, month + 1, 1))}><ChevronRight className="h-4 w-4" /></Button>
@@ -276,13 +276,13 @@ export function DashboardView() {
                       key={i}
                       className={cn(
                         'relative flex aspect-square items-center justify-center rounded-md text-xs transition',
-                        isToday ? 'bg-emerald-600 font-bold text-white' : 'hover:bg-muted',
+                        isToday ? 'bg-brand font-bold text-white' : 'hover:bg-muted',
                       )}
                     >
                       {day}
                       {dayEvents.length > 0 && (
                         <div className="absolute bottom-0.5 left-1/2 flex -translate-x-1/2 gap-0.5">
-                          {dayEvents.slice(0, 3).map((e, j) => <span key={j} className="h-1 w-1 rounded-full" style={{ background: isToday ? '#fff' : EVENT_COLORS[e.type] || '#10b981' }} />)}
+                          {dayEvents.slice(0, 3).map((e, j) => <span key={j} className="h-1 w-1 rounded-full" style={{ background: isToday ? '#fff' : EVENT_COLORS[e.type] || 'var(--chart-1)' }} />)}
                         </div>
                       )}
                     </div>
@@ -293,7 +293,7 @@ export function DashboardView() {
               <div className="mt-3 space-y-1.5">
                 {events.slice(0, 4).map((e) => (
                   <div key={e.id} className="flex items-center gap-2 text-xs">
-                    <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: EVENT_COLORS[e.type] || '#10b981' }} />
+                    <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: EVENT_COLORS[e.type] || 'var(--chart-1)' }} />
                     <span className="flex-1 truncate font-medium">{e.title}</span>
                     <span className="text-muted-foreground">{new Date(e.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
                   </div>
@@ -306,7 +306,7 @@ export function DashboardView() {
           {loans.length > 0 && (
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2 text-base"><BookMarked className="h-4 w-4 text-emerald-600" /> Library Due Dates</CardTitle>
+                <CardTitle className="flex items-center gap-2 text-base"><BookMarked className="h-4 w-4 text-brand" /> Library Due Dates</CardTitle>
                 <Button variant="ghost" size="sm" onClick={() => setActiveView('library')}>All <ArrowRight className="ml-1 h-4 w-4" /></Button>
               </CardHeader>
               <CardContent className="space-y-2">
@@ -316,14 +316,14 @@ export function DashboardView() {
                   const daysLeft = Math.ceil((due.getTime() - Date.now()) / 86400000)
                   return (
                     <div key={l.id} className="flex items-center gap-3 rounded-lg border border-border p-2.5">
-                      <div className={cn('flex h-9 w-9 shrink-0 items-center justify-center rounded-lg', overdue ? 'bg-red-100 text-red-600 dark:bg-red-950/50' : daysLeft <= 3 ? 'bg-amber-100 text-amber-600 dark:bg-amber-950/50' : 'bg-emerald-100 text-emerald-600 dark:bg-emerald-950/50')}>
+                      <div className={cn('flex h-9 w-9 shrink-0 items-center justify-center rounded-lg', overdue ? 'bg-red-100 text-red-600 dark:bg-red-950/50' : daysLeft <= 3 ? 'bg-amber-100 text-amber-600 dark:bg-amber-950/50' : 'bg-brand/10 text-brand dark:bg-brand/15')}>
                         <BookOpen className="h-4 w-4" />
                       </div>
                       <div className="min-w-0 flex-1">
                         <p className="truncate text-sm font-medium">{l.bookTitle}</p>
                         <p className="text-xs text-muted-foreground">Due {due.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
                       </div>
-                      <Badge variant="outline" className={cn('shrink-0 text-xs', overdue ? 'border-red-300 text-red-600' : daysLeft <= 3 ? 'border-amber-300 text-amber-600' : 'border-emerald-300 text-emerald-600')}>
+                      <Badge variant="outline" className={cn('shrink-0 text-xs', overdue ? 'border-red-300 text-red-600' : daysLeft <= 3 ? 'border-amber-300 text-amber-600' : 'border-brand/35 text-brand')}>
                         {overdue ? 'Overdue' : daysLeft <= 0 ? 'Today' : `${daysLeft}d`}
                       </Badge>
                     </div>
@@ -340,22 +340,22 @@ export function DashboardView() {
 
 function StatCard({ icon: Icon, label, value, trend, color, onClick }: { icon: any; label: string; value: string; trend: string; color: string; onClick?: () => void }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     teal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
     amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     cyan: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',
   }
   return (
-    <Card className="group cursor-pointer overflow-hidden transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald-900/5" onClick={onClick}>
+    <Card className="group cursor-pointer overflow-hidden transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/5" onClick={onClick}>
       <CardContent className="relative p-5">
-        <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br from-emerald-500/5 to-teal-500/5 transition group-hover:from-emerald-500/10 group-hover:to-teal-500/10" />
+        <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br from-brand/5 to-brand/5 transition group-hover:from-brand/10 group-hover:to-brand/10" />
         <div className="relative flex items-center justify-between">
           <div className={cn('flex h-11 w-11 items-center justify-center rounded-xl shadow-sm transition group-hover:scale-110', colors[color])}><Icon className="h-5 w-5" /></div>
           <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100" />
         </div>
         <p className="relative mt-3 text-2xl font-bold tracking-tight">{value}</p>
         <p className="relative text-xs font-medium text-muted-foreground">{label}</p>
-        <p className="relative mt-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">{trend}</p>
+        <p className="relative mt-1 text-[10px] font-semibold text-brand dark:text-brand">{trend}</p>
       </CardContent>
     </Card>
   )
@@ -367,7 +367,7 @@ function Separator() {
 
 function QuickAction({ icon: Icon, label, color, onClick }: { icon: any; label: string; color: string; onClick: () => void }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-50 text-emerald-700 group-hover:bg-emerald-100 dark:bg-emerald-950/30 dark:text-emerald-300',
+    emerald: 'bg-brand/5 text-brand-strong group-hover:bg-brand/10 dark:bg-brand/10 dark:text-brand',
     teal: 'bg-teal-50 text-teal-700 group-hover:bg-teal-100 dark:bg-teal-950/30 dark:text-teal-300',
     amber: 'bg-amber-50 text-amber-700 group-hover:bg-amber-100 dark:bg-amber-950/30 dark:text-amber-300',
     cyan: 'bg-cyan-50 text-cyan-700 group-hover:bg-cyan-100 dark:bg-cyan-950/30 dark:text-cyan-300',
@@ -375,7 +375,7 @@ function QuickAction({ icon: Icon, label, color, onClick }: { icon: any; label: 
   return (
     <button
       onClick={onClick}
-      className="group flex flex-col items-center gap-2 rounded-xl border border-border bg-card p-3 transition-all hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-md"
+      className="group flex flex-col items-center gap-2 rounded-xl border border-border bg-card p-3 transition-all hover:-translate-y-0.5 hover:border-brand/35 hover:shadow-md"
     >
       <div className={cn('flex h-10 w-10 items-center justify-center rounded-lg transition', colors[color])}>
         <Icon className="h-5 w-5" />

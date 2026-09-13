@@ -117,7 +117,7 @@ export function TermsView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
@@ -125,7 +125,7 @@ export function TermsView() {
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">
               <CalendarRange className="h-7 w-7" /> Terms &amp; Calendar
             </h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">
+            <p className="mt-1.5 text-sm text-brand-foreground/85">
               Manage academic terms, holidays, and exam weeks.
             </p>
           </div>
@@ -155,16 +155,16 @@ export function TermsView() {
         <>
           {/* Active term banner */}
           {stats.active && (
-            <Card className="overflow-hidden border-emerald-200/60 bg-gradient-to-br from-emerald-50 to-teal-50 dark:border-emerald-900/40 dark:from-emerald-950/30 dark:to-teal-950/20">
+            <Card className="overflow-hidden border-brand/60 bg-gradient-to-br from-brand/10 to-brand/10 dark:border-brand/40 dark:from-brand/10 dark:to-brand/10">
               <CardContent className="p-6">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="relative flex h-2.5 w-2.5">
-                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
-                        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-75" />
+                        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-brand" />
                       </span>
-                      <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">Active Term</Badge>
+                      <Badge className="bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand">Active Term</Badge>
                     </div>
                     <h3 className="mt-2 font-serif text-xl font-bold">{stats.active.name}</h3>
                     <p className="mt-0.5 text-sm text-muted-foreground">
@@ -172,7 +172,7 @@ export function TermsView() {
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">{termProgress(stats.active)}%</p>
+                    <p className="text-3xl font-bold text-brand dark:text-brand">{termProgress(stats.active)}%</p>
                     <p className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">complete</p>
                   </div>
                 </div>
@@ -188,7 +188,7 @@ export function TermsView() {
                 <CalendarRange className="h-10 w-10 opacity-40" />
                 <p className="text-sm">No terms configured yet.</p>
                 {canManage && (
-                  <Button onClick={() => setAdding(true)} className="bg-emerald-600 text-white hover:bg-emerald-700">
+                  <Button onClick={() => setAdding(true)} className="bg-brand text-brand-foreground hover:bg-brand-strong">
                     <Plus className="h-4 w-4" /> Add First Term
                   </Button>
                 )}
@@ -200,18 +200,18 @@ export function TermsView() {
                 const progress = termProgress(t)
                 const isDel = deleting === t.id
                 return (
-                  <Card key={t.id} className={cn('overflow-hidden transition hover:shadow-md', t.isActive && 'ring-1 ring-emerald-300 dark:ring-emerald-700')}>
-                    <div className={cn('h-1.5 w-full', t.isActive ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-700')} />
+                  <Card key={t.id} className={cn('overflow-hidden transition hover:shadow-md', t.isActive && 'ring-1 ring-brand/40 dark:ring-brand/40')}>
+                    <div className={cn('h-1.5 w-full', t.isActive ? 'bg-brand' : 'bg-slate-300 dark:bg-slate-700')} />
                     <CardContent className="space-y-4 p-5">
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0">
                           <div className="flex flex-wrap items-center gap-2">
                             <h3 className="font-serif text-lg font-bold leading-snug">{t.name}</h3>
                             {t.isActive && (
-                              <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+                              <Badge className="bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand">
                                 <span className="relative mr-1 flex h-1.5 w-1.5">
-                                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
-                                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-75" />
+                                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-brand" />
                                 </span>
                                 Active
                               </Badge>
@@ -303,13 +303,13 @@ export function TermsView() {
 
 function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: string; value: string; sub: string; color: string }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     teal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
     amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     cyan: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',
   }
   return (
-    <Card className="group transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald-900/5">
+    <Card className="group transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/5">
       <CardContent className="relative p-5">
         <div className="flex items-center justify-between">
           <div className={cn('flex h-11 w-11 items-center justify-center rounded-xl shadow-sm transition group-hover:scale-110', colors[color])}>
@@ -319,7 +319,7 @@ function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: 
         </div>
         <p className="mt-3 truncate text-2xl font-bold tracking-tight">{value}</p>
         <p className="text-xs font-medium text-muted-foreground">{label}</p>
-        <p className="mt-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">{sub}</p>
+        <p className="mt-1 text-[10px] font-semibold text-brand dark:text-brand">{sub}</p>
       </CardContent>
     </Card>
   )
@@ -390,7 +390,7 @@ function TermDialog({ term, onClose, onSaved }: { term?: Term; onClose: () => vo
       <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <CalendarRange className="h-4 w-4 text-emerald-600" /> {term ? 'Edit Term' : 'Add Term'}
+            <CalendarRange className="h-4 w-4 text-brand" /> {term ? 'Edit Term' : 'Add Term'}
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-2">
@@ -409,12 +409,12 @@ function TermDialog({ term, onClose, onSaved }: { term?: Term; onClose: () => vo
             </div>
           </div>
 
-          <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-emerald-200 bg-emerald-50/60 p-3 dark:border-emerald-900/40 dark:bg-emerald-950/20">
+          <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-brand/25 bg-brand/5 p-3 dark:border-brand/40 dark:bg-brand/10">
             <input
               type="checkbox"
               checked={isActive}
               onChange={(e) => setIsActive(e.target.checked)}
-              className="h-4 w-4 rounded accent-emerald-600"
+              className="h-4 w-4 rounded accent-brand"
             />
             <div>
               <p className="text-sm font-medium">Set as active term</p>
@@ -490,7 +490,7 @@ function TermDialog({ term, onClose, onSaved }: { term?: Term; onClose: () => vo
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}><X className="h-4 w-4" /> Cancel</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             {term ? 'Save Changes' : 'Add Term'}
           </Button>

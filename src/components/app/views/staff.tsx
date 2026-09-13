@@ -21,7 +21,7 @@ const ROLES = ['Admin', 'Principal', 'Vice Principal', 'Teacher', 'Nurse', 'Anci
 const DEPARTMENTS = ['Administration', 'Mathematics', 'Science', 'Languages', 'Humanities', 'Business', 'Arts', 'Physical Education', 'Health', 'Ancillary']
 
 const ROLE_COLORS: Record<string, string> = {
-  Admin: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+  Admin: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
   Principal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
   'Vice Principal': 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',
   Teacher: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
@@ -88,13 +88,13 @@ export function StaffView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
           <div className="min-w-0">
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl"><BadgeCheck className="h-7 w-7" /> Staff Management</h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">Manage teaching and administrative staff records.</p>
+            <p className="mt-1.5 text-sm text-brand-foreground/85">Manage teaching and administrative staff records.</p>
           </div>
           <Button onClick={() => setAdding(true)} variant="secondary" className="shrink-0 border-0 bg-white/15 text-white backdrop-blur hover:bg-white/25">
             <Plus className="h-4 w-4" /> Add Staff
@@ -152,7 +152,7 @@ export function StaffView() {
                         <button onClick={() => { setViewUserId(s.id); setActiveView('profile') }} className="flex items-center gap-3 text-left">
                           <UserAvatar name={s.name} avatar={s.avatar} role={s.role} size="sm" />
                           <div>
-                            <p className="font-medium hover:text-emerald-600">{s.name}</p>
+                            <p className="font-medium hover:text-brand">{s.name}</p>
                             <p className="text-xs text-muted-foreground">{s.email}</p>
                           </div>
                         </button>
@@ -167,7 +167,7 @@ export function StaffView() {
                         {s.phone ? <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground"><Phone className="h-3.5 w-3.5" />{s.phone}</span> : <span className="text-xs text-muted-foreground">—</span>}
                       </td>
                       <td className="p-3">
-                        <Badge variant={s.status === 'Active' ? 'default' : 'destructive'} className={s.status === 'Active' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300' : ''}>{s.status}</Badge>
+                        <Badge variant={s.status === 'Active' ? 'default' : 'destructive'} className={s.status === 'Active' ? 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand' : ''}>{s.status}</Badge>
                       </td>
                       <td className="p-3">
                         <div className="flex justify-end gap-1">
@@ -265,7 +265,7 @@ function StaffDialog({ staff, onClose, onSaved }: { staff: Staff | null; onClose
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>Cancel</Button>
-          <Button onClick={save} disabled={saving || !form.name} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving || !form.name} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
             {staff ? 'Save Changes' : 'Add Staff'}
           </Button>

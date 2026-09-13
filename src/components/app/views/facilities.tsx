@@ -28,7 +28,7 @@ type Facility = BaseFacility & { bookingCount?: number }
 const FACILITY_TYPES = ['Room', 'Lab', 'Hall', 'Field', 'Equipment']
 
 const TYPE_STYLES: Record<string, { badge: string; bar: string; icon: any }> = {
-  Room:       { badge: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300', bar: 'bg-emerald-500', icon: DoorOpen },
+  Room:       { badge: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand', bar: 'bg-brand', icon: DoorOpen },
   Lab:        { badge: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',             bar: 'bg-teal-500',    icon: Building2 },
   Hall:       { badge: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',         bar: 'bg-amber-500',   icon: Users },
   Field:      { badge: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',             bar: 'bg-cyan-500',    icon: LayoutGrid },
@@ -129,7 +129,7 @@ export function FacilitiesView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
@@ -137,7 +137,7 @@ export function FacilitiesView() {
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">
               <DoorOpen className="h-7 w-7" /> Facilities Booking
             </h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">
+            <p className="mt-1.5 text-sm text-brand-foreground/85">
               Reserve rooms, labs, and school facilities.
             </p>
           </div>
@@ -192,7 +192,7 @@ export function FacilitiesView() {
                   <Building2 className="h-10 w-10 opacity-40" />
                   <p className="text-sm">No facilities configured yet.</p>
                   {canManage && (
-                    <Button size="sm" className="mt-2 bg-emerald-600 text-white hover:bg-emerald-700" onClick={() => setAddingFacility(true)}>
+                    <Button size="sm" className="mt-2 bg-brand text-brand-foreground hover:bg-brand-strong" onClick={() => setAddingFacility(true)}>
                       <Plus className="h-4 w-4" /> Add Facility
                     </Button>
                   )}
@@ -234,10 +234,10 @@ export function FacilitiesView() {
                           <span className={cn(
                             'inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 text-[10px] font-semibold',
                             f.isBookable
-                              ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'
+                              ? 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand'
                               : 'bg-slate-100 text-slate-600 dark:bg-slate-800/60 dark:text-slate-300',
                           )}>
-                            <span className={cn('h-1.5 w-1.5 rounded-full', f.isBookable ? 'bg-emerald-500' : 'bg-slate-400')} />
+                            <span className={cn('h-1.5 w-1.5 rounded-full', f.isBookable ? 'bg-brand' : 'bg-slate-400')} />
                             {f.isBookable ? 'Bookable' : 'Closed'}
                           </span>
                           <div className="flex items-center gap-1">
@@ -250,7 +250,7 @@ export function FacilitiesView() {
                               size="sm"
                               onClick={() => openBooking(f)}
                               disabled={!f.isBookable}
-                              className="bg-emerald-600 text-white hover:bg-emerald-700"
+                              className="bg-brand text-brand-foreground hover:bg-brand-strong"
                             >
                               <Calendar className="h-3.5 w-3.5" /> Book
                             </Button>
@@ -269,7 +269,7 @@ export function FacilitiesView() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-base">
-                  <CalendarClock className="h-4 w-4 text-emerald-600" /> Bookings
+                  <CalendarClock className="h-4 w-4 text-brand" /> Bookings
                 </CardTitle>
                 <CardDescription>
                   {bookings.length} {bookings.length === 1 ? 'reservation' : 'reservations'} total
@@ -316,7 +316,7 @@ export function FacilitiesView() {
                                 <Button
                                   size="sm"
                                   variant="ghost"
-                                  className="h-7 w-7 p-0 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/40"
+                                  className="h-7 w-7 p-0 text-brand hover:bg-brand/5 dark:hover:bg-brand/12"
                                   disabled={reviewingId === b.id}
                                   onClick={() => reviewBooking(b.id, 'Approved')}
                                   title="Approve booking"
@@ -371,7 +371,7 @@ export function FacilitiesView() {
 
 function BookingStatusBadge({ status }: { status: string }) {
   if (status === 'Approved') {
-    return <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">Approved</Badge>
+    return <Badge className="bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand">Approved</Badge>
   }
   if (status === 'Rejected') {
     return <Badge className="bg-rose-100 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300">Rejected</Badge>
@@ -381,14 +381,14 @@ function BookingStatusBadge({ status }: { status: string }) {
 
 function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: string; value: string; sub: string; color: string }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     teal:    'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
     amber:   'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     cyan:    'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',
     slate:   'bg-slate-100 text-slate-700 dark:bg-slate-800/60 dark:text-slate-300',
   }
   return (
-    <Card className="group transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald-900/5">
+    <Card className="group transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/5">
       <CardContent className="relative p-5">
         <div className="flex items-center justify-between">
           <div className={cn('flex h-11 w-11 items-center justify-center rounded-xl shadow-sm transition group-hover:scale-110', colors[color])}>
@@ -398,7 +398,7 @@ function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: 
         </div>
         <p className="mt-3 text-2xl font-bold tracking-tight">{value}</p>
         <p className="text-xs font-medium text-muted-foreground">{label}</p>
-        <p className="mt-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">{sub}</p>
+        <p className="mt-1 text-[10px] font-semibold text-brand dark:text-brand">{sub}</p>
       </CardContent>
     </Card>
   )
@@ -469,7 +469,7 @@ function BookingDialog({
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Calendar className="h-4 w-4 text-emerald-600" /> Book a Facility
+            <Calendar className="h-4 w-4 text-brand" /> Book a Facility
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-2">
@@ -512,7 +512,7 @@ function BookingDialog({
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}><X className="h-4 w-4" /> Cancel</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             Submit Request
           </Button>
@@ -580,7 +580,7 @@ function FacilityDialog({
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Plus className="h-4 w-4 text-emerald-600" /> {facility ? 'Edit Facility' : 'Add Facility'}
+            <Plus className="h-4 w-4 text-brand" /> {facility ? 'Edit Facility' : 'Add Facility'}
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-2">
@@ -621,7 +621,7 @@ function FacilityDialog({
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}><X className="h-4 w-4" /> Cancel</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             {facility ? 'Save Changes' : 'Add Facility'}
           </Button>

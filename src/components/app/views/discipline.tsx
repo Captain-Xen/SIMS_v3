@@ -98,13 +98,13 @@ export function DisciplineView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
           <div className="min-w-0">
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl"><Gavel className="h-7 w-7" /> Discipline Module</h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">Track and manage student disciplinary actions.</p>
+            <p className="mt-1.5 text-sm text-brand-foreground/85">Track and manage student disciplinary actions.</p>
           </div>
         </CardContent>
       </Card>
@@ -137,7 +137,7 @@ export function DisciplineView() {
         {/* Issue form */}
         <Card className="lg:col-span-1">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-base"><Gavel className="h-4 w-4 text-emerald-600" /> Issue Discipline</CardTitle>
+            <CardTitle className="flex items-center gap-2 text-base"><Gavel className="h-4 w-4 text-brand" /> Issue Discipline</CardTitle>
             <CardDescription>Record a new disciplinary action</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -161,7 +161,7 @@ export function DisciplineView() {
               <Label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Reason</Label>
               <Textarea value={form.reason} onChange={(e) => setForm({ ...form, reason: e.target.value })} rows={4} placeholder="Describe the incident..." />
             </div>
-            <Button onClick={submit} disabled={submitting} className="w-full bg-emerald-600 text-white hover:bg-emerald-700">
+            <Button onClick={submit} disabled={submitting} className="w-full bg-brand text-brand-foreground hover:bg-brand-strong">
               {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
               Record Action
             </Button>
@@ -179,7 +179,7 @@ export function DisciplineView() {
               <div className="flex h-64 items-center justify-center"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>
             ) : records.length === 0 ? (
               <div className="flex h-64 flex-col items-center justify-center gap-2 text-muted-foreground">
-                <ShieldCheck className="h-10 w-10 text-emerald-500 opacity-60" />
+                <ShieldCheck className="h-10 w-10 text-brand opacity-60" />
                 <p className="text-sm">No disciplinary records. Everyone is in good standing.</p>
               </div>
             ) : (

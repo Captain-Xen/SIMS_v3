@@ -59,7 +59,7 @@ function fmtTime(t: string) {
 
 function statusBadge(status: string | null) {
   if (!status || status === 'Available') {
-    return <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">Available</Badge>
+    return <Badge className="bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand">Available</Badge>
   }
   if (status === 'Booked' || status === 'Confirmed') {
     return <Badge className="bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300">Booked</Badge>
@@ -228,7 +228,7 @@ export function ConferenceView() {
   return (
     <div className="space-y-6">
       {/* Header — emerald gradient banner */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
@@ -236,7 +236,7 @@ export function ConferenceView() {
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">
               <CalendarClock className="h-7 w-7" /> Parent-Teacher Conferences
             </h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">
+            <p className="mt-1.5 text-sm text-brand-foreground/85">
               Schedule and book conference time slots.
             </p>
           </div>
@@ -262,23 +262,23 @@ export function ConferenceView() {
         <>
           {/* Conference day summary (both roles) */}
           {nextConferenceDay && (
-            <Card className="relative overflow-hidden border-emerald-200 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:border-emerald-900/50 dark:from-emerald-950/30 dark:via-teal-950/20 dark:to-cyan-950/20">
+            <Card className="relative overflow-hidden border-brand/25 bg-gradient-to-br from-brand/10 via-brand/10 to-brand/10 dark:border-brand/40 dark:from-brand/10 dark:via-brand/10 dark:to-brand/10">
               <CardContent className="flex flex-col items-start gap-4 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
                 <div className="flex items-start gap-3">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-md shadow-emerald-900/20">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand text-brand-foreground shadow-md shadow-brand/20">
                     <CalendarRange className="h-6 w-6" />
                   </div>
                   <div>
-                    <p className="text-xs font-medium uppercase tracking-wide text-emerald-700 dark:text-emerald-300">Next Conference Day</p>
-                    <p className="mt-0.5 font-serif text-lg font-bold text-emerald-900 dark:text-emerald-100">{fmtDate(nextConferenceDay.date)}</p>
-                    <p className="text-xs text-emerald-700/80 dark:text-emerald-200/70">
+                    <p className="text-xs font-medium uppercase tracking-wide text-brand-strong dark:text-brand">Next Conference Day</p>
+                    <p className="mt-0.5 font-serif text-lg font-bold text-brand-strong dark:text-brand-foreground">{fmtDate(nextConferenceDay.date)}</p>
+                    <p className="text-xs text-brand-strong/80 dark:text-brand/70">
                       {nextConferenceDay.total} {nextConferenceDay.total === 1 ? 'slot' : 'slots'} · {nextConferenceDay.available} open · {nextConferenceDay.booked} booked
                     </p>
                   </div>
                 </div>
                 <div className="flex gap-2">
                   <div className="rounded-lg bg-white/70 px-3 py-2 text-center dark:bg-white/10">
-                    <p className="text-lg font-bold text-emerald-700 dark:text-emerald-300">{nextConferenceDay.available}</p>
+                    <p className="text-lg font-bold text-brand-strong dark:text-brand">{nextConferenceDay.available}</p>
                     <p className="text-[10px] uppercase tracking-wide text-muted-foreground">Open</p>
                   </div>
                   <div className="rounded-lg bg-white/70 px-3 py-2 text-center dark:bg-white/10">
@@ -306,7 +306,7 @@ export function ConferenceView() {
               <Card className="lg:col-span-2">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-base">
-                    <CalendarClock className="h-4 w-4 text-emerald-600" /> Conference Slots
+                    <CalendarClock className="h-4 w-4 text-brand" /> Conference Slots
                   </CardTitle>
                   <CardDescription>
                     {slots.length} {slots.length === 1 ? 'slot' : 'slots'} scheduled.
@@ -317,7 +317,7 @@ export function ConferenceView() {
                     <div className="flex h-48 flex-col items-center justify-center gap-2 text-muted-foreground">
                       <CalendarClock className="h-10 w-10 opacity-40" />
                       <p className="text-sm">No conference slots created yet.</p>
-                      <Button size="sm" onClick={() => setCreating(true)} className="bg-emerald-600 text-white hover:bg-emerald-700">
+                      <Button size="sm" onClick={() => setCreating(true)} className="bg-brand text-brand-foreground hover:bg-brand-strong">
                         <Plus className="h-4 w-4" /> Create the first slot
                       </Button>
                     </div>
@@ -342,7 +342,7 @@ export function ConferenceView() {
                               <tr key={s.id} className="border-b border-border transition hover:bg-muted/40">
                                 <td className="p-3">
                                   <span className="flex items-center gap-1.5 font-medium">
-                                    <CalendarDays className="h-3.5 w-3.5 text-emerald-600" />
+                                    <CalendarDays className="h-3.5 w-3.5 text-brand" />
                                     {fmtDateShort(s.date)}
                                   </span>
                                 </td>
@@ -366,7 +366,7 @@ export function ConferenceView() {
                                       )}
                                     </div>
                                   ) : (
-                                    <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">Available</Badge>
+                                    <Badge className="bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand">Available</Badge>
                                   )}
                                 </td>
                                 <td className="p-3">
@@ -403,7 +403,7 @@ export function ConferenceView() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-base">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                    <CheckCircle2 className="h-4 w-4 text-brand" />
                     {isTeacher ? 'My Bookings' : 'Recent Bookings'}
                   </CardTitle>
                   <CardDescription>
@@ -471,7 +471,7 @@ export function ConferenceView() {
                   <Card>
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2 text-base">
-                        <CalendarClock className="h-4 w-4 text-emerald-600" /> Available Slots
+                        <CalendarClock className="h-4 w-4 text-brand" /> Available Slots
                       </CardTitle>
                       <CardDescription>
                         Book a conference with your teachers.
@@ -488,9 +488,9 @@ export function ConferenceView() {
                         slotsByTeacher.map(([teacherName, tSlots]) => (
                           <div key={teacherName}>
                             <div className="mb-2 flex items-center gap-2">
-                              <UserCheck className="h-4 w-4 text-emerald-600" />
+                              <UserCheck className="h-4 w-4 text-brand" />
                               <h4 className="text-sm font-semibold">{teacherName}</h4>
-                              <Badge variant="secondary" className="bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
+                              <Badge variant="secondary" className="bg-brand/5 text-brand-strong dark:bg-brand/12 dark:text-brand">
                                 {tSlots.length} open
                               </Badge>
                             </div>
@@ -502,17 +502,17 @@ export function ConferenceView() {
                                 >
                                   <div className="flex items-center justify-between gap-2">
                                     <span className="flex items-center gap-1.5 text-sm font-medium">
-                                      <CalendarDays className="h-3.5 w-3.5 text-emerald-600" />
+                                      <CalendarDays className="h-3.5 w-3.5 text-brand" />
                                       {fmtDateShort(s.date)}
                                     </span>
-                                    <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">Open</Badge>
+                                    <Badge className="bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand">Open</Badge>
                                   </div>
                                   <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
                                     <Clock className="h-3 w-3" /> {fmtTime(s.startTime)} – {fmtTime(s.endTime)}
                                   </p>
                                   <Button
                                     size="sm"
-                                    className="mt-3 bg-emerald-600 text-white hover:bg-emerald-700"
+                                    className="mt-3 bg-brand text-brand-foreground hover:bg-brand-strong"
                                     onClick={() => setBookingSlot(s)}
                                   >
                                     <CalendarPlus className="h-3.5 w-3.5" /> Book Slot
@@ -531,7 +531,7 @@ export function ConferenceView() {
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-base">
-                      <CheckCircle2 className="h-4 w-4 text-emerald-600" /> My Bookings
+                      <CheckCircle2 className="h-4 w-4 text-brand" /> My Bookings
                     </CardTitle>
                     <CardDescription>
                       {myStudentBookings.length} {myStudentBookings.length === 1 ? 'booking' : 'bookings'} on record.
@@ -633,7 +633,7 @@ export function ConferenceView() {
 // ---------------------------------------------------------------------------
 function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: string; value: string; sub: string; color: string }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     teal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
     amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     cyan: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',
@@ -650,7 +650,7 @@ function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: 
         </div>
         <p className="mt-3 text-2xl font-bold">{value}</p>
         <p className="text-xs text-muted-foreground">{label}</p>
-        <p className="mt-1 text-[10px] font-medium text-emerald-600">{sub}</p>
+        <p className="mt-1 text-[10px] font-medium text-brand">{sub}</p>
       </CardContent>
     </Card>
   )
@@ -757,7 +757,7 @@ function CreateSlotsDialog({
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <CalendarPlus className="h-4 w-4 text-emerald-600" /> Create Conference Slots
+            <CalendarPlus className="h-4 w-4 text-brand" /> Create Conference Slots
           </DialogTitle>
           <DialogDescription>
             Open up time for parents to book a conference.
@@ -822,7 +822,7 @@ function CreateSlotsDialog({
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}><X className="h-4 w-4" /> Cancel</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             Create Slots
           </Button>
@@ -881,7 +881,7 @@ function BookSlotDialog({
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <CalendarCheck className="h-4 w-4 text-emerald-600" /> Book Conference
+            <CalendarCheck className="h-4 w-4 text-brand" /> Book Conference
           </DialogTitle>
           <DialogDescription>
             Confirm your booking for the selected time slot.
@@ -889,16 +889,16 @@ function BookSlotDialog({
         </DialogHeader>
         <div className="space-y-4 py-2">
           {/* Slot summary */}
-          <div className="rounded-lg border border-emerald-200 bg-emerald-50/50 p-3 dark:border-emerald-900/50 dark:bg-emerald-950/20">
+          <div className="rounded-lg border border-brand/25 bg-brand/5 p-3 dark:border-brand/40 dark:bg-brand/10">
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
               <span className="flex items-center gap-1.5 font-medium">
-                <UserCheck className="h-4 w-4 text-emerald-600" /> {slot.teacherName}
+                <UserCheck className="h-4 w-4 text-brand" /> {slot.teacherName}
               </span>
               <span className="flex items-center gap-1.5 text-muted-foreground">
-                <CalendarDays className="h-4 w-4 text-emerald-600" /> {fmtDate(slot.date)}
+                <CalendarDays className="h-4 w-4 text-brand" /> {fmtDate(slot.date)}
               </span>
               <span className="flex items-center gap-1.5 text-muted-foreground">
-                <Clock className="h-4 w-4 text-emerald-600" /> {fmtTime(slot.startTime)} – {fmtTime(slot.endTime)}
+                <Clock className="h-4 w-4 text-brand" /> {fmtTime(slot.startTime)} – {fmtTime(slot.endTime)}
               </span>
             </div>
           </div>
@@ -918,7 +918,7 @@ function BookSlotDialog({
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}><X className="h-4 w-4" /> Cancel</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
             Confirm Booking
           </Button>
@@ -942,7 +942,7 @@ function ViewBookingDialog({
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Eye className="h-4 w-4 text-emerald-600" /> Booking Details
+            <Eye className="h-4 w-4 text-brand" /> Booking Details
           </DialogTitle>
           <DialogDescription>Parent-teacher conference booking.</DialogDescription>
         </DialogHeader>
@@ -976,7 +976,7 @@ function DetailRow({ icon: Icon, label, value }: { icon: any; label: string; val
   return (
     <div className="flex items-center justify-between gap-3">
       <span className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-        <Icon className="h-3.5 w-3.5 text-emerald-600" /> {label}
+        <Icon className="h-3.5 w-3.5 text-brand" /> {label}
       </span>
       <span className="text-right font-medium">{value}</span>
     </div>

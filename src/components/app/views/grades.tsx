@@ -21,7 +21,7 @@ const SUBJECTS = ['Mathematics', 'English Language', 'Biology', 'Chemistry', 'Ph
 const TERMS = ['Term 1', 'Term 2', 'Term 3']
 
 function letterColor(letter: string): string {
-  if (letter.startsWith('A')) return 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'
+  if (letter.startsWith('A')) return 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand'
   if (letter.startsWith('B')) return 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300'
   if (letter.startsWith('C')) return 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300'
   if (letter.startsWith('D')) return 'bg-orange-100 text-orange-700 dark:bg-orange-950/50 dark:text-orange-300'
@@ -29,7 +29,7 @@ function letterColor(letter: string): string {
 }
 
 function scoreColor(score: number): string {
-  if (score >= 80) return '#10b981'
+  if (score >= 80) return 'var(--chart-1)'
   if (score >= 65) return '#14b8a6'
   if (score >= 50) return '#f59e0b'
   if (score >= 40) return '#f97316'
@@ -133,13 +133,13 @@ function TeacherGrades() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
           <div className="min-w-0">
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl"><ClipboardList className="h-7 w-7" /> Academics & Grades</h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">Record and track student academic performance.</p>
+            <p className="mt-1.5 text-sm text-brand-foreground/85">Record and track student academic performance.</p>
           </div>
         </CardContent>
       </Card>
@@ -171,7 +171,7 @@ function TeacherGrades() {
               <SelectContent>{TERMS.map((t) => <SelectItem key={t} value={t}>{t}</SelectItem>)}</SelectContent>
             </Select>
           </div>
-          <Button onClick={saveGrades} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={saveGrades} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
             Save Grades
           </Button>
@@ -180,7 +180,7 @@ function TeacherGrades() {
 
       {/* Summary */}
       <div className="grid gap-4 sm:grid-cols-3">
-        <Card className="transition-all hover:-translate-y-0.5 hover:shadow-md"><CardContent className="flex items-center gap-3 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300"><BookOpen className="h-5 w-5" /></div><div><p className="text-2xl font-bold">{classStats.saved}<span className="text-sm font-normal text-muted-foreground">/{classStats.total}</span></p><p className="text-xs text-muted-foreground">Graded students</p></div></CardContent></Card>
+        <Card className="transition-all hover:-translate-y-0.5 hover:shadow-md"><CardContent className="flex items-center gap-3 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand"><BookOpen className="h-5 w-5" /></div><div><p className="text-2xl font-bold">{classStats.saved}<span className="text-sm font-normal text-muted-foreground">/{classStats.total}</span></p><p className="text-xs text-muted-foreground">Graded students</p></div></CardContent></Card>
         <Card className="transition-all hover:-translate-y-0.5 hover:shadow-md"><CardContent className="flex items-center gap-3 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300"><TrendingUp className="h-5 w-5" /></div><div><p className="text-2xl font-bold">{classStats.avg}%</p><p className="text-xs text-muted-foreground">Class average</p></div></CardContent></Card>
         <Card className="transition-all hover:-translate-y-0.5 hover:shadow-md"><CardContent className="flex items-center gap-3 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"><Award className="h-5 w-5" /></div><div><p className="text-2xl font-bold">{subject}</p><p className="text-xs text-muted-foreground">{term} · {classFilter || 'All classes'}</p></div></CardContent></Card>
       </div>
@@ -188,7 +188,7 @@ function TeacherGrades() {
       {/* Editable grade table */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-base"><ClipboardList className="h-4 w-4 text-emerald-600" /> Enter Grades</CardTitle>
+          <CardTitle className="flex items-center gap-2 text-base"><ClipboardList className="h-4 w-4 text-brand" /> Enter Grades</CardTitle>
           <CardDescription>Enter a score from 0–100 for each student. Letter grade is shown automatically.</CardDescription>
         </CardHeader>
         <CardContent className="p-0">
@@ -280,7 +280,7 @@ function StudentGrades() {
     <div className="space-y-6">
       {/* Summary cards */}
       <div className="grid gap-4 sm:grid-cols-3">
-        <Card><CardContent className="flex items-center gap-3 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300"><BookOpen className="h-5 w-5" /></div><div><p className="text-2xl font-bold">{grades.length}</p><p className="text-xs text-muted-foreground">Subjects graded</p></div></CardContent></Card>
+        <Card><CardContent className="flex items-center gap-3 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand"><BookOpen className="h-5 w-5" /></div><div><p className="text-2xl font-bold">{grades.length}</p><p className="text-xs text-muted-foreground">Subjects graded</p></div></CardContent></Card>
         <Card><CardContent className="flex items-center gap-3 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300"><TrendingUp className="h-5 w-5" /></div><div><p className="text-2xl font-bold">{avg}%</p><p className="text-xs text-muted-foreground">Overall average</p></div></CardContent></Card>
         <Card><CardContent className="flex items-center gap-3 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"><Award className="h-5 w-5" /></div><div><p className="text-2xl font-bold">{grades.length ? scoreToLetter(avg) : '—'}</p><p className="text-xs text-muted-foreground">Letter grade</p></div></CardContent></Card>
       </div>
@@ -289,7 +289,7 @@ function StudentGrades() {
       {grades.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-base"><TrendingUp className="h-4 w-4 text-emerald-600" /> Performance by Subject</CardTitle>
+            <CardTitle className="flex items-center gap-2 text-base"><TrendingUp className="h-4 w-4 text-brand" /> Performance by Subject</CardTitle>
             <CardDescription>Your scores across all graded subjects</CardDescription>
           </CardHeader>
           <CardContent>
@@ -310,7 +310,7 @@ function StudentGrades() {
       {/* Detailed grade list */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-base"><ClipboardList className="h-4 w-4 text-emerald-600" /> My Grades</CardTitle>
+          <CardTitle className="flex items-center gap-2 text-base"><ClipboardList className="h-4 w-4 text-brand" /> My Grades</CardTitle>
           <CardDescription>Read-only record of your assessments</CardDescription>
         </CardHeader>
         <CardContent className="p-0">

@@ -22,7 +22,7 @@ interface TypeMeta {
 
 const ICONS: Record<string, TypeMeta> = {
   info: { Icon: Info, color: 'text-sky-600 dark:text-sky-400', bg: 'bg-sky-100 dark:bg-sky-950/50' },
-  success: { Icon: CheckCircle2, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-100 dark:bg-emerald-950/50' },
+  success: { Icon: CheckCircle2, color: 'text-brand dark:text-brand', bg: 'bg-brand/10 dark:bg-brand/15' },
   warning: { Icon: AlertTriangle, color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-100 dark:bg-amber-950/50' },
   message: { Icon: Mail, color: 'text-teal-600 dark:text-teal-400', bg: 'bg-teal-100 dark:bg-teal-950/50' },
   assignment: { Icon: ClipboardCheck, color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-100 dark:bg-purple-950/50' },
@@ -106,9 +106,9 @@ export function NotificationsView() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 className="flex items-center gap-2 font-serif text-xl font-bold">
-            <Bell className="h-5 w-5 text-emerald-600" /> Notifications
+            <Bell className="h-5 w-5 text-brand" /> Notifications
             {unreadCount > 0 && (
-              <Badge className="ml-1 bg-emerald-600 text-white">{unreadCount} new</Badge>
+              <Badge className="ml-1 bg-brand text-brand-foreground">{unreadCount} new</Badge>
             )}
           </h2>
           <p className="text-sm text-muted-foreground">Stay on top of messages, assignments, and school updates.</p>
@@ -152,7 +152,7 @@ export function NotificationsView() {
                     onClick={() => handleClick(n)}
                     className={cn(
                       'flex w-full items-start gap-3 p-4 text-left transition hover:bg-muted/40',
-                      !n.read && 'bg-emerald-50/50 dark:bg-emerald-950/10'
+                      !n.read && 'bg-brand/5 dark:bg-brand/5'
                     )}
                   >
                     <div className={cn('flex h-9 w-9 shrink-0 items-center justify-center rounded-full', meta.bg)}>
@@ -165,12 +165,12 @@ export function NotificationsView() {
                       </div>
                       <p className="mt-0.5 line-clamp-2 text-sm text-muted-foreground">{n.body}</p>
                       {navigable && (
-                        <p className="mt-1 text-xs font-medium text-emerald-600">
+                        <p className="mt-1 text-xs font-medium text-brand">
                           {n.type === 'message' ? 'Open Messages \u2192' : 'Open Assignments \u2192'}
                         </p>
                       )}
                     </div>
-                    {!n.read && <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-emerald-500" />}
+                    {!n.read && <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-brand" />}
                   </button>
                 )
               })}

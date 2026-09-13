@@ -100,14 +100,14 @@ export function AssignmentsView() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 className="flex items-center gap-2 font-serif text-xl font-bold">
-            <ClipboardList className="h-5 w-5 text-emerald-600" /> Assignments
+            <ClipboardList className="h-5 w-5 text-brand" /> Assignments
           </h2>
           <p className="text-sm text-muted-foreground">
             {isStudent ? 'Your assignments across all subjects.' : 'Assignments you have created for your classes.'}
           </p>
         </div>
         {!isStudent && (
-          <Button className="bg-emerald-600 text-white hover:bg-emerald-700" onClick={() => setShowCreate(true)}>
+          <Button className="bg-brand text-brand-foreground hover:bg-brand-strong" onClick={() => setShowCreate(true)}>
             <Plus className="h-4 w-4" /> Create Assignment
           </Button>
         )}
@@ -152,7 +152,7 @@ export function AssignmentsView() {
           <CardContent className="flex flex-col items-center justify-center gap-2 py-16 text-muted-foreground">
             <ClipboardList className="h-10 w-10 opacity-40" />
             <p className="text-sm">You haven&apos;t created any assignments yet.</p>
-            <Button className="bg-emerald-600 text-white hover:bg-emerald-700" onClick={() => setShowCreate(true)}>
+            <Button className="bg-brand text-brand-foreground hover:bg-brand-strong" onClick={() => setShowCreate(true)}>
               <Plus className="h-4 w-4" /> Create your first assignment
             </Button>
           </CardContent>
@@ -182,7 +182,7 @@ export function AssignmentsView() {
 
 function StatTile({ icon: Icon, label, value, color }: { icon: any; label: string; value: number; color: string }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     cyan: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',
   }
@@ -207,7 +207,7 @@ function AssignmentGroup({ title, subtitle, items, variant, onSubmit }: {
   onSubmit: (a: Assignment) => void
 }) {
   if (items.length === 0) return null
-  const dotColor = variant === 'red' ? 'bg-red-500' : variant === 'amber' ? 'bg-amber-500' : 'bg-emerald-500'
+  const dotColor = variant === 'red' ? 'bg-red-500' : variant === 'amber' ? 'bg-amber-500' : 'bg-brand'
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2">
@@ -237,7 +237,7 @@ function StudentAssignmentCard({ assignment, variant, onSubmit }: {
   const borderClass =
     variant === 'red' ? 'border-l-red-500'
     : variant === 'amber' ? 'border-l-amber-500'
-    : 'border-l-emerald-500'
+    : 'border-l-brand'
 
   return (
     <Card className={cn('border-l-4', borderClass)}>
@@ -261,7 +261,7 @@ function StudentAssignmentCard({ assignment, variant, onSubmit }: {
         </div>
         <div className="mt-3 flex items-center justify-between gap-2">
           {isGraded ? (
-            <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+            <Badge className="bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand">
               <Award className="mr-1 h-3 w-3" /> Graded: {assignment.submissionGrade ?? '-'}/100
             </Badge>
           ) : isSubmitted ? (
@@ -278,7 +278,7 @@ function StudentAssignmentCard({ assignment, variant, onSubmit }: {
             </Badge>
           )}
           {!isGraded && !isSubmitted && (
-            <Button size="sm" className="bg-emerald-600 text-white hover:bg-emerald-700" onClick={onSubmit}>
+            <Button size="sm" className="bg-brand text-brand-foreground hover:bg-brand-strong" onClick={onSubmit}>
               <FileText className="h-4 w-4" /> Submit
             </Button>
           )}
@@ -334,7 +334,7 @@ function TeacherAssignmentCard({ assignment, expanded, onToggle }: {
               Per-student submission tracking (a list of who has turned in work, plus inline
               grading forms) will appear here once submissions arrive. In the meantime, grade
               individual submissions through the{' '}
-              <span className="font-medium text-emerald-600">Grades</span> view.
+              <span className="font-medium text-brand">Grades</span> view.
             </p>
             <div className="flex flex-wrap gap-1.5">
               <Badge variant="secondary" className="text-[10px]"><Clock className="mr-1 h-3 w-3" /> {timeAgo(assignment.createdAt)}</Badge>
@@ -411,7 +411,7 @@ function CreateAssignmentDialog({ onClose, onCreated }: { onClose: () => void; o
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>Cancel</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
             Create Assignment
           </Button>
@@ -470,7 +470,7 @@ function SubmitDialog({ assignment, onClose, onSubmitted }: { assignment: Assign
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>Cancel</Button>
-          <Button onClick={submit} disabled={saving || !content.trim()} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={submit} disabled={saving || !content.trim()} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
             Turn In
           </Button>

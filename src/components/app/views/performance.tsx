@@ -38,14 +38,14 @@ const CATEGORIES = [
 const RATING_LABELS = ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent']
 
 function scoreColor(score: number): string {
-  if (score >= 5) return '#10b981'
+  if (score >= 5) return 'var(--chart-1)'
   if (score >= 4) return '#14b8a6'
   if (score >= 3) return '#f59e0b'
   return '#ef4444'
 }
 
 function scoreBadgeClass(score: number): string {
-  if (score >= 5) return 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'
+  if (score >= 5) return 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand'
   if (score >= 4) return 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300'
   if (score >= 3) return 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300'
   return 'bg-rose-100 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300'
@@ -209,7 +209,7 @@ export function PerformanceView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
@@ -217,7 +217,7 @@ export function PerformanceView() {
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">
               <Star className="h-7 w-7" /> Staff Performance
             </h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">
+            <p className="mt-1.5 text-sm text-brand-foreground/85">
               Teacher evaluations, performance metrics, and professional development.
             </p>
           </div>
@@ -252,7 +252,7 @@ export function PerformanceView() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-base">
-                  <TrendingUp className="h-4 w-4 text-emerald-600" /> Performance Overview
+                  <TrendingUp className="h-4 w-4 text-brand" /> Performance Overview
                 </CardTitle>
                 <CardDescription>Average scores per category across all reviews</CardDescription>
               </CardHeader>
@@ -279,7 +279,7 @@ export function PerformanceView() {
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <CardTitle className="flex items-center gap-2 text-base">
-                    <Award className="h-4 w-4 text-emerald-600" /> All Reviews
+                    <Award className="h-4 w-4 text-brand" /> All Reviews
                   </CardTitle>
                   <CardDescription>
                     {reviews.length} performance {reviews.length === 1 ? 'review' : 'reviews'} on file
@@ -304,7 +304,7 @@ export function PerformanceView() {
                     {reviews.length === 0 ? 'No performance reviews yet.' : 'No reviews match your search.'}
                   </p>
                   {reviews.length === 0 && (
-                    <Button onClick={() => setAdding(true)} className="bg-emerald-600 text-white hover:bg-emerald-700">
+                    <Button onClick={() => setAdding(true)} className="bg-brand text-brand-foreground hover:bg-brand-strong">
                       <Plus className="h-4 w-4" /> Add First Review
                     </Button>
                   )}
@@ -334,7 +334,7 @@ export function PerformanceView() {
                               <div className="flex items-center gap-2">
                                 <Avatar className="h-8 w-8">
                                   {st?.avatar && <AvatarImage src={st.avatar} alt={r.subjectName} />}
-                                  <AvatarFallback className="bg-emerald-100 text-xs font-semibold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+                                  <AvatarFallback className="bg-brand/10 text-xs font-semibold text-brand-strong dark:bg-brand/15 dark:text-brand">
                                     {initials(r.subjectName)}
                                   </AvatarFallback>
                                 </Avatar>
@@ -413,10 +413,10 @@ function TeacherView({
   return (
     <>
       {/* My Performance summary */}
-      <Card className="overflow-hidden border-emerald-200/60 bg-gradient-to-br from-emerald-50 to-teal-50 dark:border-emerald-900/40 dark:from-emerald-950/30 dark:to-teal-950/20">
+      <Card className="overflow-hidden border-brand/60 bg-gradient-to-br from-brand/10 to-brand/10 dark:border-brand/40 dark:from-brand/10 dark:to-brand/10">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">
-            <Award className="h-4 w-4 text-emerald-600" /> My Performance
+            <Award className="h-4 w-4 text-brand" /> My Performance
           </CardTitle>
           <CardDescription>Summary of your evaluations</CardDescription>
         </CardHeader>
@@ -426,7 +426,7 @@ function TeacherView({
               <div>
                 <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Overall Average</p>
                 <div className="mt-1 flex items-baseline gap-2">
-                  <span className="text-4xl font-bold text-emerald-600 dark:text-emerald-400">
+                  <span className="text-4xl font-bold text-brand dark:text-brand">
                     {reviews.length ? myAvgRating.toFixed(1) : '—'}
                   </span>
                   <span className="text-sm text-muted-foreground">/ 5</span>
@@ -453,7 +453,7 @@ function TeacherView({
                     <PolarGrid stroke="rgba(0,0,0,0.1)" />
                     <PolarAngleAxis dataKey="category" tick={{ fontSize: 11 }} />
                     <PolarRadiusAxis domain={[0, 5]} tick={{ fontSize: 10 }} />
-                    <Radar dataKey="value" stroke="#10b981" fill="#10b981" fillOpacity={0.4} />
+                    <Radar dataKey="value" stroke="var(--chart-1)" fill="var(--chart-1)" fillOpacity={0.4} />
                     <Tooltip />
                   </RadarChart>
                 </ResponsiveContainer>
@@ -472,7 +472,7 @@ function TeacherView({
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">
-            <MessageSquare className="h-4 w-4 text-emerald-600" /> My Reviews
+            <MessageSquare className="h-4 w-4 text-brand" /> My Reviews
           </CardTitle>
           <CardDescription>
             {reviews.length} {reviews.length === 1 ? 'review' : 'reviews'} on file
@@ -530,13 +530,13 @@ function ScoreBadge({ value }: { value: number }) {
 
 function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: string; value: string; sub: string; color: string }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     teal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
     amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     cyan: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',
   }
   return (
-    <Card className="group transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald-900/5">
+    <Card className="group transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/5">
       <CardContent className="relative p-5">
         <div className="flex items-center justify-between">
           <div className={cn('flex h-11 w-11 items-center justify-center rounded-xl shadow-sm transition group-hover:scale-110', colors[color])}>
@@ -546,7 +546,7 @@ function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: 
         </div>
         <p className="mt-3 truncate text-2xl font-bold tracking-tight">{value}</p>
         <p className="text-xs font-medium text-muted-foreground">{label}</p>
-        <p className="mt-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">{sub}</p>
+        <p className="mt-1 text-[10px] font-semibold text-brand dark:text-brand">{sub}</p>
       </CardContent>
     </Card>
   )
@@ -613,7 +613,7 @@ function ReviewDialog({
       <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Star className="h-4 w-4 text-emerald-600" /> {review ? 'Edit Review' : 'Add Performance Review'}
+            <Star className="h-4 w-4 text-brand" /> {review ? 'Edit Review' : 'Add Performance Review'}
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-2">
@@ -657,7 +657,7 @@ function ReviewDialog({
 
           <div>
             <p className="mb-3 flex items-center gap-1.5 text-sm font-semibold">
-              <Target className="h-4 w-4 text-emerald-600" /> Category Scores (1–5)
+              <Target className="h-4 w-4 text-brand" /> Category Scores (1–5)
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
               <CategorySelect label="Teaching" value={teaching} onChange={setTeaching} />
@@ -690,7 +690,7 @@ function ReviewDialog({
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}><X className="h-4 w-4" /> Cancel</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             {review ? 'Save Changes' : 'Add Review'}
           </Button>
@@ -731,7 +731,7 @@ function ReviewDetailDialog({ review, onClose }: { review: PerformanceReview; on
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Eye className="h-4 w-4 text-emerald-600" /> Performance Review
+            <Eye className="h-4 w-4 text-brand" /> Performance Review
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-2">
@@ -779,7 +779,7 @@ function ReviewDetailDialog({ review, onClose }: { review: PerformanceReview; on
                   <PolarGrid stroke="rgba(0,0,0,0.1)" />
                   <PolarAngleAxis dataKey="category" tick={{ fontSize: 10 }} />
                   <PolarRadiusAxis domain={[0, 5]} tick={{ fontSize: 9 }} />
-                  <Radar dataKey="value" stroke="#10b981" fill="#10b981" fillOpacity={0.4} />
+                  <Radar dataKey="value" stroke="var(--chart-1)" fill="var(--chart-1)" fillOpacity={0.4} />
                   <Tooltip />
                 </RadarChart>
               </ResponsiveContainer>

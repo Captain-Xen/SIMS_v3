@@ -5,7 +5,7 @@ import { useAppStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
 
 const config = {
-  success: { icon: CheckCircle2, color: 'text-emerald-500', bar: 'bg-emerald-500' },
+  success: { icon: CheckCircle2, color: 'text-brand', bar: 'bg-brand' },
   error: { icon: XCircle, color: 'text-red-500', bar: 'bg-red-500' },
   warning: { icon: AlertTriangle, color: 'text-amber-500', bar: 'bg-amber-500' },
   info: { icon: Info, color: 'text-blue-500', bar: 'bg-blue-500' },

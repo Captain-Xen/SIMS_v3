@@ -94,7 +94,7 @@ function SearchModalInner({ onClose }: { onClose: () => void }) {
                   {r.role} {r.admissionNo ? `· ${r.admissionNo}` : ''} {r.className ? `· ${r.className}` : ''}
                 </p>
               </div>
-              <span className={cn('rounded-full px-2 py-0.5 text-xs font-medium', r.role === 'Student' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300' : 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300')}>
+              <span className={cn('rounded-full px-2 py-0.5 text-xs font-medium', r.role === 'Student' ? 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand' : 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300')}>
                 {r.role}
               </span>
             </button>

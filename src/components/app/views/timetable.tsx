@@ -21,7 +21,7 @@ const SLOTS: { time: string; label?: string; isBreak?: boolean }[] = [
 ]
 
 const SUBJECT_COLORS: Record<string, string> = {
-  Mathematics: 'bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-200 dark:border-emerald-900',
+  Mathematics: 'bg-brand/10 text-brand-strong border-brand/25 dark:bg-brand/12 dark:text-brand dark:border-brand/30',
   English: 'bg-teal-100 text-teal-800 border-teal-200 dark:bg-teal-950/40 dark:text-teal-200 dark:border-teal-900',
   Biology: 'bg-lime-100 text-lime-800 border-lime-200 dark:bg-lime-950/40 dark:text-lime-200 dark:border-lime-900',
   History: 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-950/40 dark:text-amber-200 dark:border-amber-900',
@@ -30,7 +30,7 @@ const SUBJECT_COLORS: Record<string, string> = {
   Chemistry: 'bg-violet-100 text-violet-800 border-violet-200 dark:bg-violet-950/40 dark:text-violet-200 dark:border-violet-900',
   French: 'bg-pink-100 text-pink-800 border-pink-200 dark:bg-pink-950/40 dark:text-pink-200 dark:border-pink-900',
   Geography: 'bg-orange-100 text-orange-800 border-orange-200 dark:bg-orange-950/40 dark:text-orange-200 dark:border-orange-900',
-  'Information Technology': 'bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-200 dark:border-emerald-900',
+  'Information Technology': 'bg-brand/10 text-brand-strong border-brand/25 dark:bg-brand/12 dark:text-brand dark:border-brand/30',
   'Principles of Business': 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-950/40 dark:text-amber-200 dark:border-amber-900',
   'Principles of Accounts': 'bg-teal-100 text-teal-800 border-teal-200 dark:bg-teal-950/40 dark:text-teal-200 dark:border-teal-900',
   'Physical Education': 'bg-lime-100 text-lime-800 border-lime-200 dark:bg-lime-950/40 dark:text-lime-200 dark:border-lime-900',
@@ -87,13 +87,13 @@ export function TimetableView() {
   return (
     <div className="space-y-6">
       {/* Header card */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
           <div className="min-w-0">
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl"><CalendarClock className="h-7 w-7" /> Weekly Timetable</h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">
+            <p className="mt-1.5 text-sm text-brand-foreground/85">
               {user.role === 'Student' ? 'Your class schedule' : `Teaching schedule for ${user.name.split(' ')[0]}`}
             </p>
           </div>

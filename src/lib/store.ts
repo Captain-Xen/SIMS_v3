@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import type { SessionUser, ViewId, SchoolSettings } from './types'
+import { applyAccentVars } from './theme'
 
 export interface Toast {
   id: string
@@ -63,7 +64,11 @@ export const useAppStore = create<AppState>((set, get) => ({
   },
 
   settings: null,
-  setSettings: (s) => set({ settings: s }),
+  setSettings: (s) => {
+    set({ settings: s })
+    // Re-skin the whole app whenever settings change (boot load, accent PATCH, logo save…)
+    applyAccentVars(s?.accent)
+  },
 
   sidebarCollapsed: typeof window !== 'undefined' && localStorage.getItem('edu-sidebar') === 'true',
   toggleSidebar: () => {

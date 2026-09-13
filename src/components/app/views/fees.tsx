@@ -81,20 +81,20 @@ function AdminFees() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
           <div className="min-w-0">
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl"><DollarSign className="h-7 w-7" /> Fee Management</h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">Track and manage student fee payments.</p>
+            <p className="mt-1.5 text-sm text-brand-foreground/85">Track and manage student fee payments.</p>
           </div>
         </CardContent>
       </Card>
 
       {/* Summary cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card className="transition-all hover:-translate-y-0.5 hover:shadow-md"><CardContent className="flex items-center gap-3 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300"><DollarSign className="h-5 w-5" /></div><div><p className="text-2xl font-bold">${stats.collected.toLocaleString()}</p><p className="text-xs text-muted-foreground">Total collected</p></div></CardContent></Card>
+        <Card className="transition-all hover:-translate-y-0.5 hover:shadow-md"><CardContent className="flex items-center gap-3 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand"><DollarSign className="h-5 w-5" /></div><div><p className="text-2xl font-bold">${stats.collected.toLocaleString()}</p><p className="text-xs text-muted-foreground">Total collected</p></div></CardContent></Card>
         <Card className="transition-all hover:-translate-y-0.5 hover:shadow-md"><CardContent className="flex items-center gap-3 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"><Clock className="h-5 w-5" /></div><div><p className="text-2xl font-bold">${stats.pending.toLocaleString()}</p><p className="text-xs text-muted-foreground">Pending</p></div></CardContent></Card>
         <Card className="transition-all hover:-translate-y-0.5 hover:shadow-md"><CardContent className="flex items-center gap-3 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300"><TrendingUp className="h-5 w-5" /></div><div><p className="text-2xl font-bold">{stats.rate}%</p><p className="text-xs text-muted-foreground">Collection rate</p></div></CardContent></Card>
         <Card className="transition-all hover:-translate-y-0.5 hover:shadow-md"><CardContent className="flex items-center gap-3 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300"><CheckCircle2 className="h-5 w-5" /></div><div><p className="text-2xl font-bold">{stats.paidCount}<span className="text-sm font-normal text-muted-foreground">/{fees.length}</span></p><p className="text-xs text-muted-foreground">Paid records</p></div></CardContent></Card>
@@ -109,7 +109,7 @@ function AdminFees() {
           </div>
           <div className="flex gap-2">
             {['', 'Paid', 'Pending'].map((s) => (
-              <Button key={s || 'all'} variant={statusFilter === s ? 'default' : 'outline'} size="sm" className={statusFilter === s ? 'bg-emerald-600 text-white hover:bg-emerald-700' : ''} onClick={() => setStatusFilter(s)}>{s || 'All'}</Button>
+              <Button key={s || 'all'} variant={statusFilter === s ? 'default' : 'outline'} size="sm" className={statusFilter === s ? 'bg-brand text-brand-foreground hover:bg-brand-strong' : ''} onClick={() => setStatusFilter(s)}>{s || 'All'}</Button>
             ))}
           </div>
         </CardContent>
@@ -148,7 +148,7 @@ function AdminFees() {
                         <span className="inline-flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5" />{new Date(f.dueDate).toLocaleDateString()}</span>
                       </td>
                       <td className="p-3">
-                        <Badge variant="outline" className={cn('border-transparent', f.status === 'Paid' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300')}>{f.status}</Badge>
+                        <Badge variant="outline" className={cn('border-transparent', f.status === 'Paid' ? 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand' : 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300')}>{f.status}</Badge>
                       </td>
                       <td className="p-3 text-right">
                         <Button
@@ -156,7 +156,7 @@ function AdminFees() {
                           size="sm"
                           disabled={updating === f.id}
                           onClick={() => toggleStatus(f)}
-                          className={f.status === 'Paid' ? '' : 'bg-emerald-600 text-white hover:bg-emerald-700'}
+                          className={f.status === 'Paid' ? '' : 'bg-brand text-brand-foreground hover:bg-brand-strong'}
                         >
                           {updating === f.id ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                           {f.status === 'Paid' ? 'Mark Pending' : 'Mark Paid'}
@@ -220,7 +220,7 @@ function StudentFees() {
       {/* Summary */}
       <div className="grid gap-4 sm:grid-cols-3">
         <Card><CardContent className="flex items-center gap-3 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"><Clock className="h-5 w-5" /></div><div><p className="text-2xl font-bold">${totalDue.toLocaleString()}</p><p className="text-xs text-muted-foreground">Outstanding balance</p></div></CardContent></Card>
-        <Card><CardContent className="flex items-center gap-3 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300"><CheckCircle2 className="h-5 w-5" /></div><div><p className="text-2xl font-bold">${totalPaid.toLocaleString()}</p><p className="text-xs text-muted-foreground">Total paid</p></div></CardContent></Card>
+        <Card><CardContent className="flex items-center gap-3 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand"><CheckCircle2 className="h-5 w-5" /></div><div><p className="text-2xl font-bold">${totalPaid.toLocaleString()}</p><p className="text-xs text-muted-foreground">Total paid</p></div></CardContent></Card>
         <Card><CardContent className="flex items-center gap-3 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300"><CreditCard className="h-5 w-5" /></div><div><p className="text-2xl font-bold">{fees.length}</p><p className="text-xs text-muted-foreground">Fee records</p></div></CardContent></Card>
       </div>
 
@@ -237,13 +237,13 @@ function StudentFees() {
       ) : (
         <div className="grid gap-4 md:grid-cols-2">
           {fees.map((f) => (
-            <Card key={f.id} className={cn('overflow-hidden', f.status === 'Paid' ? 'border-emerald-300 dark:border-emerald-900' : '')}>
+            <Card key={f.id} className={cn('overflow-hidden', f.status === 'Paid' ? 'border-brand/35 dark:border-brand/30' : '')}>
               <CardHeader className="flex flex-row items-start justify-between gap-2 pb-3">
                 <div>
                   <CardTitle className="text-base">{f.term}</CardTitle>
                   <CardDescription>Due {new Date(f.dueDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</CardDescription>
                 </div>
-                <Badge variant="outline" className={cn('border-transparent', f.status === 'Paid' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300')}>{f.status}</Badge>
+                <Badge variant="outline" className={cn('border-transparent', f.status === 'Paid' ? 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand' : 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300')}>{f.status}</Badge>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-end justify-between">
@@ -252,12 +252,12 @@ function StudentFees() {
                     <p className="text-3xl font-bold">${f.amount.toLocaleString()}</p>
                   </div>
                   {f.status === 'Pending' ? (
-                    <Button onClick={() => pay(f)} disabled={paying === f.id} className="bg-emerald-600 text-white hover:bg-emerald-700">
+                    <Button onClick={() => pay(f)} disabled={paying === f.id} className="bg-brand text-brand-foreground hover:bg-brand-strong">
                       {paying === f.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <CreditCard className="h-4 w-4" />}
                       Pay Now
                     </Button>
                   ) : (
-                    <span className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-600"><CheckCircle2 className="h-4 w-4" /> Paid</span>
+                    <span className="inline-flex items-center gap-1.5 text-sm font-medium text-brand"><CheckCircle2 className="h-4 w-4" /> Paid</span>
                   )}
                 </div>
               </CardContent>

@@ -46,9 +46,9 @@ const TYPE_META: Record<TypeKey, { label: string; badge: string; icon: any; tint
   },
   Immunization: {
     label: 'Immunization',
-    badge: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    badge: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     icon: Syringe,
-    tint: 'bg-emerald-500',
+    tint: 'bg-brand',
   },
   ClinicVisit: {
     label: 'Clinic Visit',
@@ -64,7 +64,7 @@ const SEVERITY_BADGE: Record<string, string> = {
   Critical: 'bg-rose-100 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300',
   High: 'bg-orange-100 text-orange-700 dark:bg-orange-950/50 dark:text-orange-300',
   Moderate: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
-  Low: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+  Low: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
 }
 
 const FILTER_TABS: { key: string; label: string; type?: TypeKey }[] = [
@@ -169,7 +169,7 @@ export function HealthView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
@@ -177,7 +177,7 @@ export function HealthView() {
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">
               <HeartPulse className="h-7 w-7" /> Health Records
             </h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">
+            <p className="mt-1.5 text-sm text-brand-foreground/85">
               Student medical information, allergies, and clinic visits.
             </p>
           </div>
@@ -231,15 +231,15 @@ export function HealthView() {
                     className={cn(
                       'inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-all',
                       active
-                        ? 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-sm dark:bg-emerald-950/40 dark:text-emerald-300'
-                        : 'border-border bg-card text-muted-foreground hover:border-emerald-300 hover:text-foreground'
+                        ? 'border-brand/60 bg-brand/5 text-brand-strong shadow-sm dark:bg-brand/12 dark:text-brand'
+                        : 'border-border bg-card text-muted-foreground hover:border-brand/35 hover:text-foreground'
                     )}
                   >
                     {t.label}
                     <span
                       className={cn(
                         'rounded-md px-1.5 py-0.5 text-[10px] font-semibold',
-                        active ? 'bg-emerald-600 text-white' : 'bg-muted text-muted-foreground'
+                        active ? 'bg-brand text-brand-foreground' : 'bg-muted text-muted-foreground'
                       )}
                     >
                       {count}
@@ -270,7 +270,7 @@ export function HealthView() {
                     : 'No records match your filter.'}
                 </p>
                 {canManage && records.length === 0 && (
-                  <Button size="sm" onClick={() => setAdding(true)} className="mt-1 bg-emerald-600 text-white hover:bg-emerald-700">
+                  <Button size="sm" onClick={() => setAdding(true)} className="mt-1 bg-brand text-brand-foreground hover:bg-brand-strong">
                     <Plus className="h-4 w-4" /> Add the first record
                   </Button>
                 )}
@@ -384,7 +384,7 @@ function StatCard({
   icon: Icon, label, value, sub, color,
 }: { icon: any; label: string; value: string; sub: string; color: string }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     teal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
     amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     red: 'bg-rose-100 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300',
@@ -392,9 +392,9 @@ function StatCard({
     slate: 'bg-slate-100 text-slate-700 dark:bg-slate-800/60 dark:text-slate-300',
   }
   return (
-    <Card className="group transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald-900/5">
+    <Card className="group transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/5">
       <CardContent className="relative p-5">
-        <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br from-emerald-500/5 to-teal-500/5 transition group-hover:from-emerald-500/10 group-hover:to-teal-500/10" />
+        <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br from-brand/5 to-brand/5 transition group-hover:from-brand/10 group-hover:to-brand/10" />
         <div className="relative flex items-center justify-between">
           <div className={cn('flex h-11 w-11 items-center justify-center rounded-xl shadow-sm transition group-hover:scale-110', colors[color])}>
             <Icon className="h-5 w-5" />
@@ -403,7 +403,7 @@ function StatCard({
         </div>
         <p className="relative mt-3 text-2xl font-bold tracking-tight">{value}</p>
         <p className="relative text-xs font-medium text-muted-foreground">{label}</p>
-        <p className="relative mt-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">{sub}</p>
+        <p className="relative mt-1 text-[10px] font-semibold text-brand dark:text-brand">{sub}</p>
       </CardContent>
     </Card>
   )
@@ -483,7 +483,7 @@ function HealthRecordDialog({
       <DialogContent className="max-h-[92vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <HeartPulse className="h-4 w-4 text-emerald-600" />
+            <HeartPulse className="h-4 w-4 text-brand" />
             {record ? 'Edit Health Record' : 'Add Health Record'}
           </DialogTitle>
           <CardDescription>
@@ -537,7 +537,7 @@ function HealthRecordDialog({
               </SelectContent>
             </Select>
             {selectedStudent && (
-              <div className="flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50/60 p-2 dark:border-emerald-900/40 dark:bg-emerald-950/20">
+              <div className="flex items-center gap-2 rounded-lg border border-brand/25 bg-brand/5 p-2 dark:border-brand/40 dark:bg-brand/10">
                 <UserAvatar name={selectedStudent.name} avatar={selectedStudent.avatar} role="Student" size="sm" />
                 <div className="min-w-0">
                   <p className="truncate text-sm font-medium">{selectedStudent.name}</p>
@@ -611,7 +611,7 @@ function HealthRecordDialog({
           <Button variant="outline" onClick={onClose}>
             <X className="h-4 w-4" /> Cancel
           </Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             {record ? 'Save Changes' : 'Add Record'}
           </Button>

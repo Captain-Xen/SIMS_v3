@@ -30,13 +30,13 @@ const MEAL_PLANS = ['Standard', 'Premium', 'Basic'] as const
 const DIETARY_TAGS = ['Vegetarian', 'Halal', 'Gluten-Free', 'Kosher', 'Dairy-Free', 'Nut-Free'] as const
 
 const PLAN_BADGE: Record<string, string> = {
-  Standard: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+  Standard: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
   Premium: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
   Basic: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
 }
 
 const TAG_BADGE: Record<string, string> = {
-  Vegetarian: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300',
+  Vegetarian: 'bg-brand/5 text-brand-strong dark:bg-brand/12 dark:text-brand',
   Halal: 'bg-teal-50 text-teal-700 dark:bg-teal-950/40 dark:text-teal-300',
   'Gluten-Free': 'bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300',
   Kosher: 'bg-cyan-50 text-cyan-700 dark:bg-cyan-950/40 dark:text-cyan-300',
@@ -45,7 +45,7 @@ const TAG_BADGE: Record<string, string> = {
 }
 
 function balanceTone(cents: number) {
-  if (cents > 500) return 'text-emerald-600 dark:text-emerald-400'
+  if (cents > 500) return 'text-brand dark:text-brand'
   if (cents >= 100) return 'text-amber-600 dark:text-amber-400'
   return 'text-rose-600 dark:text-rose-400'
 }
@@ -177,7 +177,7 @@ export function CafeteriaView() {
   return (
     <div className="space-y-6">
       {/* Header — polished emerald gradient banner */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
@@ -185,7 +185,7 @@ export function CafeteriaView() {
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">
               <UtensilsCrossed className="h-7 w-7" /> Cafeteria
             </h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">
+            <p className="mt-1.5 text-sm text-brand-foreground/85">
               Meal plans, lunch accounts, and dietary information.
             </p>
           </div>
@@ -217,7 +217,7 @@ export function CafeteriaView() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base">
-                <Wallet className="h-4 w-4 text-emerald-600" /> Meal Accounts
+                <Wallet className="h-4 w-4 text-brand" /> Meal Accounts
               </CardTitle>
               <CardDescription>Manage student lunch accounts and balances.</CardDescription>
             </CardHeader>
@@ -226,7 +226,7 @@ export function CafeteriaView() {
                 <div className="flex h-48 flex-col items-center justify-center gap-2 text-muted-foreground">
                   <Store className="h-10 w-10 opacity-40" />
                   <p className="text-sm">No meal accounts yet.</p>
-                  <Button size="sm" onClick={() => setCreating(true)} className="bg-emerald-600 text-white hover:bg-emerald-700">
+                  <Button size="sm" onClick={() => setCreating(true)} className="bg-brand text-brand-foreground hover:bg-brand-strong">
                     <Plus className="h-4 w-4" /> Create the first account
                   </Button>
                 </div>
@@ -278,7 +278,7 @@ export function CafeteriaView() {
                           <td className="p-3">
                             <div className="flex justify-end gap-1">
                               <Button size="sm" variant="outline" onClick={() => setTopUpFor(a)}>
-                                <ArrowUpCircle className="h-4 w-4 text-emerald-600" /> Top Up
+                                <ArrowUpCircle className="h-4 w-4 text-brand" /> Top Up
                               </Button>
                               <Button size="sm" variant="ghost" onClick={() => setTxFor(a)}>
                                 <Eye className="h-4 w-4" /> Transactions
@@ -309,13 +309,13 @@ export function CafeteriaView() {
             <div className="grid gap-6 lg:grid-cols-3">
               {/* Balance card (spans 2) */}
               <div className="lg:col-span-2">
-                <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+                <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
                   <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
                   <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
                   <CardContent className="relative space-y-4 p-6 sm:p-7">
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <p className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-emerald-50/85">
+                        <p className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-brand-foreground/85">
                           <Wallet className="h-3.5 w-3.5" /> Current Balance
                         </p>
                         <p className="mt-2 font-serif text-4xl font-bold tracking-tight sm:text-5xl">
@@ -365,7 +365,7 @@ export function CafeteriaView() {
                 <Card className="mt-6">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-base">
-                      <Utensils className="h-4 w-4 text-emerald-600" /> Today's Menu
+                      <Utensils className="h-4 w-4 text-brand" /> Today's Menu
                     </CardTitle>
                     <CardDescription>Grab a meal directly from your account balance.</CardDescription>
                   </CardHeader>
@@ -375,7 +375,7 @@ export function CafeteriaView() {
                       return (
                         <div key={sec.section}>
                           <div className="mb-2 flex items-center gap-2">
-                            <SecIcon className="h-4 w-4 text-emerald-600" />
+                            <SecIcon className="h-4 w-4 text-brand" />
                             <h4 className="text-sm font-semibold">{sec.section}</h4>
                           </div>
                           <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -389,7 +389,7 @@ export function CafeteriaView() {
                                 )}>
                                   <div className="flex items-start justify-between gap-2">
                                     <p className="text-sm font-medium">{it.name}</p>
-                                    <span className="shrink-0 text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+                                    <span className="shrink-0 text-sm font-semibold text-brand dark:text-brand">
                                       {formatMoney(it.price)}
                                     </span>
                                   </div>
@@ -404,7 +404,7 @@ export function CafeteriaView() {
                                   )}
                                   <Button
                                     size="sm"
-                                    className="mt-3 bg-emerald-600 text-white hover:bg-emerald-700"
+                                    className="mt-3 bg-brand text-brand-foreground hover:bg-brand-strong"
                                     disabled={!canAfford || isBuying}
                                     onClick={() => buyItem(it.name, it.price)}
                                   >
@@ -426,7 +426,7 @@ export function CafeteriaView() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-base">
-                    <Clock className="h-4 w-4 text-emerald-600" /> Recent Transactions
+                    <Clock className="h-4 w-4 text-brand" /> Recent Transactions
                   </CardTitle>
                   <CardDescription>
                     {myTransactions.length} {myTransactions.length === 1 ? 'transaction' : 'transactions'}
@@ -497,7 +497,7 @@ function TransactionRow({ t }: { t: MealTransaction }) {
     <div className="flex items-center gap-3 rounded-lg border border-border p-3">
       <div className={cn(
         'flex h-9 w-9 shrink-0 items-center justify-center rounded-lg',
-        isTopup ? 'bg-emerald-100 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-300'
+        isTopup ? 'bg-brand/10 text-brand dark:bg-brand/15 dark:text-brand'
                 : 'bg-amber-100 text-amber-600 dark:bg-amber-950/50 dark:text-amber-300'
       )}>
         <Icon className="h-4 w-4" />
@@ -509,12 +509,12 @@ function TransactionRow({ t }: { t: MealTransaction }) {
         </p>
       </div>
       <div className="text-right">
-        <p className={cn('text-sm font-semibold', isTopup ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400')}>
+        <p className={cn('text-sm font-semibold', isTopup ? 'text-brand dark:text-brand' : 'text-amber-600 dark:text-amber-400')}>
           {isTopup ? '+' : ''}{formatMoney(t.amount)}
         </p>
         <span className={cn(
           'inline-flex rounded px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide',
-          isTopup ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'
+          isTopup ? 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand'
                   : 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300'
         )}>
           {t.type}
@@ -526,15 +526,15 @@ function TransactionRow({ t }: { t: MealTransaction }) {
 
 function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: string; value: string; sub: string; color: string }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     teal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
     amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     cyan: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',
   }
   return (
-    <Card className="group overflow-hidden transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald-900/5">
+    <Card className="group overflow-hidden transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/5">
       <CardContent className="relative p-5">
-        <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br from-emerald-500/5 to-teal-500/5 transition group-hover:from-emerald-500/10 group-hover:to-teal-500/10" />
+        <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br from-brand/5 to-brand/5 transition group-hover:from-brand/10 group-hover:to-brand/10" />
         <div className="relative flex items-center justify-between">
           <div className={cn('flex h-11 w-11 items-center justify-center rounded-xl shadow-sm transition group-hover:scale-110', colors[color])}>
             <Icon className="h-5 w-5" />
@@ -543,7 +543,7 @@ function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: 
         </div>
         <p className="relative mt-3 text-2xl font-bold tracking-tight">{value}</p>
         <p className="relative text-xs font-medium text-muted-foreground">{label}</p>
-        <p className="relative mt-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">{sub}</p>
+        <p className="relative mt-1 text-[10px] font-semibold text-brand dark:text-brand">{sub}</p>
       </CardContent>
     </Card>
   )
@@ -610,7 +610,7 @@ function CreateAccountDialog({
       <DialogContent className="max-h-[92vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Plus className="h-4 w-4 text-emerald-600" /> Create Meal Account
+            <Plus className="h-4 w-4 text-brand" /> Create Meal Account
           </DialogTitle>
           <DialogDescription>Open a new lunch account for a student.</DialogDescription>
         </DialogHeader>
@@ -636,7 +636,7 @@ function CreateAccountDialog({
                         onClick={() => setUserId(s.id)}
                         className={cn(
                           'flex w-full items-center gap-3 p-3 text-left transition hover:bg-muted/50',
-                          userId === s.id && 'bg-emerald-50 dark:bg-emerald-950/30'
+                          userId === s.id && 'bg-brand/5 dark:bg-brand/10'
                         )}
                       >
                         <UserAvatar name={s.name} avatar={s.avatar} role="Student" size="sm" />
@@ -644,7 +644,7 @@ function CreateAccountDialog({
                           <p className="truncate text-sm font-medium">{s.name}</p>
                           <p className="truncate text-xs text-muted-foreground">{s.admissionNo ?? '—'} · {s.className ?? '—'}</p>
                         </div>
-                        {userId === s.id && <CheckCircle2 className="h-4 w-4 text-emerald-600" />}
+                        {userId === s.id && <CheckCircle2 className="h-4 w-4 text-brand" />}
                       </button>
                     </li>
                   ))}
@@ -685,7 +685,7 @@ function CreateAccountDialog({
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}><X className="h-4 w-4" /> Cancel</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             Create Account
           </Button>
@@ -728,7 +728,7 @@ function TopUpDialog({ account, onClose, onSaved }: { account: MealAccount; onCl
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <ArrowUpCircle className="h-4 w-4 text-emerald-600" /> Top Up Account
+            <ArrowUpCircle className="h-4 w-4 text-brand" /> Top Up Account
           </DialogTitle>
           <DialogDescription>
             Add funds to <span className="font-semibold text-foreground">{account.userName}</span>'s meal account.
@@ -760,7 +760,7 @@ function TopUpDialog({ account, onClose, onSaved }: { account: MealAccount; onCl
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}><X className="h-4 w-4" /> Cancel</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowUpCircle className="h-4 w-4" />}
             Add Funds
           </Button>
@@ -798,7 +798,7 @@ function TransactionsDialog({ account, onClose }: { account: MealAccount; onClos
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Clock className="h-4 w-4 text-emerald-600" /> Transaction History
+            <Clock className="h-4 w-4 text-brand" /> Transaction History
           </DialogTitle>
           <DialogDescription>
             <span className="font-semibold text-foreground">{account.userName}</span> · Current balance{' '}
@@ -822,7 +822,7 @@ function TransactionsDialog({ account, onClose }: { account: MealAccount; onClos
           )}
         </div>
         <DialogFooter>
-          <Button onClick={onClose} className="bg-emerald-600 text-white hover:bg-emerald-700">Close</Button>
+          <Button onClick={onClose} className="bg-brand text-brand-foreground hover:bg-brand-strong">Close</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -860,7 +860,7 @@ function EditPreferencesDialog({ account, onClose, onSaved }: { account: MealAcc
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Salad className="h-4 w-4 text-emerald-600" /> Dietary Preferences
+            <Salad className="h-4 w-4 text-brand" /> Dietary Preferences
           </DialogTitle>
           <DialogDescription>Update your meal plan and dietary tags.</DialogDescription>
         </DialogHeader>
@@ -888,7 +888,7 @@ function EditPreferencesDialog({ account, onClose, onSaved }: { account: MealAcc
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}><X className="h-4 w-4" /> Cancel</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
             Save Preferences
           </Button>

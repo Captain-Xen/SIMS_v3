@@ -25,8 +25,8 @@ const EVENT_TYPES = ['Sports', 'Science', 'Cultural', 'Charity', 'Activity'] as 
 
 const TYPE_STYLES: Record<string, { badge: string; bar: string }> = {
   Sports: {
-    badge: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
-    bar: 'bg-emerald-500',
+    badge: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
+    bar: 'bg-brand',
   },
   Science: {
     badge: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
@@ -48,7 +48,7 @@ const TYPE_STYLES: Record<string, { badge: string; bar: string }> = {
 
 const STATUS_STYLES: Record<string, string> = {
   Planned: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
-  Ongoing: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+  Ongoing: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
   Completed: 'bg-muted text-muted-foreground',
   Cancelled: 'bg-rose-100 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300',
 }
@@ -157,7 +157,7 @@ export function ActivitiesView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
@@ -165,7 +165,7 @@ export function ActivitiesView() {
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">
               <Trophy className="h-7 w-7" /> School Activities
             </h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">
+            <p className="mt-1.5 text-sm text-brand-foreground/85">
               Sports, science fairs, cultural events, and more.
             </p>
           </div>
@@ -194,7 +194,7 @@ export function ActivitiesView() {
             className={cn(
               'rounded-full px-4 py-1.5 text-xs font-medium transition',
               typeFilter === t
-                ? 'bg-emerald-600 text-white shadow-sm'
+                ? 'bg-brand text-brand-foreground shadow-sm'
                 : 'bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground'
             )}
           >
@@ -215,7 +215,7 @@ export function ActivitiesView() {
           <CardContent className="flex h-48 flex-col items-center justify-center gap-2 p-0 text-muted-foreground">
             <Trophy className="h-10 w-10 opacity-40" />
             <p className="text-sm">No events{typeFilter !== 'all' ? ` of type "${typeFilter}"` : ''} yet.</p>
-            {canManage && <p className="text-xs text-emerald-600">Click &ldquo;Add Event&rdquo; to create one.</p>}
+            {canManage && <p className="text-xs text-brand">Click &ldquo;Add Event&rdquo; to create one.</p>}
           </CardContent>
         </Card>
       ) : (
@@ -312,15 +312,15 @@ export function ActivitiesView() {
 
 function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: string; value: string; sub: string; color: string }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     teal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
     amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     cyan: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',
   }
   return (
-    <Card className="group transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald-900/5">
+    <Card className="group transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/5">
       <CardContent className="relative p-5">
-        <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br from-emerald-500/5 to-teal-500/5 transition group-hover:from-emerald-500/10 group-hover:to-teal-500/10" />
+        <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br from-brand/5 to-brand/5 transition group-hover:from-brand/10 group-hover:to-brand/10" />
         <div className="relative flex items-center justify-between">
           <div className={cn('flex h-11 w-11 items-center justify-center rounded-xl shadow-sm transition group-hover:scale-110', colors[color])}>
             <Icon className="h-5 w-5" />
@@ -329,7 +329,7 @@ function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: 
         </div>
         <p className="relative mt-3 text-2xl font-bold tracking-tight">{value}</p>
         <p className="relative text-xs font-medium text-muted-foreground">{label}</p>
-        <p className="relative mt-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">{sub}</p>
+        <p className="relative mt-1 text-[10px] font-semibold text-brand dark:text-brand">{sub}</p>
       </CardContent>
     </Card>
   )
@@ -386,7 +386,7 @@ function EventDialog({ event, onClose, onSaved }: { event: SchoolEvent | null; o
       <DialogContent className="max-h-[90vh] max-w-lg overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Plus className="h-4 w-4 text-emerald-600" /> {event ? 'Edit Event' : 'Add Event'}
+            <Plus className="h-4 w-4 text-brand" /> {event ? 'Edit Event' : 'Add Event'}
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-2">
@@ -439,7 +439,7 @@ function EventDialog({ event, onClose, onSaved }: { event: SchoolEvent | null; o
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}><X className="h-4 w-4" /> Cancel</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             {event ? 'Save Changes' : 'Add Event'}
           </Button>
@@ -659,13 +659,13 @@ function EventDetailDialog({ event, onClose, onChanged }: { event: SchoolEvent; 
 
           {/* Student self-register */}
           {isStudent && (
-            <div className="rounded-lg border border-emerald-200 bg-emerald-50/50 p-3 dark:border-emerald-900 dark:bg-emerald-950/20">
+            <div className="rounded-lg border border-brand/25 bg-brand/5 p-3 dark:border-brand/30 dark:bg-brand/10">
               {alreadyRegistered ? (
-                <p className="flex items-center gap-2 text-sm font-medium text-emerald-700 dark:text-emerald-300">
+                <p className="flex items-center gap-2 text-sm font-medium text-brand-strong dark:text-brand">
                   <Check className="h-4 w-4" /> You&rsquo;re registered for this event.
                 </p>
               ) : (
-                <Button onClick={registerSelf} disabled={registering} className="w-full bg-emerald-600 text-white hover:bg-emerald-700">
+                <Button onClick={registerSelf} disabled={registering} className="w-full bg-brand text-brand-foreground hover:bg-brand-strong">
                   {registering ? <Loader2 className="h-4 w-4 animate-spin" /> : <UserPlus className="h-4 w-4" />}
                   Register for this Event
                 </Button>
@@ -677,10 +677,10 @@ function EventDetailDialog({ event, onClose, onChanged }: { event: SchoolEvent; 
           {canManage && showAdd && (
             <div className="space-y-3 rounded-lg border border-border bg-muted/30 p-3">
               <div className="flex gap-2">
-                <Button size="sm" variant={pickerRole === 'student' ? 'default' : 'outline'} onClick={() => { setPickerRole('student'); setPickedUserId('') }} className={pickerRole === 'student' ? 'bg-emerald-600 text-white hover:bg-emerald-700' : ''}>
+                <Button size="sm" variant={pickerRole === 'student' ? 'default' : 'outline'} onClick={() => { setPickerRole('student'); setPickedUserId('') }} className={pickerRole === 'student' ? 'bg-brand text-brand-foreground hover:bg-brand-strong' : ''}>
                   Students
                 </Button>
-                <Button size="sm" variant={pickerRole === 'staff' ? 'default' : 'outline'} onClick={() => { setPickerRole('staff'); setPickedUserId('') }} className={pickerRole === 'staff' ? 'bg-emerald-600 text-white hover:bg-emerald-700' : ''}>
+                <Button size="sm" variant={pickerRole === 'staff' ? 'default' : 'outline'} onClick={() => { setPickerRole('staff'); setPickedUserId('') }} className={pickerRole === 'staff' ? 'bg-brand text-brand-foreground hover:bg-brand-strong' : ''}>
                   Staff
                 </Button>
               </div>
@@ -704,7 +704,7 @@ function EventDetailDialog({ event, onClose, onChanged }: { event: SchoolEvent; 
               </div>
               <div className="flex justify-end gap-2">
                 <Button size="sm" variant="outline" onClick={() => setShowAdd(false)}>Cancel</Button>
-                <Button size="sm" onClick={addParticipant} disabled={addingP} className="bg-emerald-600 text-white hover:bg-emerald-700">
+                <Button size="sm" onClick={addParticipant} disabled={addingP} className="bg-brand text-brand-foreground hover:bg-brand-strong">
                   {addingP ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Plus className="h-3.5 w-3.5" />}
                   Add Participant
                 </Button>

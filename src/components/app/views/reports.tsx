@@ -26,27 +26,27 @@ const CURRENT_TERM = 'Term 1'
 const REPORT_STYLES = `
   * { box-sizing: border-box; }
   body { font-family: Georgia, 'Times New Roman', serif; padding: 40px; color: #1e293b; max-width: 820px; margin: 0 auto; background: #fff; }
-  .header { background: linear-gradient(135deg, #059669 0%, #0d9488 60%, #14b8a6 100%); color: #fff; padding: 28px 36px; border-radius: 12px; box-shadow: 0 10px 25px -5px rgba(5,150,105,0.25); }
+  .header { background: linear-gradient(135deg, var(--brand) 0%, #0d9488 60%, #14b8a6 100%); color: #fff; padding: 28px 36px; border-radius: 12px; box-shadow: 0 10px 25px -5px rgba(5,150,105,0.25); }
   .header h1 { font-family: Georgia, serif; margin: 0; font-size: 30px; letter-spacing: -0.5px; }
   .header .tag { margin: 6px 0 0; opacity: 0.95; font-size: 14px; font-style: italic; }
   .header .badge { display: inline-block; margin-top: 12px; padding: 5px 14px; background: rgba(255,255,255,0.22); border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; }
-  .info-grid { margin: 22px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 32px; padding: 18px 24px; background: #f0fdf4; border-left: 4px solid #059669; border-radius: 6px; }
+  .info-grid { margin: 22px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 32px; padding: 18px 24px; background: #f0fdf4; border-left: 4px solid var(--brand); border-radius: 6px; }
   .info-grid div { font-size: 14px; line-height: 1.8; }
   .info-grid strong { display: inline-block; min-width: 110px; color: #475569; }
-  h2.section { font-family: Georgia, serif; color: #047857; font-size: 18px; margin: 26px 0 12px; border-bottom: 2px solid #d1fae5; padding-bottom: 6px; }
+  h2.section { font-family: Georgia, serif; color: var(--brand-strong); font-size: 18px; margin: 26px 0 12px; border-bottom: 2px solid var(--brand-tint-soft); padding-bottom: 6px; }
   table { width: 100%; border-collapse: collapse; margin: 8px 0; }
-  th { background: #ecfdf5; padding: 12px; text-align: left; border-bottom: 2px solid #059669; font-weight: 700; font-size: 12px; color: #047857; text-transform: uppercase; letter-spacing: 0.5px; }
+  th { background: var(--brand-tint-faint); padding: 12px; text-align: left; border-bottom: 2px solid var(--brand); font-weight: 700; font-size: 12px; color: var(--brand-strong); text-transform: uppercase; letter-spacing: 0.5px; }
   td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; font-size: 14px; }
   tr:nth-child(even) td { background: #f8fafc; }
-  .summary { margin: 20px 0; padding: 18px 22px; background: linear-gradient(135deg, #ecfdf5, #f0fdfa); border-radius: 8px; border: 1px solid #a7f3d0; display: flex; justify-content: space-between; align-items: center; }
-  .summary .avg { font-size: 34px; font-weight: bold; color: #059669; line-height: 1; }
+  .summary { margin: 20px 0; padding: 18px 22px; background: linear-gradient(135deg, var(--brand-tint-faint), #f0fdfa); border-radius: 8px; border: 1px solid var(--brand-tint-soft); display: flex; justify-content: space-between; align-items: center; }
+  .summary .avg { font-size: 34px; font-weight: bold; color: var(--brand); line-height: 1; }
   .summary .lbl { font-size: 11px; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
   .remarks { margin: 20px 0; padding: 16px 20px; background: #fefce8; border-left: 4px solid #ca8a04; border-radius: 4px; font-size: 14px; line-height: 1.65; }
   .signature { margin-top: 72px; display: flex; justify-content: space-around; }
   .sig-line { border-top: 1.5px solid #475569; padding-top: 6px; width: 220px; font-size: 13px; color: #475569; text-align: center; }
   .footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid #cbd5e1; display: flex; justify-content: space-between; color: #64748b; font-size: 11px; font-family: Arial, sans-serif; }
   .status-pill { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
-  .status-Present { background: #d1fae5; color: #047857; }
+  .status-Present { background: var(--brand-tint-soft); color: var(--brand-strong); }
   .status-Late { background: #fef3c7; color: #92400e; }
   .status-Absent { background: #fee2e2; color: #b91c1c; }
   .note { margin: 16px 0; padding: 12px 16px; background: #f1f5f9; border-radius: 6px; font-size: 13px; color: #475569; font-style: italic; }
@@ -71,7 +71,7 @@ function remarksFor(avg: number): string {
 }
 
 function letterColor(score: number): string {
-  if (score >= 80) return '#059669'
+  if (score >= 80) return 'var(--brand)'
   if (score >= 65) return '#0d9488'
   if (score >= 50) return '#ca8a04'
   return '#dc2626'
@@ -203,7 +203,7 @@ function generateFeeStatement(student: Student, fees: Fee[]) {
     </div>
     <div class="summary">
       <div><div class="lbl">Total Billed</div><div class="avg" style="color:#0d9488">$${total.toLocaleString()}</div></div>
-      <div style="text-align:right"><div class="lbl">Outstanding Balance</div><div style="font-size:34px;font-weight:bold;color:${balance === 0 ? '#059669' : '#dc2626'}">$${balance.toLocaleString()}</div></div>
+      <div style="text-align:right"><div class="lbl">Outstanding Balance</div><div style="font-size:34px;font-weight:bold;color:${balance === 0 ? 'var(--brand)' : '#dc2626'}">$${balance.toLocaleString()}</div></div>
     </div>
     <h2 class="section">Transaction History</h2>
     <table>
@@ -467,16 +467,16 @@ export function ReportsView() {
     return (
       <div className="space-y-6">
         {/* Header */}
-        <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+        <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
           <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
           <CardContent className="relative p-6 sm:p-7">
             <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="flex items-center gap-1.5 text-sm font-medium text-emerald-50/90">
+                <p className="flex items-center gap-1.5 text-sm font-medium text-brand-foreground/90">
                   <FileText className="h-4 w-4" /> Reports &amp; Transcripts
                 </p>
                 <h2 className="mt-1.5 font-serif text-2xl font-bold tracking-tight sm:text-3xl">My Academic Reports</h2>
-                <p className="mt-1.5 text-sm text-emerald-50/85">Download your report card, attendance summary, and fee statement.</p>
+                <p className="mt-1.5 text-sm text-brand-foreground/85">Download your report card, attendance summary, and fee statement.</p>
               </div>
               <div className="flex shrink-0 gap-2">
                 <Button onClick={() => handleGenerate('card')} variant="secondary" className="border-0 bg-white/15 text-white backdrop-blur hover:bg-white/25">
@@ -498,7 +498,7 @@ export function ReportsView() {
           {/* Academic overview */}
           <Card className="lg:col-span-2">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base"><GraduationCap className="h-4 w-4 text-emerald-600" /> Academic Overview</CardTitle>
+              <CardTitle className="flex items-center gap-2 text-base"><GraduationCap className="h-4 w-4 text-brand" /> Academic Overview</CardTitle>
               <CardDescription>Your grades for {CURRENT_TERM}</CardDescription>
             </CardHeader>
             <CardContent>
@@ -508,12 +508,12 @@ export function ReportsView() {
                 <div className="space-y-2">
                   {grades.map((g) => (
                     <div key={g.id} className="flex items-center gap-3 rounded-lg border border-border p-3">
-                      <div className="flex h-10 w-12 items-center justify-center rounded-lg bg-emerald-100 font-bold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">{g.score}%</div>
+                      <div className="flex h-10 w-12 items-center justify-center rounded-lg bg-brand/10 font-bold text-brand-strong dark:bg-brand/15 dark:text-brand">{g.score}%</div>
                       <div className="flex-1">
                         <p className="text-sm font-medium">{g.subject}</p>
                         <p className="text-xs text-muted-foreground">{g.term}</p>
                       </div>
-                      <Badge variant="outline" className={cn('font-bold', g.score >= 80 ? 'text-emerald-600' : g.score >= 60 ? 'text-amber-600' : 'text-red-600')}>{scoreToLetter(g.score)}</Badge>
+                      <Badge variant="outline" className={cn('font-bold', g.score >= 80 ? 'text-brand' : g.score >= 60 ? 'text-amber-600' : 'text-red-600')}>{scoreToLetter(g.score)}</Badge>
                     </div>
                   ))}
                 </div>
@@ -525,11 +525,11 @@ export function ReportsView() {
           <div className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-base"><Download className="h-4 w-4 text-emerald-600" /> Download Center</CardTitle>
+                <CardTitle className="flex items-center gap-2 text-base"><Download className="h-4 w-4 text-brand" /> Download Center</CardTitle>
                 <CardDescription>Save or print official reports</CardDescription>
               </CardHeader>
               <CardContent className="space-y-2">
-                <Button onClick={() => handleGenerate('card')} className="w-full justify-start bg-emerald-600 text-white hover:bg-emerald-700">
+                <Button onClick={() => handleGenerate('card')} className="w-full justify-start bg-brand text-brand-foreground hover:bg-brand-strong">
                   <FileText className="h-4 w-4" /> Report Card
                 </Button>
                 <Button onClick={() => handleGenerate('attendance')} variant="outline" className="w-full justify-start">
@@ -545,9 +545,9 @@ export function ReportsView() {
               <CardHeader><CardTitle className="text-base">Account Summary</CardTitle></CardHeader>
               <CardContent className="space-y-3">
                 <SummaryRow icon={Wallet} label="Total Billed" value={`$${totalBilled.toLocaleString()}`} />
-                <SummaryRow icon={AlertCircle} label="Outstanding" value={`$${outstanding.toLocaleString()}`} valueClass={outstanding > 0 ? 'text-red-600' : 'text-emerald-600'} />
+                <SummaryRow icon={AlertCircle} label="Outstanding" value={`$${outstanding.toLocaleString()}`} valueClass={outstanding > 0 ? 'text-red-600' : 'text-brand'} />
                 <Separator />
-                <SummaryRow icon={todayAtt?.status === 'Present' ? CheckCircle2 : todayAtt?.status === 'Late' ? Clock : AlertCircle} label="Today's Attendance" value={todayAtt?.status ?? 'Not Recorded'} valueClass={todayAtt?.status === 'Present' ? 'text-emerald-600' : todayAtt?.status === 'Late' ? 'text-amber-600' : 'text-red-600'} />
+                <SummaryRow icon={todayAtt?.status === 'Present' ? CheckCircle2 : todayAtt?.status === 'Late' ? Clock : AlertCircle} label="Today's Attendance" value={todayAtt?.status ?? 'Not Recorded'} valueClass={todayAtt?.status === 'Present' ? 'text-brand' : todayAtt?.status === 'Late' ? 'text-amber-600' : 'text-red-600'} />
               </CardContent>
             </Card>
           </div>
@@ -562,15 +562,15 @@ export function ReportsView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative p-6 sm:p-7">
-          <p className="flex items-center gap-1.5 text-sm font-medium text-emerald-50/90">
+          <p className="flex items-center gap-1.5 text-sm font-medium text-brand-foreground/90">
             <FileBarChart className="h-4 w-4" /> Reports &amp; Transcripts
           </p>
           <h2 className="mt-1.5 font-serif text-2xl font-bold tracking-tight sm:text-3xl">Report Generation Center</h2>
-          <p className="mt-1.5 text-sm text-emerald-50/85">Generate printable report cards, attendance reports, fee statements, and class summaries.</p>
+          <p className="mt-1.5 text-sm text-brand-foreground/85">Generate printable report cards, attendance reports, fee statements, and class summaries.</p>
         </CardContent>
       </Card>
 
@@ -683,10 +683,10 @@ export function ReportsView() {
       </Tabs>
 
       {/* Generate button */}
-      <Card className="border-emerald-200 bg-emerald-50/50 dark:border-emerald-900/50 dark:bg-emerald-950/20">
+      <Card className="border-brand/25 bg-brand/5 dark:border-brand/40 dark:bg-brand/10">
         <CardContent className="flex flex-col items-start justify-between gap-3 p-5 sm:flex-row sm:items-center">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-600 text-white shadow">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand text-brand-foreground shadow">
               <Printer className="h-5 w-5" />
             </div>
             <div>
@@ -698,7 +698,7 @@ export function ReportsView() {
               </p>
             </div>
           </div>
-          <Button onClick={handleGenerate} className="bg-emerald-600 text-white hover:bg-emerald-700" disabled={reportType === 'class' ? !selectedClass : !selectedStudent}>
+          <Button onClick={handleGenerate} className="bg-brand text-brand-foreground hover:bg-brand-strong" disabled={reportType === 'class' ? !selectedClass : !selectedStudent}>
             <Download className="h-4 w-4" /> Generate &amp; Print
           </Button>
         </CardContent>
@@ -711,7 +711,7 @@ export function ReportsView() {
 
 function StatTile({ icon: Icon, label, value, sub, color }: { icon: any; label: string; value: string; sub: string; color: string }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     teal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
     amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     cyan: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',
@@ -723,7 +723,7 @@ function StatTile({ icon: Icon, label, value, sub, color }: { icon: any; label: 
         <div className="min-w-0">
           <p className="text-2xl font-bold">{value}</p>
           <p className="truncate text-xs font-medium text-muted-foreground">{label}</p>
-          <p className="truncate text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">{sub}</p>
+          <p className="truncate text-[10px] font-semibold text-brand dark:text-brand">{sub}</p>
         </div>
       </CardContent>
     </Card>
@@ -754,7 +754,7 @@ function ReportConfigCard({ title, description, icon: Icon, children }: { title:
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-base"><Icon className="h-4 w-4 text-emerald-600" /> {title}</CardTitle>
+        <CardTitle className="flex items-center gap-2 text-base"><Icon className="h-4 w-4 text-brand" /> {title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">{children}</CardContent>
@@ -787,7 +787,7 @@ function StudentPicker({
           placeholder="Search by name, email, or admission no..."
           className="pl-10"
         />
-        {selectedId && <Check className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-emerald-600" />}
+        {selectedId && <Check className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-brand" />}
         {open && (
           <>
             <div className="fixed inset-0 z-0" onClick={onClose} />
@@ -801,7 +801,7 @@ function StudentPicker({
                     onClick={() => onSelect(s)}
                     className={cn(
                       'flex w-full items-center gap-3 border-b border-border p-2.5 text-left transition last:border-b-0 hover:bg-muted',
-                      selectedId === s.id && 'bg-emerald-50 dark:bg-emerald-950/30',
+                      selectedId === s.id && 'bg-brand/5 dark:bg-brand/10',
                     )}
                   >
                     <UserAvatar name={s.name} avatar={s.avatar} role="Student" size="sm" />
@@ -809,7 +809,7 @@ function StudentPicker({
                       <p className="truncate text-sm font-medium">{s.name}</p>
                       <p className="truncate text-xs text-muted-foreground">{s.admissionNo} · {gradeToForm(s.grade)} · {s.className}</p>
                     </div>
-                    {selectedId === s.id && <Check className="h-4 w-4 text-emerald-600" />}
+                    {selectedId === s.id && <Check className="h-4 w-4 text-brand" />}
                   </button>
                 ))
               )}
@@ -837,7 +837,7 @@ function StudentPreviewCard({ student, loading, grades }: { student: Student; lo
           </div>
           <div className="flex gap-4 sm:flex-col sm:items-end">
             <div className="text-center">
-              <p className="text-2xl font-bold text-emerald-600">{grades.length ? `${avg}%` : '—'}</p>
+              <p className="text-2xl font-bold text-brand">{grades.length ? `${avg}%` : '—'}</p>
               <p className="text-[10px] uppercase tracking-wide text-muted-foreground">Average</p>
             </div>
             <div className="text-center">
@@ -868,7 +868,7 @@ function AttendancePreview({ student, attendance, loading }: { student: Student;
       </div>
       <div className="mt-3 grid grid-cols-3 gap-2 text-center">
         <div className="rounded-md bg-muted/60 p-2">
-          <p className="text-lg font-bold text-emerald-600">{rate}%</p>
+          <p className="text-lg font-bold text-brand">{rate}%</p>
           <p className="text-[10px] uppercase text-muted-foreground">Rate</p>
         </div>
         <div className="rounded-md bg-muted/60 p-2">
@@ -904,7 +904,7 @@ function FeePreview({ student, fees, loading }: { student: Student; fees: Fee[];
           fees.slice(0, 4).map((f) => (
             <div key={f.id} className="flex items-center justify-between rounded-md bg-muted/60 px-3 py-1.5 text-sm">
               <span className="text-muted-foreground">{f.term ?? '—'} · ${f.amount.toLocaleString()}</span>
-              <Badge variant="outline" className={f.status === 'Paid' ? 'text-emerald-600' : 'text-amber-600'}>{f.status}</Badge>
+              <Badge variant="outline" className={f.status === 'Paid' ? 'text-brand' : 'text-amber-600'}>{f.status}</Badge>
             </div>
           ))
         )}
@@ -912,7 +912,7 @@ function FeePreview({ student, fees, loading }: { student: Student; fees: Fee[];
       <Separator />
       <div className="flex justify-between text-sm">
         <span className="text-muted-foreground">Outstanding:</span>
-        <span className={cn('font-bold', pending > 0 ? 'text-red-600' : 'text-emerald-600')}>${pending.toLocaleString()}</span>
+        <span className={cn('font-bold', pending > 0 ? 'text-red-600' : 'text-brand')}>${pending.toLocaleString()}</span>
       </div>
     </div>
   )
@@ -943,7 +943,7 @@ function ClassPreview({
     <div className="rounded-lg border border-border bg-muted/30 p-4">
       <div className="mb-3 grid grid-cols-3 gap-2 text-center">
         <div className="rounded-md bg-muted/60 p-2">
-          <p className="text-lg font-bold text-emerald-600">{students.length}</p>
+          <p className="text-lg font-bold text-brand">{students.length}</p>
           <p className="text-[10px] uppercase text-muted-foreground">Students</p>
         </div>
         <div className="rounded-md bg-muted/60 p-2">
@@ -984,11 +984,11 @@ function ClassPreview({
                   </td>
                   <td className="p-2 text-center font-semibold">{avg || '—'}{avg ? '%' : ''}</td>
                   <td className="p-2 text-center">
-                    <Badge variant="outline" className={cn('font-bold', avg >= 80 ? 'text-emerald-600' : avg >= 60 ? 'text-amber-600' : avg > 0 ? 'text-red-600' : '')}>{letter}</Badge>
+                    <Badge variant="outline" className={cn('font-bold', avg >= 80 ? 'text-brand' : avg >= 60 ? 'text-amber-600' : avg > 0 ? 'text-red-600' : '')}>{letter}</Badge>
                   </td>
                   <td className="p-2 text-center">
                     {status !== '—' ? (
-                      <Badge variant="outline" className={status === 'Present' ? 'text-emerald-600' : status === 'Late' ? 'text-amber-600' : 'text-red-600'}>{status}</Badge>
+                      <Badge variant="outline" className={status === 'Present' ? 'text-brand' : status === 'Late' ? 'text-amber-600' : 'text-red-600'}>{status}</Badge>
                     ) : <span className="text-muted-foreground">—</span>}
                   </td>
                 </tr>

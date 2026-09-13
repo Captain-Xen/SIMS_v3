@@ -48,7 +48,7 @@ export function UserAvatar({ name, avatar, size = 'md', className, role }: UserA
       className={cn(
         'rounded-full flex items-center justify-center font-semibold text-white shadow-sm ring-2 ring-background',
         sizeMap[size],
-        isStudent ? 'bg-emerald-500' : 'bg-teal-600',
+        isStudent ? 'bg-brand' : 'bg-teal-600',
         className
       )}
     >

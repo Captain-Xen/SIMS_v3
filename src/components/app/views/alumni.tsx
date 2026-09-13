@@ -115,7 +115,7 @@ export function AlumniView() {
   return (
     <div className="space-y-6">
       {/* Header — polished emerald gradient banner */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
@@ -123,7 +123,7 @@ export function AlumniView() {
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">
               <GraduationCap className="h-7 w-7" /> Alumni
             </h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">
+            <p className="mt-1.5 text-sm text-brand-foreground/85">
               Directory of graduated students and their accomplishments.
             </p>
           </div>
@@ -185,7 +185,7 @@ export function AlumniView() {
           <CardContent className="flex h-64 flex-col items-center justify-center gap-2 text-muted-foreground">
             <GraduationCap className="h-10 w-10 opacity-40" />
             <p className="text-sm">No alumni found.</p>
-            <Button size="sm" onClick={() => setGraduating(true)} className="bg-emerald-600 text-white hover:bg-emerald-700">
+            <Button size="sm" onClick={() => setGraduating(true)} className="bg-brand text-brand-foreground hover:bg-brand-strong">
               <Plus className="h-4 w-4" /> Graduate a Student
             </Button>
           </CardContent>
@@ -220,8 +220,8 @@ export function AlumniView() {
 
 function AlumniCard({ alumnus, onViewProfile }: { alumnus: Alumni; onViewProfile: () => void }) {
   return (
-    <Card className="group overflow-hidden transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald-900/5">
-      <div className="h-1.5 w-full bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500" />
+    <Card className="group overflow-hidden transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/5">
+      <div className="h-1.5 w-full bg-gradient-to-r from-brand via-brand/70 to-brand-strong" />
       <CardContent className="space-y-3 p-5">
         {/* Header row */}
         <div className="flex items-start gap-3">
@@ -229,7 +229,7 @@ function AlumniCard({ alumnus, onViewProfile }: { alumnus: Alumni; onViewProfile
           <div className="min-w-0 flex-1">
             <h3 className="truncate font-semibold leading-snug">{alumnus.name}</h3>
             <div className="mt-1 flex flex-wrap items-center gap-1.5">
-              <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+              <Badge className="bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand">
                 <GraduationCap className="mr-1 h-3 w-3" /> Class of {alumnus.gradYear}
               </Badge>
               {alumnus.admissionNo && (
@@ -262,7 +262,7 @@ function AlumniCard({ alumnus, onViewProfile }: { alumnus: Alumni; onViewProfile
           {alumnus.email && (
             <a
               href={`mailto:${alumnus.email}`}
-              className="flex items-center gap-2 text-xs text-muted-foreground transition hover:text-emerald-600"
+              className="flex items-center gap-2 text-xs text-muted-foreground transition hover:text-brand"
             >
               <Mail className="h-3.5 w-3.5 shrink-0" />
               <span className="truncate">{alumnus.email}</span>
@@ -271,7 +271,7 @@ function AlumniCard({ alumnus, onViewProfile }: { alumnus: Alumni; onViewProfile
           {alumnus.phone && (
             <a
               href={`tel:${alumnus.phone}`}
-              className="flex items-center gap-2 text-xs text-muted-foreground transition hover:text-emerald-600"
+              className="flex items-center gap-2 text-xs text-muted-foreground transition hover:text-brand"
             >
               <Phone className="h-3.5 w-3.5 shrink-0" />
               <span>{alumnus.phone}</span>
@@ -293,7 +293,7 @@ function AlumniCard({ alumnus, onViewProfile }: { alumnus: Alumni; onViewProfile
         <Button
           size="sm"
           variant="outline"
-          className="w-full border-emerald-200 text-emerald-700 hover:bg-emerald-50 hover:text-emerald-800 dark:border-emerald-900 dark:text-emerald-300 dark:hover:bg-emerald-950/40"
+          className="w-full border-brand/25 text-brand-strong hover:bg-brand/5 hover:text-brand-strong dark:border-brand/30 dark:text-brand dark:hover:bg-brand/12"
           onClick={onViewProfile}
         >
           <UserCircle className="h-4 w-4" />
@@ -307,15 +307,15 @@ function AlumniCard({ alumnus, onViewProfile }: { alumnus: Alumni; onViewProfile
 
 function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: string; value: string; sub: string; color: string }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     teal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
     amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     cyan: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',
   }
   return (
-    <Card className="group overflow-hidden transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald-900/5">
+    <Card className="group overflow-hidden transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/5">
       <CardContent className="relative p-5">
-        <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br from-emerald-500/5 to-teal-500/5 transition group-hover:from-emerald-500/10 group-hover:to-teal-500/10" />
+        <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br from-brand/5 to-brand/5 transition group-hover:from-brand/10 group-hover:to-brand/10" />
         <div className="relative flex items-center justify-between">
           <div className={cn('flex h-11 w-11 items-center justify-center rounded-xl shadow-sm transition group-hover:scale-110', colors[color])}>
             <Icon className="h-5 w-5" />
@@ -324,7 +324,7 @@ function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: 
         </div>
         <p className="relative mt-3 text-2xl font-bold tracking-tight">{value}</p>
         <p className="relative text-xs font-medium text-muted-foreground">{label}</p>
-        <p className="relative mt-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">{sub}</p>
+        <p className="relative mt-1 text-[10px] font-semibold text-brand dark:text-brand">{sub}</p>
       </CardContent>
     </Card>
   )
@@ -385,7 +385,7 @@ function GraduateDialog({
       <DialogContent className="max-h-[92vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <GraduationCap className="h-4 w-4 text-emerald-600" /> Graduate a Student
+            <GraduationCap className="h-4 w-4 text-brand" /> Graduate a Student
           </DialogTitle>
           <DialogDescription>
             Mark an active student as graduated. They will be moved to the alumni directory.
@@ -414,7 +414,7 @@ function GraduateDialog({
                         onClick={() => setStudentId(s.id)}
                         className={cn(
                           'flex w-full items-center gap-3 p-3 text-left transition hover:bg-muted/50',
-                          studentId === s.id && 'bg-emerald-50 dark:bg-emerald-950/30'
+                          studentId === s.id && 'bg-brand/5 dark:bg-brand/10'
                         )}
                       >
                         <UserAvatar name={s.name} avatar={s.avatar} role="Student" size="sm" />
@@ -424,7 +424,7 @@ function GraduateDialog({
                             {s.admissionNo ?? '—'} · {gradeToForm(s.grade)} · {s.className ?? '—'}
                           </p>
                         </div>
-                        {studentId === s.id && <Sparkles className="h-4 w-4 text-emerald-600" />}
+                        {studentId === s.id && <Sparkles className="h-4 w-4 text-brand" />}
                       </button>
                     </li>
                   ))}
@@ -434,14 +434,14 @@ function GraduateDialog({
           </div>
 
           {selected && (
-            <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3 dark:border-emerald-900 dark:bg-emerald-950/30">
+            <div className="rounded-lg border border-brand/25 bg-brand/5 p-3 dark:border-brand/30 dark:bg-brand/10">
               <div className="flex items-center gap-2 text-sm">
-                <GraduationCap className="h-4 w-4 text-emerald-600" />
-                <span className="font-medium text-emerald-800 dark:text-emerald-300">
+                <GraduationCap className="h-4 w-4 text-brand" />
+                <span className="font-medium text-brand-strong dark:text-brand">
                   Ready to graduate {selected.name}
                 </span>
               </div>
-              <p className="mt-1 text-xs text-emerald-700/80 dark:text-emerald-300/70">
+              <p className="mt-1 text-xs text-brand-strong/80 dark:text-brand/70">
                 They will be marked as <span className="font-semibold">Graduated</span> and appear in the alumni directory.
               </p>
             </div>
@@ -450,7 +450,7 @@ function GraduateDialog({
 
         <DialogFooter>
           <Button variant="outline" onClick={onClose}><X className="h-4 w-4" /> Cancel</Button>
-          <Button onClick={graduate} disabled={saving || !studentId} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={graduate} disabled={saving || !studentId} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <GraduationCap className="h-4 w-4" />}
             Mark as Graduated
           </Button>

@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils'
 const CLASSES = ['7A', '7B', '8A', '8B', '9A', '9B', '10A', '10B', '11A', '11B', '12A', '12B']
 
 const SUBJECT_COLORS: Record<string, string> = {
-  Mathematics: 'bg-emerald-500',
+  Mathematics: 'bg-brand',
   English: 'bg-teal-500',
   Biology: 'bg-lime-500',
   History: 'bg-amber-500',
@@ -22,7 +22,7 @@ const SUBJECT_COLORS: Record<string, string> = {
   Chemistry: 'bg-violet-500',
   French: 'bg-pink-500',
   Geography: 'bg-orange-500',
-  'Information Technology': 'bg-emerald-600',
+  'Information Technology': 'bg-brand',
   'Principles of Business': 'bg-amber-600',
   'Principles of Accounts': 'bg-teal-600',
   'Physical Education': 'bg-lime-600',
@@ -107,20 +107,20 @@ export function SubjectsView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="overflow-hidden border-0 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white shadow-lg">
+      <Card className="overflow-hidden border-0 bg-gradient-to-r from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-lg">
         <CardContent className="flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center">
           <div>
             <h2 className="font-serif text-2xl font-bold sm:text-3xl">My Subjects</h2>
-            <p className="mt-1 text-sm text-emerald-50/80">Subjects you teach and the classes assigned to each</p>
+            <p className="mt-1 text-sm text-brand-foreground/80">Subjects you teach and the classes assigned to each</p>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="rounded-lg bg-white/10 px-4 py-2 text-center">
               <p className="text-2xl font-bold">{subjects.length}</p>
-              <p className="text-xs text-emerald-50/80">Subjects</p>
+              <p className="text-xs text-brand-foreground/80">Subjects</p>
             </div>
             <div className="rounded-lg bg-white/10 px-4 py-2 text-center">
               <p className="text-2xl font-bold">{subjects.length * 3}</p>
-              <p className="text-xs text-emerald-50/80">Class sections</p>
+              <p className="text-xs text-brand-foreground/80">Class sections</p>
             </div>
           </div>
         </CardContent>
@@ -128,7 +128,7 @@ export function SubjectsView() {
 
       {/* Summary */}
       <div className="grid gap-4 sm:grid-cols-3">
-        <Card><CardContent className="flex items-center gap-3 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300"><BookOpen className="h-5 w-5" /></div><div><p className="text-2xl font-bold">{subjects.length}</p><p className="text-xs text-muted-foreground">Subjects</p></div></CardContent></Card>
+        <Card><CardContent className="flex items-center gap-3 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand"><BookOpen className="h-5 w-5" /></div><div><p className="text-2xl font-bold">{subjects.length}</p><p className="text-xs text-muted-foreground">Subjects</p></div></CardContent></Card>
         <Card><CardContent className="flex items-center gap-3 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300"><Layers className="h-5 w-5" /></div><div><p className="text-2xl font-bold">{subjects.length * 3}</p><p className="text-xs text-muted-foreground">Class sections</p></div></CardContent></Card>
         <Card><CardContent className="flex items-center gap-3 p-4"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300"><Users className="h-5 w-5" /></div><div><p className="text-2xl font-bold">{totalStudents}</p><p className="text-xs text-muted-foreground">Students taught</p></div></CardContent></Card>
       </div>
@@ -169,17 +169,17 @@ export function SubjectsView() {
                     <button
                       key={c}
                       onClick={() => setActiveView('grades')}
-                      className="flex w-full items-center justify-between rounded-lg border border-border p-3 text-left transition hover:border-emerald-300 hover:bg-muted/40"
+                      className="flex w-full items-center justify-between rounded-lg border border-border p-3 text-left transition hover:border-brand/35 hover:bg-muted/40"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-100 font-bold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">{c}</div>
+                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand/10 font-bold text-brand-strong dark:bg-brand/15 dark:text-brand">{c}</div>
                         <div>
                           <p className="text-sm font-medium">Class {c}</p>
                           <p className="text-xs text-muted-foreground">{classStudentCounts.get(c) ?? 0} students</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Badge variant="outline" className="text-emerald-600">View grades</Badge>
+                        <Badge variant="outline" className="text-brand">View grades</Badge>
                         <ChevronRight className="h-4 w-4 text-muted-foreground" />
                       </div>
                     </button>

@@ -265,13 +265,13 @@ export function AppShell() {
             onClick={() => setActiveView('dashboard')}
             className="flex h-16 items-center gap-3 border-b border-sidebar-border px-4 hover:bg-sidebar-accent/50"
           >
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-md">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-brand to-brand-strong text-brand-foreground shadow-md">
               {settings?.logo ? <img src={settings.logo} alt="School" className="h-full w-full object-cover" /> : <GraduationCap className="h-5 w-5" />}
             </div>
             {!sidebarCollapsed && (
               <div className="min-w-0 text-left">
                 <p className="truncate font-serif text-base font-bold leading-tight">
-                  <span className="text-emerald-600 dark:text-emerald-400">Edu</span>Center<span className="text-emerald-600 dark:text-emerald-400">JM</span>
+                  <span className="text-brand dark:text-brand">Edu</span>Center<span className="text-brand dark:text-brand">JM</span>
                 </p>
                 <p className="truncate text-[10px] text-muted-foreground">{user.role} Portal</p>
               </div>
@@ -290,7 +290,7 @@ export function AppShell() {
                   title={sidebarCollapsed ? item.label : undefined}
                   className={cn(
                     'group relative flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all',
-                    active ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/25' : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground',
+                    active ? 'bg-brand text-brand-foreground shadow-md shadow-brand/25' : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground',
                     sidebarCollapsed && 'justify-center'
                   )}
                 >
@@ -300,7 +300,7 @@ export function AppShell() {
                   <Icon className={cn('h-5 w-5 shrink-0 transition-transform', active ? 'scale-110' : 'group-hover:scale-105')} />
                   {!sidebarCollapsed && <span className="truncate">{item.label}</span>}
                   {item.id === 'notifications' && unreadCount > 0 && !sidebarCollapsed && (
-                    <Badge className="ml-auto bg-red-500 px-1.5 py-0 text-[10px] text-white ring-2 ring-emerald-600/50">{unreadCount > 9 ? '9+' : unreadCount}</Badge>
+                    <Badge className="ml-auto bg-red-500 px-1.5 py-0 text-[10px] text-white ring-2 ring-brand/50">{unreadCount > 9 ? '9+' : unreadCount}</Badge>
                   )}
                   {item.id === 'notifications' && unreadCount > 0 && sidebarCollapsed && (
                     <span className="absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-sidebar" />
@@ -387,7 +387,7 @@ export function AppShell() {
       <footer className="relative z-10 shrink-0 border-t border-border bg-card/95 px-4 py-2.5 text-xs text-foreground/60 backdrop-blur lg:px-6">
         <div className="flex flex-col items-center justify-between gap-1 sm:flex-row">
           <p className="flex items-center gap-1.5">
-            <GraduationCap className="h-3.5 w-3.5 text-emerald-600" />
+            <GraduationCap className="h-3.5 w-3.5 text-brand" />
             <span className="font-medium text-foreground/80">EduCenterJM</span>
             <span className="text-foreground/40">·</span>
             <span>© {new Date().getFullYear()} Secondary School Management System</span>
@@ -402,11 +402,11 @@ export function AppShell() {
       <Sheet open={mobileNavOpen} onOpenChange={setMobileNavOpen}>
         <SheetContent side="left" className="w-72 p-0">
           <SheetHeader className="h-16 flex flex-row items-center gap-3 border-b border-sidebar-border px-4">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-md">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-brand to-brand-strong text-brand-foreground shadow-md">
               {settings?.logo ? <img src={settings.logo} alt="School" className="h-full w-full object-cover" /> : <GraduationCap className="h-5 w-5" />}
             </div>
             <SheetTitle className="font-serif text-base font-bold">
-              <span className="text-emerald-600 dark:text-emerald-400">Edu</span>Center<span className="text-emerald-600 dark:text-emerald-400">JM</span>
+              <span className="text-brand dark:text-brand">Edu</span>Center<span className="text-brand dark:text-brand">JM</span>
             </SheetTitle>
           </SheetHeader>
           <nav className="flex-1 space-y-1 overflow-y-auto p-3">
@@ -419,7 +419,7 @@ export function AppShell() {
                   onClick={() => handleNavClick(item.id)}
                   className={cn(
                     'group relative flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
-                    active ? 'bg-emerald-600 text-white shadow-sm shadow-emerald-600/20' : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
+                    active ? 'bg-brand text-brand-foreground shadow-sm shadow-brand/20' : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
                   )}
                 >
                   <Icon className="h-5 w-5 shrink-0" />
@@ -476,7 +476,7 @@ export function AppShell() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <Button onClick={() => { setIdleWarning(false); if (idleTimer.current) clearTimeout(idleTimer.current); idleTimer.current = setTimeout(() => setIdleWarning(true), IDLE_LIMIT) }} className="bg-emerald-600 text-white hover:bg-emerald-700">
+            <Button onClick={() => { setIdleWarning(false); if (idleTimer.current) clearTimeout(idleTimer.current); idleTimer.current = setTimeout(() => setIdleWarning(true), IDLE_LIMIT) }} className="bg-brand text-brand-foreground hover:bg-brand-strong">
               Stay logged in
             </Button>
           </AlertDialogFooter>

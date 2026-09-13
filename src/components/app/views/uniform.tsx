@@ -26,8 +26,8 @@ const CATEGORIES = ['Shirt', 'Pants', 'Skirt', 'Tie', 'Blazer', 'Socks', 'Shoes'
 
 const CATEGORY_STYLES: Record<string, { badge: string; bar: string }> = {
   Shirt: {
-    badge: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
-    bar: 'bg-emerald-500',
+    badge: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
+    bar: 'bg-brand',
   },
   Pants: {
     badge: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
@@ -70,7 +70,7 @@ const formatMoney = (cents: number) => '$' + (cents / 100).toFixed(2)
 function stockColor(stock: number): string {
   if (stock < 5) return 'text-rose-600 dark:text-rose-400'
   if (stock < 15) return 'text-amber-600 dark:text-amber-400'
-  return 'text-emerald-600 dark:text-emerald-400'
+  return 'text-brand dark:text-brand'
 }
 
 function formatDate(date: string): string {
@@ -203,7 +203,7 @@ export function UniformView() {
               <Card className="h-full">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-base">
-                    <PackageCheck className="h-4 w-4 text-emerald-600" /> My Uniforms
+                    <PackageCheck className="h-4 w-4 text-brand" /> My Uniforms
                   </CardTitle>
                   <CardDescription>Your issued uniform items</CardDescription>
                 </CardHeader>
@@ -224,7 +224,7 @@ export function UniformView() {
                                 Size {a.size} · Qty {a.quantity}
                               </p>
                             </div>
-                            <Badge variant={a.status === 'Issued' ? 'default' : 'secondary'} className={a.status === 'Issued' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300' : 'bg-muted text-muted-foreground'}>
+                            <Badge variant={a.status === 'Issued' ? 'default' : 'secondary'} className={a.status === 'Issued' ? 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand' : 'bg-muted text-muted-foreground'}>
                               {a.status}
                             </Badge>
                           </div>
@@ -244,7 +244,7 @@ export function UniformView() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-base">
-                    <ShoppingBag className="h-4 w-4 text-emerald-600" /> Uniform Catalog
+                    <ShoppingBag className="h-4 w-4 text-brand" /> Uniform Catalog
                   </CardTitle>
                   <CardDescription>Available uniform items</CardDescription>
                 </CardHeader>
@@ -267,7 +267,7 @@ export function UniformView() {
                                   {it.category}
                                 </span>
                               </div>
-                              <p className="shrink-0 text-sm font-bold text-emerald-600 dark:text-emerald-400">
+                              <p className="shrink-0 text-sm font-bold text-brand dark:text-brand">
                                 {formatMoney(it.price)}
                               </p>
                             </div>
@@ -319,10 +319,10 @@ export function UniformView() {
           <div>
             <div className="mb-3 flex items-center justify-between">
               <h3 className="flex items-center gap-2 text-sm font-semibold">
-                <Package className="h-4 w-4 text-emerald-600" /> Uniform Items
+                <Package className="h-4 w-4 text-brand" /> Uniform Items
               </h3>
               {canManage && (
-                <Button size="sm" onClick={() => setIssuing(true)} className="bg-emerald-600 text-white hover:bg-emerald-700">
+                <Button size="sm" onClick={() => setIssuing(true)} className="bg-brand text-brand-foreground hover:bg-brand-strong">
                   <ArrowRight className="h-4 w-4" /> Issue Uniform
                 </Button>
               )}
@@ -332,7 +332,7 @@ export function UniformView() {
                 <CardContent className="flex h-48 flex-col items-center justify-center gap-2 p-0 text-muted-foreground">
                   <Package className="h-10 w-10 opacity-40" />
                   <p className="text-sm">No uniform items yet.</p>
-                  {canManage && <p className="text-xs text-emerald-600">Click &ldquo;Add Item&rdquo; to create one.</p>}
+                  {canManage && <p className="text-xs text-brand">Click &ldquo;Add Item&rdquo; to create one.</p>}
                 </CardContent>
               </Card>
             ) : (
@@ -350,7 +350,7 @@ export function UniformView() {
                               {it.category}
                             </span>
                           </div>
-                          <p className="shrink-0 text-sm font-bold text-emerald-600 dark:text-emerald-400">
+                          <p className="shrink-0 text-sm font-bold text-brand dark:text-brand">
                             {formatMoney(it.price)}
                           </p>
                         </div>
@@ -408,7 +408,7 @@ export function UniformView() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base">
-                <Users className="h-4 w-4 text-emerald-600" /> Uniform Allocations
+                <Users className="h-4 w-4 text-brand" /> Uniform Allocations
               </CardTitle>
               <CardDescription>All issued and returned uniforms</CardDescription>
             </CardHeader>
@@ -447,7 +447,7 @@ export function UniformView() {
                           </td>
                           <td className="p-3 font-medium">{a.quantity}</td>
                           <td className="p-3">
-                            <Badge variant={a.status === 'Issued' ? 'default' : 'secondary'} className={a.status === 'Issued' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300' : 'bg-muted text-muted-foreground'}>
+                            <Badge variant={a.status === 'Issued' ? 'default' : 'secondary'} className={a.status === 'Issued' ? 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand' : 'bg-muted text-muted-foreground'}>
                               {a.status}
                             </Badge>
                           </td>
@@ -501,7 +501,7 @@ export function UniformView() {
 
 function UniformHeader({ canManage, onAdd }: { canManage: boolean; onAdd: () => void }) {
   return (
-    <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+    <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
       <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
       <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
       <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
@@ -509,7 +509,7 @@ function UniformHeader({ canManage, onAdd }: { canManage: boolean; onAdd: () => 
           <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">
             <Shirt className="h-7 w-7" /> Uniform Management
           </h2>
-          <p className="mt-1.5 text-sm text-emerald-50/85">
+          <p className="mt-1.5 text-sm text-brand-foreground/85">
             Track uniform items, sizes, and student allocations.
           </p>
         </div>
@@ -525,7 +525,7 @@ function UniformHeader({ canManage, onAdd }: { canManage: boolean; onAdd: () => 
 
 function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: string; value: string; sub: string; color: string }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     teal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
     amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     red: 'bg-rose-100 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300',
@@ -533,9 +533,9 @@ function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: 
     slate: 'bg-slate-100 text-slate-700 dark:bg-slate-800/60 dark:text-slate-300',
   }
   return (
-    <Card className="group transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald-900/5">
+    <Card className="group transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/5">
       <CardContent className="relative p-5">
-        <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br from-emerald-500/5 to-teal-500/5 transition group-hover:from-emerald-500/10 group-hover:to-teal-500/10" />
+        <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br from-brand/5 to-brand/5 transition group-hover:from-brand/10 group-hover:to-brand/10" />
         <div className="relative flex items-center justify-between">
           <div className={cn('flex h-11 w-11 items-center justify-center rounded-xl shadow-sm transition group-hover:scale-110', colors[color])}>
             <Icon className="h-5 w-5" />
@@ -544,7 +544,7 @@ function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: 
         </div>
         <p className="relative mt-3 text-2xl font-bold tracking-tight">{value}</p>
         <p className="relative text-xs font-medium text-muted-foreground">{label}</p>
-        <p className="relative mt-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">{sub}</p>
+        <p className="relative mt-1 text-[10px] font-semibold text-brand dark:text-brand">{sub}</p>
       </CardContent>
     </Card>
   )
@@ -606,7 +606,7 @@ function ItemDialog({ item, onClose, onSaved }: { item: UniformItemWithAllocated
       <DialogContent className="max-h-[90vh] max-w-lg overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Plus className="h-4 w-4 text-emerald-600" /> {item ? 'Edit Item' : 'Add Item'}
+            <Plus className="h-4 w-4 text-brand" /> {item ? 'Edit Item' : 'Add Item'}
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-2">
@@ -641,7 +641,7 @@ function ItemDialog({ item, onClose, onSaved }: { item: UniformItemWithAllocated
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}><X className="h-4 w-4" /> Cancel</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             {item ? 'Save Changes' : 'Add Item'}
           </Button>
@@ -722,7 +722,7 @@ function IssueDialog({ items, onClose, onSaved }: { items: UniformItemWithAlloca
       <DialogContent className="max-h-[90vh] max-w-lg overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <ArrowRight className="h-4 w-4 text-emerald-600" /> Issue Uniform
+            <ArrowRight className="h-4 w-4 text-brand" /> Issue Uniform
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-2">
@@ -786,7 +786,7 @@ function IssueDialog({ items, onClose, onSaved }: { items: UniformItemWithAlloca
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}><X className="h-4 w-4" /> Cancel</Button>
-          <Button onClick={issue} disabled={saving || !uniformId || !userId} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={issue} disabled={saving || !uniformId || !userId} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             Issue Uniform
           </Button>

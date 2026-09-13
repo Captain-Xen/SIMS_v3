@@ -22,7 +22,7 @@ import { cn } from '@/lib/utils'
 const PURPOSES = ['Meeting', 'Delivery', 'Maintenance', 'Parent Visit', 'Other'] as const
 
 const PURPOSE_STYLES: Record<string, string> = {
-  Meeting: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+  Meeting: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
   Delivery: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
   Maintenance: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
   'Parent Visit': 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',
@@ -167,12 +167,12 @@ export function VisitorsView() {
   <style>
     * { box-sizing: border-box; }
     body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; margin: 0; padding: 32px; color: #0f172a; background: #fff; }
-    .pass { max-width: 480px; margin: 0 auto; border: 2px dashed #10b981; border-radius: 14px; overflow: hidden; }
-    .header { background: linear-gradient(135deg, #059669, #0d9488 60%, #0e7490); color: #fff; padding: 20px 24px; text-align: center; }
+    .pass { max-width: 480px; margin: 0 auto; border: 2px dashed var(--chart-1); border-radius: 14px; overflow: hidden; }
+    .header { background: linear-gradient(135deg, var(--brand), #0d9488 60%, #0e7490); color: #fff; padding: 20px 24px; text-align: center; }
     .header h1 { margin: 0; font-size: 20px; letter-spacing: 0.3px; }
     .header .sub { margin-top: 4px; font-size: 12px; opacity: 0.9; text-transform: uppercase; letter-spacing: 1.5px; }
     .body { padding: 22px 24px; }
-    .gp-no { display: inline-block; background: #ecfdf5; color: #047857; font-weight: 700; padding: 6px 12px; border-radius: 8px; font-size: 13px; letter-spacing: 0.5px; border: 1px solid #a7f3d0; }
+    .gp-no { display: inline-block; background: var(--brand-tint-faint); color: var(--brand-strong); font-weight: 700; padding: 6px 12px; border-radius: 8px; font-size: 13px; letter-spacing: 0.5px; border: 1px solid var(--brand-tint-soft); }
     .row { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
     .row:last-child { border-bottom: none; }
     .label { color: #64748b; font-weight: 500; }
@@ -181,8 +181,8 @@ export function VisitorsView() {
     .sign { display: flex; justify-content: space-between; margin-top: 22px; }
     .sign-box { flex: 1; text-align: center; }
     .sign-line { border-top: 1.5px solid #94a3b8; padding-top: 6px; font-size: 12px; color: #475569; margin: 36px 12px 0; }
-    .title { font-size: 18px; font-weight: 700; margin: 18px 0 4px; text-align: center; color: #047857; text-transform: uppercase; letter-spacing: 1px; }
-    @media print { body { padding: 0; } .pass { border: 2px dashed #10b981; } }
+    .title { font-size: 18px; font-weight: 700; margin: 18px 0 4px; text-align: center; color: var(--brand-strong); text-transform: uppercase; letter-spacing: 1px; }
+    @media print { body { padding: 0; } .pass { border: 2px dashed var(--chart-1); } }
   </style>
 </head>
 <body>
@@ -223,7 +223,7 @@ export function VisitorsView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
@@ -231,7 +231,7 @@ export function VisitorsView() {
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">
               <UserCheck className="h-7 w-7" /> Visitor Management
             </h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">
+            <p className="mt-1.5 text-sm text-brand-foreground/85">
               Check in visitors, track gate passes, and manage visitor logs.
             </p>
           </div>
@@ -259,7 +259,7 @@ export function VisitorsView() {
             className={cn(
               'rounded-full px-4 py-1.5 text-sm font-medium transition',
               tab === t.id
-                ? 'bg-emerald-600 text-white shadow-sm'
+                ? 'bg-brand text-brand-foreground shadow-sm'
                 : 'bg-muted text-muted-foreground hover:bg-muted/70 hover:text-foreground'
             )}
           >
@@ -285,7 +285,7 @@ export function VisitorsView() {
               <p className="text-sm">
                 {tab === 'CheckedIn' ? 'No visitors currently checked in.' : tab === 'CheckedOut' ? 'No checked-out records.' : 'No visitor records yet.'}
               </p>
-              <Button size="sm" variant="outline" onClick={() => setAdding(true)} className="mt-2 border-emerald-300 text-emerald-700 hover:bg-emerald-50">
+              <Button size="sm" variant="outline" onClick={() => setAdding(true)} className="mt-2 border-brand/35 text-brand-strong hover:bg-brand/5">
                 <Plus className="h-4 w-4" /> Check In Visitor
               </Button>
             </div>
@@ -340,16 +340,16 @@ export function VisitorsView() {
                           )}
                         </td>
                         <td className="p-3">
-                          <Badge variant="outline" className="border-emerald-300 font-mono text-[11px] text-emerald-700 dark:border-emerald-700 dark:text-emerald-300">
+                          <Badge variant="outline" className="border-brand/35 font-mono text-[11px] text-brand-strong dark:border-brand/50 dark:text-brand">
                             {v.gatePassNo ?? '—'}
                           </Badge>
                         </td>
                         <td className="p-3">
                           {isCheckedIn ? (
-                            <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-100 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+                            <span className="inline-flex items-center gap-1.5 rounded-md bg-brand/10 px-2 py-0.5 text-[11px] font-semibold text-brand-strong dark:bg-brand/15 dark:text-brand">
                               <span className="relative flex h-2 w-2">
-                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand/60 opacity-75" />
+                                <span className="relative inline-flex h-2 w-2 rounded-full bg-brand" />
                               </span>
                               Checked In
                             </span>
@@ -369,7 +369,7 @@ export function VisitorsView() {
                                 title="Print gate pass"
                                 onClick={() => printGatePass(v)}
                               >
-                                <Printer className="h-4 w-4 text-emerald-600" />
+                                <Printer className="h-4 w-4 text-brand" />
                               </Button>
                             )}
                             {isCheckedIn && (
@@ -413,15 +413,15 @@ export function VisitorsView() {
 
 function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: string; value: string; sub: string; color: string }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     teal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
     amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     cyan: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',
   }
   return (
-    <Card className="group transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald-900/5">
+    <Card className="group transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/5">
       <CardContent className="relative p-5">
-        <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br from-emerald-500/5 to-teal-500/5 transition group-hover:from-emerald-500/10 group-hover:to-teal-500/10" />
+        <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br from-brand/5 to-brand/5 transition group-hover:from-brand/10 group-hover:to-brand/10" />
         <div className="relative flex items-center justify-between">
           <div className={cn('flex h-11 w-11 items-center justify-center rounded-xl shadow-sm transition group-hover:scale-110', colors[color])}>
             <Icon className="h-5 w-5" />
@@ -430,7 +430,7 @@ function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: 
         </div>
         <p className="relative mt-3 text-2xl font-bold tracking-tight">{value}</p>
         <p className="relative text-xs font-medium text-muted-foreground">{label}</p>
-        <p className="relative mt-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">{sub}</p>
+        <p className="relative mt-1 text-[10px] font-semibold text-brand dark:text-brand">{sub}</p>
       </CardContent>
     </Card>
   )
@@ -480,7 +480,7 @@ function CheckInDialog({ onClose, onSaved }: { onClose: () => void; onSaved: () 
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <UserCheck className="h-4 w-4 text-emerald-600" /> Check In Visitor
+            <UserCheck className="h-4 w-4 text-brand" /> Check In Visitor
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-2">
@@ -516,7 +516,7 @@ function CheckInDialog({ onClose, onSaved }: { onClose: () => void; onSaved: () 
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}><X className="h-4 w-4" /> Cancel</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             Check In
           </Button>

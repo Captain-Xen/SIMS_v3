@@ -140,7 +140,7 @@ export function ProfileView() {
       </tr>`).join('')
     win.document.write(`
       <html><head><title>Report Card - ${profile.name}</title>
-      <style>body{font-family:Arial,sans-serif;padding:40px;color:#1e293b}h1{color:#059669}</style>
+      <style>body{font-family:Arial,sans-serif;padding:40px;color:#1e293b}h1{color:var(--brand)}</style>
       </head><body>
       <h1>EduCenterJM</h1>
       <h2>Semester Report Card</h2>
@@ -180,7 +180,7 @@ export function ProfileView() {
     <div className="mx-auto max-w-5xl space-y-6">
       {/* Header card with avatar + picture upload */}
       <Card className="overflow-hidden border-0 shadow-lg">
-        <div className="h-32 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500" />
+        <div className="h-32 bg-gradient-to-r from-brand via-brand/70 to-brand-strong" />
         <CardContent className="relative px-6 pb-6">
           <div className="-mt-16 flex flex-col items-start gap-4 sm:flex-row sm:items-end">
             <div className="relative group">
@@ -190,7 +190,7 @@ export function ProfileView() {
                   <button
                     onClick={() => fileRef.current?.click()}
                     disabled={uploading}
-                    className="absolute bottom-1 right-1 flex h-9 w-9 items-center justify-center rounded-full border-2 border-card bg-emerald-600 text-white shadow-lg transition hover:bg-emerald-700 disabled:opacity-60"
+                    className="absolute bottom-1 right-1 flex h-9 w-9 items-center justify-center rounded-full border-2 border-card bg-brand text-brand-foreground shadow-lg transition hover:bg-brand-strong disabled:opacity-60"
                     title="Upload profile picture"
                   >
                     {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Camera className="h-4 w-4" />}
@@ -208,7 +208,7 @@ export function ProfileView() {
             <div className="flex-1 pb-2">
               <div className="flex items-center gap-2">
                 <h2 className="font-serif text-2xl font-bold">{profile.name}</h2>
-                <Badge className={isStudent ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300' : 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300'}>
+                <Badge className={isStudent ? 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand' : 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300'}>
                   {profile.role}
                 </Badge>
                 {profile.status !== 'Active' && <Badge variant="destructive">{profile.status}</Badge>}
@@ -222,7 +222,7 @@ export function ProfileView() {
                 <>
                   {editing ? (
                     <>
-                      <Button onClick={saveProfile} size="sm" className="bg-emerald-600 text-white hover:bg-emerald-700"><Save className="h-4 w-4" /> Save</Button>
+                      <Button onClick={saveProfile} size="sm" className="bg-brand text-brand-foreground hover:bg-brand-strong"><Save className="h-4 w-4" /> Save</Button>
                       <Button onClick={() => { setEditing(false); setEditForm({ name: user.name, bio: user.bio ?? '', phone: user.phone ?? '' }) }} size="sm" variant="outline"><X className="h-4 w-4" /> Cancel</Button>
                     </>
                   ) : (
@@ -332,12 +332,12 @@ export function ProfileView() {
                     <div className="space-y-2">
                       {grades.map((g) => (
                         <div key={g.id} className="flex items-center gap-3 rounded-lg border border-border p-3">
-                          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 font-bold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">{g.score}%</div>
+                          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand/10 font-bold text-brand-strong dark:bg-brand/15 dark:text-brand">{g.score}%</div>
                           <div className="flex-1">
                             <p className="text-sm font-medium">{g.subject}</p>
                             <p className="text-xs text-muted-foreground">{g.term}</p>
                           </div>
-                          <Badge variant="outline" className={cn('font-bold', g.score >= 80 ? 'text-emerald-600' : g.score >= 60 ? 'text-amber-600' : 'text-red-600')}>{scoreToLetter(g.score)}</Badge>
+                          <Badge variant="outline" className={cn('font-bold', g.score >= 80 ? 'text-brand' : g.score >= 60 ? 'text-amber-600' : 'text-red-600')}>{scoreToLetter(g.score)}</Badge>
                         </div>
                       ))}
                     </div>
@@ -385,7 +385,7 @@ export function ProfileView() {
                         <p className="text-sm font-medium">{a.title}</p>
                         <p className="text-xs text-muted-foreground">{a.subject} · due {a.dueDate}</p>
                       </div>
-                      {a.submissionStatus ? <Badge variant="outline" className={a.submissionStatus === 'Graded' ? 'text-emerald-600' : 'text-amber-600'}>{a.submissionStatus}</Badge> : <Badge variant="outline">Pending</Badge>}
+                      {a.submissionStatus ? <Badge variant="outline" className={a.submissionStatus === 'Graded' ? 'text-brand' : 'text-amber-600'}>{a.submissionStatus}</Badge> : <Badge variant="outline">Pending</Badge>}
                     </div>
                   ))}
                 </div>
@@ -450,7 +450,7 @@ function InfoRow({ icon: Icon, label, value }: { icon: any; label: string; value
 
 function StatCard({ icon: Icon, label, value, color }: { icon: any; label: string; value: string; color: string }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     teal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
     amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
   }

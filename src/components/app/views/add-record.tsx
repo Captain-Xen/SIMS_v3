@@ -34,14 +34,14 @@ function Field({ label, icon: Icon, children }: { label: string; icon?: any; chi
 export function AddRecordView() {
   return (
     <div className="mx-auto max-w-3xl space-y-6">
-      <Card className="overflow-hidden border-0 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white shadow-lg">
+      <Card className="overflow-hidden border-0 bg-gradient-to-r from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-lg">
         <CardContent className="flex items-center gap-4 p-6">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20">
             <UserPlus className="h-6 w-6" />
           </div>
           <div>
             <h2 className="font-serif text-2xl font-bold">Add Record</h2>
-            <p className="mt-0.5 text-sm text-emerald-50/80">Quickly register a new student or staff member</p>
+            <p className="mt-0.5 text-sm text-brand-foreground/80">Quickly register a new student or staff member</p>
           </div>
         </CardContent>
       </Card>
@@ -96,7 +96,7 @@ function StudentForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-base"><User className="h-4 w-4 text-emerald-600" /> New Student</CardTitle>
+        <CardTitle className="flex items-center gap-2 text-base"><User className="h-4 w-4 text-brand" /> New Student</CardTitle>
         <CardDescription>Fill in the details below</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -114,7 +114,7 @@ function StudentForm() {
         </div>
         <div className="flex justify-end gap-2">
           <Button variant="outline" onClick={reset}><RotateCcw className="h-4 w-4" /> Reset</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
             Add Student
           </Button>
@@ -164,7 +164,7 @@ function StaffForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-base"><BadgeCheck className="h-4 w-4 text-emerald-600" /> New Staff Member</CardTitle>
+        <CardTitle className="flex items-center gap-2 text-base"><BadgeCheck className="h-4 w-4 text-brand" /> New Staff Member</CardTitle>
         <CardDescription>Fill in the details below</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -179,7 +179,7 @@ function StaffForm() {
         <Field label="Subjects (comma-separated)"><Input value={subjectsText} onChange={(e) => setSubjectsText(e.target.value)} placeholder="Mathematics, Physics" /></Field>
         <div className="flex justify-end gap-2">
           <Button variant="outline" onClick={reset}><RotateCcw className="h-4 w-4" /> Reset</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
             Add Staff
           </Button>
@@ -191,12 +191,12 @@ function StaffForm() {
 
 function SuccessCard({ title, name, onReset }: { title: string; name: string; onReset: () => void }) {
   return (
-    <Card className="border-emerald-300 dark:border-emerald-900">
+    <Card className="border-brand/35 dark:border-brand/30">
       <CardContent className="flex flex-col items-center gap-3 p-8 text-center">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-950/50">
-          <CheckCircle2 className="h-9 w-9 text-emerald-600" />
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand/10 dark:bg-brand/15">
+          <CheckCircle2 className="h-9 w-9 text-brand" />
         </div>
-        <p className="text-lg font-bold text-emerald-700 dark:text-emerald-300">{title}</p>
+        <p className="text-lg font-bold text-brand-strong dark:text-brand">{title}</p>
         <p className="text-sm text-muted-foreground"><strong>{name}</strong> has been added to the system.</p>
         <Button variant="outline" onClick={onReset}><RotateCcw className="h-4 w-4" /> Add Another</Button>
       </CardContent>

@@ -41,7 +41,7 @@ const FEATURE_LINKS: FeatureLink[] = [
 ]
 
 const colorMap: Record<string, string> = {
-  emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+  emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
   teal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
   amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
   cyan: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',
@@ -190,16 +190,16 @@ export function HelpView() {
   return (
     <div className="space-y-6">
       {/* Welcome hero */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 left-1/4 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative p-6 sm:p-8">
           <div className="flex items-start gap-2">
-            <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-emerald-100" />
+            <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-brand-foreground" />
             <div>
-              <p className="text-sm font-medium text-emerald-50/90">Help Center &amp; Onboarding</p>
+              <p className="text-sm font-medium text-brand-foreground/90">Help Center &amp; Onboarding</p>
               <h2 className="mt-1 font-serif text-2xl font-bold tracking-tight sm:text-3xl">Welcome to {contact.name}, {user.name.split(' ')[0]}!</h2>
-              <p className="mt-2 max-w-2xl text-sm text-emerald-50/85">
+              <p className="mt-2 max-w-2xl text-sm text-brand-foreground/85">
                 {contact.name} is a complete school management platform — grades, attendance, fees, library,
                 messaging, assignments, and more, all in one place. This guide will help you get the most out of it.
               </p>
@@ -229,7 +229,7 @@ export function HelpView() {
             <ol className="space-y-3">
               {steps.map((step, i) => (
                 <li key={i} className="flex items-start gap-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-xs font-bold text-white shadow-sm">{i + 1}</span>
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand text-xs font-bold text-white shadow-sm">{i + 1}</span>
                   <div className="flex-1">
                     <p className="text-sm font-medium">{step.title}</p>
                     <p className="text-xs text-muted-foreground">{step.desc}</p>
@@ -240,10 +240,10 @@ export function HelpView() {
           </CardContent>
         </Card>
 
-        <Card className="border-emerald-200 bg-emerald-50/40 dark:border-emerald-900/40 dark:bg-emerald-950/10">
+        <Card className="border-brand/25 bg-brand/5 dark:border-brand/40 dark:bg-brand/5">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base">
-              {(() => { const Icon = roleIcon; return <Icon className="h-4 w-4 text-emerald-600" /> })()}
+              {(() => { const Icon = roleIcon; return <Icon className="h-4 w-4 text-brand" /> })()}
               Your Role
             </CardTitle>
             <CardDescription>What you can do here</CardDescription>
@@ -251,7 +251,7 @@ export function HelpView() {
           <CardContent className="space-y-3 text-sm">
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground">Signed in as</span>
-              <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">{role}</Badge>
+              <Badge className="bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand">{role}</Badge>
             </div>
             <Separator />
             <p className="text-xs leading-relaxed text-muted-foreground">
@@ -263,7 +263,7 @@ export function HelpView() {
               {role === 'Nurse' && 'You can view student records and manage health-related information.'}
               {role === 'Ancillary Staff' && 'You can view student records and assist with day-to-day operations.'}
             </p>
-            <Button onClick={() => navigate('profile')} variant="outline" size="sm" className="w-full border-emerald-300 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-800 dark:text-emerald-300 dark:hover:bg-emerald-950/40">
+            <Button onClick={() => navigate('profile')} variant="outline" size="sm" className="w-full border-brand/35 text-brand-strong hover:bg-brand/5 dark:border-brand/40 dark:text-brand dark:hover:bg-brand/12">
               View My Profile <ArrowRight className="ml-1 h-3.5 w-3.5" />
             </Button>
           </CardContent>
@@ -274,7 +274,7 @@ export function HelpView() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">
-            <Compass className="h-4 w-4 text-emerald-600" /> Explore Features
+            <Compass className="h-4 w-4 text-brand" /> Explore Features
           </CardTitle>
           <CardDescription>Jump straight to any part of the platform.</CardDescription>
         </CardHeader>
@@ -286,7 +286,7 @@ export function HelpView() {
                 <button
                   key={f.view}
                   onClick={() => navigate(f.view)}
-                  className="group flex items-center gap-3 rounded-lg border border-border p-3 text-left transition hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-md"
+                  className="group flex items-center gap-3 rounded-lg border border-border p-3 text-left transition hover:-translate-y-0.5 hover:border-brand/35 hover:shadow-md"
                 >
                   <div className={cn('flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition group-hover:scale-110', colorMap[f.color])}>
                     <Icon className="h-5 w-5" />
@@ -308,7 +308,7 @@ export function HelpView() {
         <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base">
-              <HelpCircle className="h-4 w-4 text-emerald-600" /> Frequently Asked Questions
+              <HelpCircle className="h-4 w-4 text-brand" /> Frequently Asked Questions
             </CardTitle>
             <CardDescription>Answers to the questions we hear most often.</CardDescription>
           </CardHeader>
@@ -318,7 +318,7 @@ export function HelpView() {
                 <AccordionItem key={i} value={`item-${i}`}>
                   <AccordionTrigger className="text-sm font-medium hover:no-underline">
                     <span className="flex items-start gap-2 text-left">
-                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">{i + 1}</span>
+                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand/10 text-[10px] font-bold text-brand-strong dark:bg-brand/15 dark:text-brand">{i + 1}</span>
                       {faq.q}
                     </span>
                   </AccordionTrigger>
@@ -336,7 +336,7 @@ export function HelpView() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base">
-                <Keyboard className="h-4 w-4 text-emerald-600" /> Keyboard Shortcuts
+                <Keyboard className="h-4 w-4 text-brand" /> Keyboard Shortcuts
               </CardTitle>
               <CardDescription>Power-user moves</CardDescription>
             </CardHeader>
@@ -357,7 +357,7 @@ export function HelpView() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base">
-                <Mail className="h-4 w-4 text-emerald-600" /> Contact the School
+                <Mail className="h-4 w-4 text-brand" /> Contact the School
               </CardTitle>
               <CardDescription>We're here to help</CardDescription>
             </CardHeader>
@@ -366,11 +366,11 @@ export function HelpView() {
               <ContactRow icon={Phone} label="Phone" value={contact.phone} href={`tel:${contact.phone.replace(/[^+\d]/g, '')}`} />
               <ContactRow icon={MapPin} label="Address" value={contact.address} />
               <Separator />
-              <div className="flex items-center gap-2 rounded-md bg-emerald-50 p-3 dark:bg-emerald-950/30">
-                <Award className="h-5 w-5 shrink-0 text-emerald-600" />
+              <div className="flex items-center gap-2 rounded-md bg-brand/5 p-3 dark:bg-brand/10">
+                <Award className="h-5 w-5 shrink-0 text-brand" />
                 <div>
-                  <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">{contact.name}</p>
-                  <p className="text-xs text-emerald-600/80 dark:text-emerald-400/80">{contact.tagline}</p>
+                  <p className="text-sm font-semibold text-brand-strong dark:text-brand">{contact.name}</p>
+                  <p className="text-xs text-brand/80 dark:text-brand/80">{contact.tagline}</p>
                 </div>
               </div>
             </CardContent>
@@ -382,7 +382,7 @@ export function HelpView() {
       <Card className="border-dashed">
         <CardContent className="flex flex-col items-center justify-between gap-3 p-5 text-center sm:flex-row sm:text-left">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-300">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand/10 text-brand dark:bg-brand/15 dark:text-brand">
               <HelpCircle className="h-5 w-5" />
             </div>
             <div>

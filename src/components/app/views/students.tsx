@@ -131,7 +131,7 @@ export function StudentsView() {
       {classCounts.length > 0 && (
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-base flex items-center gap-2"><GraduationCap className="h-4 w-4 text-emerald-600" /> Browse by Class</CardTitle>
+            <CardTitle className="text-base flex items-center gap-2"><GraduationCap className="h-4 w-4 text-brand" /> Browse by Class</CardTitle>
             <div className="flex gap-1">
               <Button variant="ghost" size="icon" className="h-7 w-7" disabled={carouselIdx === 0} onClick={() => setCarouselIdx(Math.max(0, carouselIdx - 3))}><ChevronLeft className="h-4 w-4" /></Button>
               <Button variant="ghost" size="icon" className="h-7 w-7" disabled={carouselIdx + 3 >= classCounts.length} onClick={() => setCarouselIdx(carouselIdx + 3)}><ChevronRight className="h-4 w-4" /></Button>
@@ -143,9 +143,9 @@ export function StudentsView() {
                 <button
                   key={c.class}
                   onClick={() => setClassFilter(classFilter === c.class ? '' : c.class)}
-                  className={cn('flex min-w-[110px] flex-1 flex-col items-center rounded-xl border p-4 transition-all hover:-translate-y-0.5 hover:shadow-md', classFilter === c.class ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30' : 'border-border hover:border-emerald-300 hover:bg-muted/50')}
+                  className={cn('flex min-w-[110px] flex-1 flex-col items-center rounded-xl border p-4 transition-all hover:-translate-y-0.5 hover:shadow-md', classFilter === c.class ? 'border-brand/60 bg-brand/5 dark:bg-brand/10' : 'border-border hover:border-brand/35 hover:bg-muted/50')}
                 >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 font-bold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">{c.class}</div>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand/10 font-bold text-brand-strong dark:bg-brand/15 dark:text-brand">{c.class}</div>
                   <p className="mt-2 text-lg font-bold">{c.count}</p>
                   <p className="text-xs text-muted-foreground">students</p>
                 </button>
@@ -172,7 +172,7 @@ export function StudentsView() {
           <div className="flex gap-2">
             <Button variant="outline" size="sm" onClick={exportCSV}><Download className="h-4 w-4" /> Export</Button>
             <Button variant="outline" size="sm" onClick={downloadTemplate}><Upload className="h-4 w-4" /> Template</Button>
-            {canManage && <Button size="sm" className="bg-emerald-600 text-white hover:bg-emerald-700" onClick={() => setAdding(true)}><Plus className="h-4 w-4" /> Add Student</Button>}
+            {canManage && <Button size="sm" className="bg-brand text-brand-foreground hover:bg-brand-strong" onClick={() => setAdding(true)}><Plus className="h-4 w-4" /> Add Student</Button>}
           </div>
         </CardContent>
       </Card>
@@ -206,7 +206,7 @@ export function StudentsView() {
                   <tr>
                     <th className="p-3 text-left">
                       <button onClick={toggleSelectAll} className="text-muted-foreground hover:text-foreground">
-                        {selected.size === filtered.length && filtered.length > 0 ? <CheckSquare className="h-4 w-4 text-emerald-600" /> : <Square className="h-4 w-4" />}
+                        {selected.size === filtered.length && filtered.length > 0 ? <CheckSquare className="h-4 w-4 text-brand" /> : <Square className="h-4 w-4" />}
                       </button>
                     </th>
                     <th className="p-3 text-left font-medium">Student</th>
@@ -222,14 +222,14 @@ export function StudentsView() {
                     <tr key={s.id} className="border-b border-border transition hover:bg-muted/40">
                       <td className="p-3">
                         <button onClick={() => toggleSelect(s.id)} className="text-muted-foreground hover:text-foreground">
-                          {selected.has(s.id) ? <CheckSquare className="h-4 w-4 text-emerald-600" /> : <Square className="h-4 w-4" />}
+                          {selected.has(s.id) ? <CheckSquare className="h-4 w-4 text-brand" /> : <Square className="h-4 w-4" />}
                         </button>
                       </td>
                       <td className="p-3">
                         <button onClick={() => { setViewUserId(s.id); setActiveView('profile') }} className="flex items-center gap-3 text-left">
                           <UserAvatar name={s.name} avatar={s.avatar} role="Student" size="sm" />
                           <div>
-                            <p className="font-medium hover:text-emerald-600">{s.name}</p>
+                            <p className="font-medium hover:text-brand">{s.name}</p>
                             <p className="text-xs text-muted-foreground">{s.admissionNo} · {s.email}</p>
                           </div>
                         </button>
@@ -243,12 +243,12 @@ export function StudentsView() {
                         <p className="text-xs text-muted-foreground">{s.phone ?? ''}</p>
                       </td>
                       <td className="hidden p-3 sm:table-cell">
-                        <Badge variant={s.feeStatus === 'Paid' ? 'default' : 'secondary'} className={s.feeStatus === 'Paid' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300'}>
+                        <Badge variant={s.feeStatus === 'Paid' ? 'default' : 'secondary'} className={s.feeStatus === 'Paid' ? 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand' : 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300'}>
                           {s.feeStatus}
                         </Badge>
                       </td>
                       <td className="p-3">
-                        <Badge variant={s.status === 'Active' ? 'default' : 'destructive'} className={s.status === 'Active' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300' : ''}>
+                        <Badge variant={s.status === 'Active' ? 'default' : 'destructive'} className={s.status === 'Active' ? 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand' : ''}>
                           {s.status}
                         </Badge>
                       </td>
@@ -368,7 +368,7 @@ function StudentDialog({ student, onClose, onSaved }: { student: Student | null;
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>Cancel</Button>
-          <Button onClick={save} disabled={saving || !form.name} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving || !form.name} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
             {student ? 'Save Changes' : 'Add Student'}
           </Button>

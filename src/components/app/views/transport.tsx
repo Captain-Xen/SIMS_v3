@@ -142,7 +142,7 @@ export function TransportView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
@@ -150,7 +150,7 @@ export function TransportView() {
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">
               <Bus className="h-7 w-7" /> Transportation
             </h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">
+            <p className="mt-1.5 text-sm text-brand-foreground/85">
               {isStaff
                 ? 'Manage bus routes, drivers, and student assignments.'
                 : 'Your bus route, driver details, and pickup / drop times.'}
@@ -187,9 +187,9 @@ export function TransportView() {
           {/* Routes grid */}
           <div className="flex items-center justify-between">
             <h3 className="flex items-center gap-2 font-serif text-lg font-semibold">
-              <RouteIcon className="h-5 w-5 text-emerald-600" /> Bus Routes
+              <RouteIcon className="h-5 w-5 text-brand" /> Bus Routes
             </h3>
-            <Button size="sm" onClick={() => setAdding(true)} className="bg-emerald-600 text-white hover:bg-emerald-700">
+            <Button size="sm" onClick={() => setAdding(true)} className="bg-brand text-brand-foreground hover:bg-brand-strong">
               <Plus className="h-4 w-4" /> Add Route
             </Button>
           </div>
@@ -199,7 +199,7 @@ export function TransportView() {
               <CardContent className="flex h-48 flex-col items-center justify-center gap-2 p-0 text-muted-foreground">
                 <Bus className="h-10 w-10 opacity-40" />
                 <p className="text-sm">No bus routes configured yet.</p>
-                <Button size="sm" onClick={() => setAdding(true)} className="mt-1 bg-emerald-600 text-white hover:bg-emerald-700">
+                <Button size="sm" onClick={() => setAdding(true)} className="mt-1 bg-brand text-brand-foreground hover:bg-brand-strong">
                   <Plus className="h-4 w-4" /> Create the first route
                 </Button>
               </CardContent>
@@ -211,12 +211,12 @@ export function TransportView() {
                 const full = r.assignedCount >= r.capacity
                 return (
                   <Card key={r.id} className="overflow-hidden transition hover:shadow-md">
-                    <div className="h-1.5 w-full bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500" />
+                    <div className="h-1.5 w-full bg-gradient-to-r from-brand via-brand/70 to-brand-strong" />
                     <CardContent className="space-y-4 p-5">
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0">
                           <h3 className="flex items-center gap-2 font-semibold leading-snug">
-                            <Bus className="h-4 w-4 shrink-0 text-emerald-600" />
+                            <Bus className="h-4 w-4 shrink-0 text-brand" />
                             <span className="truncate">{r.routeName}</span>
                           </h3>
                           <p className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground">
@@ -229,7 +229,7 @@ export function TransportView() {
                             'shrink-0',
                             full
                               ? ''
-                              : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'
+                              : 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand'
                           )}
                         >
                           {r.assignedCount}/{r.capacity}
@@ -272,7 +272,7 @@ export function TransportView() {
                       <div className="space-y-1">
                         <div className="flex items-center justify-between text-xs">
                           <span className="text-muted-foreground">Utilization</span>
-                          <span className={cn('font-semibold', full ? 'text-rose-600' : 'text-emerald-600')}>
+                          <span className={cn('font-semibold', full ? 'text-rose-600' : 'text-brand')}>
                             {util}%
                           </span>
                         </div>
@@ -290,7 +290,7 @@ export function TransportView() {
                           </p>
                           <div className="flex flex-wrap gap-1">
                             {r.stops.map((s, i) => (
-                              <Badge key={i} variant="outline" className="bg-emerald-50/50 text-[10px] dark:bg-emerald-950/20">
+                              <Badge key={i} variant="outline" className="bg-brand/5 text-[10px] dark:bg-brand/10">
                                 {s}
                               </Badge>
                             ))}
@@ -336,7 +336,7 @@ export function TransportView() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base">
-                <Users className="h-4 w-4 text-emerald-600" /> Student Assignments
+                <Users className="h-4 w-4 text-brand" /> Student Assignments
               </CardTitle>
               <CardDescription>
                 {assignments.length} {assignments.length === 1 ? 'student' : 'students'} currently assigned to a route
@@ -375,7 +375,7 @@ export function TransportView() {
                           </td>
                           <td className="p-3">
                             <span className="flex items-center gap-1.5">
-                              <Bus className="h-3.5 w-3.5 text-emerald-600" />
+                              <Bus className="h-3.5 w-3.5 text-brand" />
                               {a.routeName}
                             </span>
                           </td>
@@ -472,19 +472,19 @@ function StudentTransportCard({
     <div className="grid gap-6 lg:grid-cols-3">
       {/* Main route card */}
       <Card className="overflow-hidden lg:col-span-2">
-        <div className="h-1.5 w-full bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500" />
+        <div className="h-1.5 w-full bg-gradient-to-r from-brand via-brand/70 to-brand-strong" />
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Bus className="h-5 w-5 text-emerald-600" />
+            <Bus className="h-5 w-5 text-brand" />
             {route.routeName}
           </CardTitle>
           <CardDescription>Your assigned bus route</CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">
           {/* Driver + contact */}
-          <div className="flex flex-col gap-4 rounded-xl border border-emerald-200 bg-emerald-50/40 p-4 dark:border-emerald-900/40 dark:bg-emerald-950/20 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-4 rounded-xl border border-brand/25 bg-brand/5 p-4 dark:border-brand/40 dark:bg-brand/10 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-600 text-white shadow-sm">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand text-brand-foreground shadow-sm">
                 <UserIcon className="h-6 w-6" />
               </div>
               <div>
@@ -495,7 +495,7 @@ function StudentTransportCard({
             </div>
             {route.driverPhone && (
               <div className="flex gap-2">
-                <Button asChild size="sm" className="bg-emerald-600 text-white hover:bg-emerald-700">
+                <Button asChild size="sm" className="bg-brand text-brand-foreground hover:bg-brand-strong">
                   <a href={`tel:${route.driverPhone}`}>
                     <PhoneCall className="h-4 w-4" /> Call Driver
                   </a>
@@ -521,7 +521,7 @@ function StudentTransportCard({
           <div className="space-y-1">
             <div className="flex items-center justify-between text-xs">
               <span className="text-muted-foreground">Bus Occupancy</span>
-              <span className="font-semibold text-emerald-600">{util}%</span>
+              <span className="font-semibold text-brand">{util}%</span>
             </div>
             <Progress value={util} className="h-2" />
           </div>
@@ -534,7 +534,7 @@ function StudentTransportCard({
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {route.stops.map((s, i) => (
-                  <Badge key={i} className="bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+                  <Badge key={i} className="bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand">
                     {i + 1}. {s}
                   </Badge>
                 ))}
@@ -549,7 +549,7 @@ function StudentTransportCard({
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base">
-              <CalendarDays className="h-4 w-4 text-emerald-600" /> Assignment Details
+              <CalendarDays className="h-4 w-4 text-brand" /> Assignment Details
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3 text-sm">
@@ -562,7 +562,7 @@ function StudentTransportCard({
             </Row>
             <Separator />
             <Row label="Status">
-              <span className="inline-flex items-center gap-1 font-medium text-emerald-600">
+              <span className="inline-flex items-center gap-1 font-medium text-brand">
                 <CheckCircle2 className="h-3.5 w-3.5" /> Active
               </span>
             </Row>
@@ -596,7 +596,7 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 
 function InfoTile({ icon: Icon, label, value, color }: { icon: any; label: string; value: string; color: string }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     teal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
     amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     cyan: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',
@@ -621,15 +621,15 @@ function StatCard({
   icon: Icon, label, value, sub, color,
 }: { icon: any; label: string; value: string; sub: string; color: string }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     teal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
     amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     cyan: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',
   }
   return (
-    <Card className="group transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald-900/5">
+    <Card className="group transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/5">
       <CardContent className="relative p-5">
-        <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br from-emerald-500/5 to-teal-500/5 transition group-hover:from-emerald-500/10 group-hover:to-teal-500/10" />
+        <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br from-brand/5 to-brand/5 transition group-hover:from-brand/10 group-hover:to-brand/10" />
         <div className="relative flex items-center justify-between">
           <div className={cn('flex h-11 w-11 items-center justify-center rounded-xl shadow-sm transition group-hover:scale-110', colors[color])}>
             <Icon className="h-5 w-5" />
@@ -638,7 +638,7 @@ function StatCard({
         </div>
         <p className="relative mt-3 text-2xl font-bold tracking-tight">{value}</p>
         <p className="relative text-xs font-medium text-muted-foreground">{label}</p>
-        <p className="relative mt-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">{sub}</p>
+        <p className="relative mt-1 text-[10px] font-semibold text-brand dark:text-brand">{sub}</p>
       </CardContent>
     </Card>
   )
@@ -716,7 +716,7 @@ function RouteDialog({
       <DialogContent className="max-h-[92vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Bus className="h-4 w-4 text-emerald-600" />
+            <Bus className="h-4 w-4 text-brand" />
             {route ? 'Edit Bus Route' : 'Add Bus Route'}
           </DialogTitle>
           <DialogDescription>
@@ -772,7 +772,7 @@ function RouteDialog({
           <Button variant="outline" onClick={onClose}>
             <X className="h-4 w-4" /> Cancel
           </Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             {route ? 'Save Changes' : 'Add Route'}
           </Button>
@@ -834,7 +834,7 @@ function AssignStudentsDialog({
       <DialogContent className="max-h-[92vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Users className="h-4 w-4 text-emerald-600" />
+            <Users className="h-4 w-4 text-brand" />
             Assign Students to {route.routeName}
           </DialogTitle>
           <DialogDescription>
@@ -879,7 +879,7 @@ function AssignStudentsDialog({
                         </Badge>
                       )}
                       {isOnThisRoute ? (
-                        <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+                        <Badge className="bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand">
                           <CheckCircle2 className="mr-1 h-3 w-3" /> On route
                         </Badge>
                       ) : (
@@ -887,7 +887,7 @@ function AssignStudentsDialog({
                           size="sm"
                           onClick={() => assignOne(s)}
                           disabled={assigning === s.id || route.assignedCount >= route.capacity}
-                          className="bg-emerald-600 text-white hover:bg-emerald-700"
+                          className="bg-brand text-brand-foreground hover:bg-brand-strong"
                         >
                           {assigning === s.id ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Plus className="h-3.5 w-3.5" />}
                           Assign
@@ -902,7 +902,7 @@ function AssignStudentsDialog({
         </div>
 
         <DialogFooter>
-          <Button onClick={onClose} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={onClose} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             Done
           </Button>
         </DialogFooter>

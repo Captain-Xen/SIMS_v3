@@ -104,7 +104,7 @@ export function AnalyticsView() {
     const attendanceRate = Math.round(((present + late * 0.5) / attTotal) * 100)
 
     const attendanceBreakdown = [
-      { name: 'Present', value: present, color: '#10b981' },
+      { name: 'Present', value: present, color: 'var(--chart-1)' },
       { name: 'Late', value: late, color: '#f59e0b' },
       { name: 'Absent', value: absent, color: '#ef4444' },
     ].filter((d) => d.value > 0)
@@ -130,7 +130,7 @@ export function AnalyticsView() {
     const paidAmt = fees.filter((f) => f.status === 'Paid').reduce((a, f) => a + f.amount, 0)
     const pendingAmt = fees.filter((f) => f.status === 'Pending').reduce((a, f) => a + f.amount, 0)
     const feeData = [
-      { name: 'Collected', value: paidAmt, color: '#10b981' },
+      { name: 'Collected', value: paidAmt, color: 'var(--chart-1)' },
       { name: 'Pending', value: pendingAmt, color: '#f59e0b' },
     ].filter((d) => d.value > 0)
 
@@ -213,7 +213,7 @@ export function AnalyticsView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
@@ -221,12 +221,12 @@ export function AnalyticsView() {
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">
               <BarChart3 className="h-7 w-7" /> School Analytics
             </h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">
+            <p className="mt-1.5 text-sm text-brand-foreground/85">
               Insights into enrollment, performance, and trends.
             </p>
           </div>
-          <div className="hidden shrink-0 items-center gap-2 rounded-lg bg-white/10 px-3 py-2 text-xs font-medium text-emerald-50 backdrop-blur sm:flex">
-            <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-200" />
+          <div className="hidden shrink-0 items-center gap-2 rounded-lg bg-white/10 px-3 py-2 text-xs font-medium text-brand-foreground backdrop-blur sm:flex">
+            <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-brand/20" />
             Live snapshot
           </div>
         </CardContent>
@@ -282,7 +282,7 @@ export function AnalyticsView() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-base">
-                  <Users className="h-4 w-4 text-emerald-600" /> Enrollment by Form
+                  <Users className="h-4 w-4 text-brand" /> Enrollment by Form
                 </CardTitle>
                 <CardDescription>Student count across grades 7–13</CardDescription>
               </CardHeader>
@@ -296,7 +296,7 @@ export function AnalyticsView() {
                       <XAxis dataKey="form" tick={{ fontSize: 11 }} />
                       <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
                       <Tooltip cursor={{ fill: 'rgba(16,185,129,0.08)' }} />
-                      <Bar dataKey="count" name="Students" fill="#10b981" radius={[6, 6, 0, 0]} />
+                      <Bar dataKey="count" name="Students" fill="var(--chart-1)" radius={[6, 6, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 )}
@@ -307,7 +307,7 @@ export function AnalyticsView() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-base">
-                  <BookOpen className="h-4 w-4 text-emerald-600" /> Grade Distribution by Subject
+                  <BookOpen className="h-4 w-4 text-brand" /> Grade Distribution by Subject
                 </CardTitle>
                 <CardDescription>Average score, color-coded by performance</CardDescription>
               </CardHeader>
@@ -334,7 +334,7 @@ export function AnalyticsView() {
                   </ResponsiveContainer>
                 )}
                 <div className="mt-3 flex flex-wrap items-center gap-3 text-[10px] font-medium text-muted-foreground">
-                  <LegendDot color="#10b981" label="≥80" />
+                  <LegendDot color="var(--chart-1)" label="≥80" />
                   <LegendDot color="#14b8a6" label="60–79" />
                   <LegendDot color="#f59e0b" label="40–59" />
                   <LegendDot color="#ef4444" label="<40" />
@@ -346,7 +346,7 @@ export function AnalyticsView() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-base">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-600" /> Attendance Breakdown
+                  <CheckCircle2 className="h-4 w-4 text-brand" /> Attendance Breakdown
                 </CardTitle>
                 <CardDescription>Present, late and absent totals</CardDescription>
               </CardHeader>
@@ -382,7 +382,7 @@ export function AnalyticsView() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-base">
-                  <TrendingUp className="h-4 w-4 text-emerald-600" /> Performance Trend
+                  <TrendingUp className="h-4 w-4 text-brand" /> Performance Trend
                 </CardTitle>
                 <CardDescription>Average score across the last 6 terms</CardDescription>
               </CardHeader>
@@ -394,8 +394,8 @@ export function AnalyticsView() {
                     <AreaChart data={metrics.trendData} margin={{ top: 4, right: 12, left: -12, bottom: 0 }}>
                       <defs>
                         <linearGradient id="trendFill" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#10b981" stopOpacity={0.45} />
-                          <stop offset="95%" stopColor="#10b981" stopOpacity={0.02} />
+                          <stop offset="5%" stopColor="var(--chart-1)" stopOpacity={0.45} />
+                          <stop offset="95%" stopColor="var(--chart-1)" stopOpacity={0.02} />
                         </linearGradient>
                       </defs>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" vertical={false} />
@@ -406,10 +406,10 @@ export function AnalyticsView() {
                         type="monotone"
                         dataKey="avg"
                         name="Avg %"
-                        stroke="#10b981"
+                        stroke="var(--chart-1)"
                         strokeWidth={2.5}
                         fill="url(#trendFill)"
-                        dot={{ r: 3, fill: '#10b981', strokeWidth: 0 }}
+                        dot={{ r: 3, fill: 'var(--chart-1)', strokeWidth: 0 }}
                         activeDot={{ r: 5 }}
                       />
                     </AreaChart>
@@ -422,7 +422,7 @@ export function AnalyticsView() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-base">
-                  <Users className="h-4 w-4 text-emerald-600" /> Gender Distribution
+                  <Users className="h-4 w-4 text-brand" /> Gender Distribution
                 </CardTitle>
                 <CardDescription>Male / female enrollment split</CardDescription>
               </CardHeader>
@@ -458,7 +458,7 @@ export function AnalyticsView() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-base">
-                  <DollarSign className="h-4 w-4 text-emerald-600" /> Fee Collection Status
+                  <DollarSign className="h-4 w-4 text-brand" /> Fee Collection Status
                 </CardTitle>
                 <CardDescription>Paid vs pending amounts</CardDescription>
               </CardHeader>
@@ -485,7 +485,7 @@ export function AnalyticsView() {
           </div>
 
           {/* Insights */}
-          <Card className="border-emerald-200/60 bg-gradient-to-br from-emerald-50/80 to-teal-50/40 dark:border-emerald-900/40 dark:from-emerald-950/30 dark:to-teal-950/20">
+          <Card className="border-brand/60 bg-gradient-to-br from-brand/10 to-brand/10 dark:border-brand/40 dark:from-brand/10 dark:to-brand/10">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base">
                 <Lightbulb className="h-4 w-4 text-amber-500" /> Auto-Generated Insights
@@ -499,12 +499,12 @@ export function AnalyticsView() {
                     key={i}
                     className={cn(
                       'flex items-start gap-2.5 rounded-lg border p-3 text-sm',
-                      ins.kind === 'good' && 'border-emerald-200 bg-emerald-50/60 text-emerald-900 dark:border-emerald-900/50 dark:bg-emerald-950/30 dark:text-emerald-100',
+                      ins.kind === 'good' && 'border-brand/25 bg-brand/5 text-brand-strong dark:border-brand/40 dark:bg-brand/10 dark:text-brand-foreground',
                       ins.kind === 'warn' && 'border-amber-200 bg-amber-50/60 text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-100',
                       ins.kind === 'info' && 'border-border bg-card text-foreground',
                     )}
                   >
-                    {ins.kind === 'good' && <Award className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />}
+                    {ins.kind === 'good' && <Award className="mt-0.5 h-4 w-4 shrink-0 text-brand" />}
                     {ins.kind === 'warn' && <TrendingUp className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />}
                     {ins.kind === 'info' && <ArrowRight className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />}
                     <span className="leading-snug">{ins.text}</span>
@@ -535,7 +535,7 @@ function letterFor(score: number): string {
 }
 
 function scoreColor(score: number): string {
-  if (score >= 80) return '#10b981'
+  if (score >= 80) return 'var(--chart-1)'
   if (score >= 60) return '#14b8a6'
   if (score >= 40) return '#f59e0b'
   return '#ef4444'
@@ -575,18 +575,18 @@ function StatCard({
   onClick?: () => void
 }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     teal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
     amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     cyan: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',
   }
   return (
     <Card
-      className="group cursor-pointer overflow-hidden transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald-900/5"
+      className="group cursor-pointer overflow-hidden transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/5"
       onClick={onClick}
     >
       <CardContent className="relative p-5">
-        <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br from-emerald-500/5 to-teal-500/5 transition group-hover:from-emerald-500/10 group-hover:to-teal-500/10" />
+        <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br from-brand/5 to-brand/5 transition group-hover:from-brand/10 group-hover:to-brand/10" />
         <div className="relative flex items-center justify-between">
           <div className={cn('flex h-11 w-11 items-center justify-center rounded-xl shadow-sm transition group-hover:scale-110', colors[color])}>
             <Icon className="h-5 w-5" />
@@ -595,7 +595,7 @@ function StatCard({
         </div>
         <p className="relative mt-3 text-2xl font-bold tracking-tight">{value}</p>
         <p className="relative text-xs font-medium text-muted-foreground">{label}</p>
-        <p className="relative mt-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">{trend}</p>
+        <p className="relative mt-1 text-[10px] font-semibold text-brand dark:text-brand">{trend}</p>
       </CardContent>
     </Card>
   )

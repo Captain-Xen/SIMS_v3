@@ -26,7 +26,7 @@ const UNITS = ['pcs', 'boxes', 'sets', 'books'] as const
 const CONDITIONS = ['New', 'Good', 'Fair', 'Poor'] as const
 
 const CATEGORY_STYLES: Record<string, string> = {
-  Equipment: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+  Equipment: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
   Furniture: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
   'Lab Supply': 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
   Textbook: 'bg-violet-100 text-violet-700 dark:bg-violet-950/50 dark:text-violet-300',
@@ -35,7 +35,7 @@ const CATEGORY_STYLES: Record<string, string> = {
 }
 
 const CONDITION_STYLES: Record<string, string> = {
-  New: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+  New: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
   Good: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
   Fair: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
   Poor: 'bg-rose-100 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300',
@@ -168,7 +168,7 @@ export function InventoryView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
@@ -176,7 +176,7 @@ export function InventoryView() {
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">
               <PackageOpen className="h-7 w-7" /> Inventory
             </h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">
+            <p className="mt-1.5 text-sm text-brand-foreground/85">
               Track school equipment, lab supplies, textbooks, and furniture.
             </p>
           </div>
@@ -276,7 +276,7 @@ export function InventoryView() {
               <p className="text-sm">
                 {search || category !== 'all' ? 'No items match your filters.' : 'No inventory items yet.'}
               </p>
-              <Button size="sm" variant="outline" onClick={() => setAdding(true)} className="mt-2 border-emerald-300 text-emerald-700 hover:bg-emerald-50">
+              <Button size="sm" variant="outline" onClick={() => setAdding(true)} className="mt-2 border-brand/35 text-brand-strong hover:bg-brand/5">
                 <Plus className="h-4 w-4" /> Add Item
               </Button>
             </div>
@@ -330,7 +330,7 @@ export function InventoryView() {
                               'min-w-[60px] rounded-md px-2 py-1 text-center font-mono text-sm font-semibold',
                               low
                                 ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/50 dark:text-amber-200'
-                                : 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-300'
+                                : 'bg-brand/5 text-brand-strong dark:bg-brand/10 dark:text-brand'
                             )}>
                               {i.quantity} <span className="text-[10px] font-normal opacity-70">{i.unit}</span>
                             </span>
@@ -380,7 +380,7 @@ export function InventoryView() {
                               title="Edit"
                               onClick={() => setEditing(i)}
                             >
-                              <Pencil className="h-4 w-4 text-emerald-600" />
+                              <Pencil className="h-4 w-4 text-brand" />
                             </Button>
                             <Button
                               variant="ghost"
@@ -417,15 +417,15 @@ export function InventoryView() {
 
 function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: string; value: string; sub: string; color: string }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     teal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
     amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     cyan: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',
   }
   return (
-    <Card className="group transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald-900/5">
+    <Card className="group transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/5">
       <CardContent className="relative p-5">
-        <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br from-emerald-500/5 to-teal-500/5 transition group-hover:from-emerald-500/10 group-hover:to-teal-500/10" />
+        <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br from-brand/5 to-brand/5 transition group-hover:from-brand/10 group-hover:to-brand/10" />
         <div className="relative flex items-center justify-between">
           <div className={cn('flex h-11 w-11 items-center justify-center rounded-xl shadow-sm transition group-hover:scale-110', colors[color])}>
             <Icon className="h-5 w-5" />
@@ -434,7 +434,7 @@ function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: 
         </div>
         <p className="relative mt-3 text-2xl font-bold tracking-tight">{value}</p>
         <p className="relative text-xs font-medium text-muted-foreground">{label}</p>
-        <p className="relative mt-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">{sub}</p>
+        <p className="relative mt-1 text-[10px] font-semibold text-brand dark:text-brand">{sub}</p>
       </CardContent>
     </Card>
   )
@@ -499,7 +499,7 @@ function ItemDialog({ item, onClose, onSaved }: { item: InventoryItem | null; on
       <DialogContent className="max-h-[90vh] max-w-lg overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <PackageOpen className="h-4 w-4 text-emerald-600" />
+            <PackageOpen className="h-4 w-4 text-brand" />
             {item ? 'Edit Item' : 'Add Inventory Item'}
           </DialogTitle>
         </DialogHeader>
@@ -565,7 +565,7 @@ function ItemDialog({ item, onClose, onSaved }: { item: InventoryItem | null; on
         <Separator />
         <DialogFooter>
           <Button variant="outline" onClick={onClose}><X className="h-4 w-4" /> Cancel</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             {item ? 'Save Changes' : 'Add Item'}
           </Button>

@@ -1166,3 +1166,30 @@ Verification (agent-browser end-to-end):
 
 Stage Summary:
 - Initial client bundle no longer contains 36 of 37 views (recharts etc. load per-view); badge polls 94x lighter and visibility-gated; message polls halved + render-free no-ops; DB session lookups cached 30s; hot GET payloads TTL-cached with correct invalidation; SQL logging off; WAL on; Turbopack memory capped at 768MB. All flows browser-verified working.
+
+---
+Task ID: theme-engine
+Agent: main (user request)
+Task: Fix theme colours not changing anywhere when picking a different accent in Settings
+
+Work Log:
+- Root cause (2 parts): (1) page.tsx's applyAccent() wrote raw RGB triplets ("16,185,129") into --accent/--accent-hover/--ring — invalid CSS colors, --accent-hover wasn't consumed by anything, --primary was never touched, and it only ran once at boot, so clicking a swatch in Settings saved to the DB but never re-skinned the UI; (2) ~1,200 hardcoded emerald-* Tailwind classes across 43 files meant even correct CSS vars would be invisible.
+- New src/lib/theme.ts: applyAccentVars(accent) parses "r,g,b|r,g,b|r,g,b" and sets --brand-base / --brand-strong-base on <html> (with safe defaults).
+- globals.css: added --color-brand/--color-brand-strong/--color-brand-foreground theme tokens; all shadcn tokens now derive from the brand (--primary, --ring, --sidebar-primary, --chart-1, --accent = 10% brand tint, dark mode lightens brand via color-mix 85% + dark ink foreground, --brand-tint-soft/faint for charts); pulse-ring keyframe now uses var(--brand).
+- store.ts: setSettings() now calls applyAccentVars(s?.accent) — single choke point, so boot load AND live PATCH from Settings re-skin instantly.
+- page.tsx: removed the broken inline applyAccent().
+- Codemod (one-shot node script, deleted after): mapped every emerald utility (bg/text/border/ring/shadow/accent/gradients incl. teal/cyan gradient stops) to brand utilities (bg-brand, text-brand-strong, from-brand, shadow-brand/25 …) across src/components/app + page.tsx; teal/cyan kept only as distinct category colors; white text on brand surfaces → text-brand-foreground for dark-mode contrast. settings.tsx swatch hexes intentionally untouched (they ARE the palette).
+- Second codemod pass: recharts/SVG hardcoded hexes (#10b981/#059669/#047857/#a7f3d0/#d1fae5/#ecfdf5) → var(--chart-1)/var(--brand)/var(--brand-strong)/var(--brand-tint-soft|faint) in 13 views (dashboard, analytics, reports, finance, grades, exams, attendance, library, events, visitors, performance, profile, parent-portal) so charts follow the accent too.
+- First codemod run had a bug (dropped utility prefix, e.g. "brand" instead of "text-brand"); restored src/components/app + page.tsx from git HEAD, fixed, re-ran clean.
+
+Verification (agent-browser end-to-end):
+- Boot: saved purple accent from DB applied correctly at first paint (previously impossible).
+- Settings → Rose: --brand-base, active nav pill, primary buttons all flipped live to rgb(225 29 72) with no reload; toast shown.
+- Reload: rose persisted (DB-backed).
+- Settings → Indigo: dashboard chart bars, attendance donut, hero gradient, stat tints, sidebar logo all indigo (recharts resolve var(--chart-1)).
+- Settings → Emerald: restored default school brand.
+- Dark mode: brand lightens via color-mix, dark ink on brand buttons, legible.
+- Students table renders 43 rows; zero console errors; zero page errors; dev.log clean; bun run lint clean.
+
+Stage Summary:
+- Accent picker is now a real theme engine: 16 accents × light/dark re-skin the ENTIRE app (sidebar, buttons, badges, charts, gradients, rings, tints) instantly and persistently. Single source of truth: SchoolSettings.accent → --brand-base/--brand-strong-base → all shadcn + brand tokens.

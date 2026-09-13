@@ -25,7 +25,7 @@ function todayStr() {
 
 // Letter grade → color (recharts bars)
 function letterColor(letter: string): string {
-  if (letter.startsWith('A')) return '#10b981'
+  if (letter.startsWith('A')) return 'var(--chart-1)'
   if (letter.startsWith('B')) return '#14b8a6'
   if (letter.startsWith('C')) return '#f59e0b'
   if (letter.startsWith('D')) return '#f97316'
@@ -130,25 +130,25 @@ export function ParentPortalView() {
   return (
     <div className="space-y-6">
       {/* Welcome banner */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
           <div className="min-w-0">
-            <p className="flex items-center gap-1.5 text-sm font-medium text-emerald-50/90">
-              <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-200" />
+            <p className="flex items-center gap-1.5 text-sm font-medium text-brand-foreground/90">
+              <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-brand/20" />
               {todayLabel}
             </p>
             <h2 className="mt-1.5 flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">
               <HeartHandshake className="h-7 w-7" /> Parent Portal
             </h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">
+            <p className="mt-1.5 text-sm text-brand-foreground/85">
               Welcome, <span className="font-semibold">{guardianName}</span>. Here&apos;s an at-a-glance summary of
               {' '}{user.name.split(' ')[0]}&apos;s school progress.
             </p>
           </div>
           <div className="shrink-0 rounded-xl bg-white/15 p-3 text-center backdrop-blur ring-1 ring-white/20">
-            <p className="text-[11px] uppercase tracking-wide text-emerald-50/80">Today&apos;s Status</p>
+            <p className="text-[11px] uppercase tracking-wide text-brand-foreground/80">Today&apos;s Status</p>
             <p className="mt-0.5 text-lg font-bold">
               {todayAtt ? todayAtt.status : 'Not recorded'}
             </p>
@@ -164,7 +164,7 @@ export function ParentPortalView() {
             <h3 className="font-serif text-xl font-bold">{user.name}</h3>
             <p className="text-sm text-muted-foreground">{user.email}</p>
             <div className="mt-3 flex flex-wrap gap-2">
-              <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+              <Badge className="bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand">
                 <GraduationCap className="mr-1 h-3 w-3" /> {gradeToForm(user.grade)}
               </Badge>
               {user.className && (
@@ -190,13 +190,13 @@ export function ParentPortalView() {
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
               <CardTitle className="flex items-center gap-2 text-base">
-                <BookOpen className="h-4 w-4 text-emerald-600" /> Academic Snapshot
+                <BookOpen className="h-4 w-4 text-brand" /> Academic Snapshot
               </CardTitle>
               <CardDescription>Current term subject scores</CardDescription>
             </div>
             {avg !== null && (
               <div className="text-right">
-                <p className="text-2xl font-bold text-emerald-600">{avg}%</p>
+                <p className="text-2xl font-bold text-brand">{avg}%</p>
                 <p className="text-[10px] uppercase tracking-wide text-muted-foreground">Average</p>
               </div>
             )}
@@ -243,7 +243,7 @@ export function ParentPortalView() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base">
-                <CalendarCheck className="h-4 w-4 text-emerald-600" /> Attendance Today
+                <CalendarCheck className="h-4 w-4 text-brand" /> Attendance Today
               </CardTitle>
               <CardDescription>{todayLabel}</CardDescription>
             </CardHeader>
@@ -252,7 +252,7 @@ export function ParentPortalView() {
                 <>
                   <div className={cn(
                     'flex items-center justify-center rounded-xl py-4 text-lg font-bold',
-                    todayAtt.status === 'Present' && 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+                    todayAtt.status === 'Present' && 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
                     todayAtt.status === 'Late' && 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
                     todayAtt.status === 'Absent' && 'bg-rose-100 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300',
                   )}>
@@ -284,7 +284,7 @@ export function ParentPortalView() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base">
-                <Wallet className="h-4 w-4 text-emerald-600" /> Fee Status
+                <Wallet className="h-4 w-4 text-brand" /> Fee Status
               </CardTitle>
               <CardDescription>Term {fee?.term ?? '—'}</CardDescription>
             </CardHeader>
@@ -294,14 +294,14 @@ export function ParentPortalView() {
                   <div className={cn(
                     'rounded-xl border p-4',
                     fee.status === 'Paid'
-                      ? 'border-emerald-200 bg-emerald-50 dark:border-emerald-900 dark:bg-emerald-950/30'
+                      ? 'border-brand/25 bg-brand/5 dark:border-brand/30 dark:bg-brand/10'
                       : 'border-amber-200 bg-amber-50 dark:border-amber-900 dark:bg-amber-950/30',
                   )}>
                     <div className="flex items-center justify-between">
                       <span className="text-xs uppercase tracking-wide text-muted-foreground">Amount Due</span>
                       <Badge className={cn(
                         fee.status === 'Paid'
-                          ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'
+                          ? 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand'
                           : 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
                       )}>
                         {fee.status}
@@ -336,7 +336,7 @@ export function ParentPortalView() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base">
-              <Megaphone className="h-4 w-4 text-emerald-600" /> Recent Announcements
+              <Megaphone className="h-4 w-4 text-brand" /> Recent Announcements
             </CardTitle>
             <CardDescription>Latest news from the school</CardDescription>
           </CardHeader>
@@ -354,7 +354,7 @@ export function ParentPortalView() {
                     <span className="shrink-0 text-[10px] text-muted-foreground">{timeAgo(a.createdAt)}</span>
                   </div>
                   <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{a.body}</p>
-                  <p className="mt-1.5 text-[11px] font-medium text-emerald-600">— {a.authorName}</p>
+                  <p className="mt-1.5 text-[11px] font-medium text-brand">— {a.authorName}</p>
                 </div>
               ))
             )}
@@ -365,7 +365,7 @@ export function ParentPortalView() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base">
-              <ClipboardList className="h-4 w-4 text-emerald-600" /> Upcoming Assignments
+              <ClipboardList className="h-4 w-4 text-brand" /> Upcoming Assignments
             </CardTitle>
             <CardDescription>Next assignments due</CardDescription>
           </CardHeader>
@@ -412,11 +412,11 @@ export function ParentPortalView() {
       </div>
 
       {/* Encouragement footer card */}
-      <Card className="border-emerald-200 bg-emerald-50/50 dark:border-emerald-900/60 dark:bg-emerald-950/20">
+      <Card className="border-brand/25 bg-brand/5 dark:border-brand/40 dark:bg-brand/10">
         <CardContent className="flex items-start gap-3 p-5">
-          <Award className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+          <Award className="mt-0.5 h-5 w-5 shrink-0 text-brand" />
           <div>
-            <p className="text-sm font-semibold text-emerald-800 dark:text-emerald-200">
+            <p className="text-sm font-semibold text-brand-strong dark:text-brand">
               {avg !== null && avg >= 75
                 ? 'Excellent progress — keep up the great work!'
                 : avg !== null && avg >= 50

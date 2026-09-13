@@ -15,7 +15,7 @@ import { UserAvatar } from '../user-avatar'
 import { cn } from '@/lib/utils'
 
 const ROLE_COLORS: Record<string, string> = {
-  Admin: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+  Admin: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
   Principal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
   'Vice Principal': 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',
   Teacher: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
@@ -68,13 +68,13 @@ export function AnnouncementsView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
           <div className="min-w-0">
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl"><Megaphone className="h-7 w-7" /> Announcements</h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">Stay up to date with the latest school news.</p>
+            <p className="mt-1.5 text-sm text-brand-foreground/85">Stay up to date with the latest school news.</p>
           </div>
           {canCompose && (
             <Button onClick={() => setComposing(true)} variant="secondary" className="shrink-0 border-0 bg-white/15 text-white backdrop-blur hover:bg-white/25">
@@ -98,7 +98,7 @@ export function AnnouncementsView() {
       ) : (
         <div className="grid gap-4">
           {items.map((a) => (
-            <Card key={a.id} className="transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-emerald-900/5">
+            <Card key={a.id} className="transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-brand/5">
               <CardContent className="p-5">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex flex-1 items-start gap-3">
@@ -175,7 +175,7 @@ function ComposeDialog({ onClose, onSaved }: { onClose: () => void; onSaved: () 
     <Dialog open onOpenChange={onClose}>
       <DialogContent className="max-w-xl">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2"><Megaphone className="h-4 w-4 text-emerald-600" /> New Announcement</DialogTitle>
+          <DialogTitle className="flex items-center gap-2"><Megaphone className="h-4 w-4 text-brand" /> New Announcement</DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-2">
           <div className="space-y-1.5">
@@ -189,7 +189,7 @@ function ComposeDialog({ onClose, onSaved }: { onClose: () => void; onSaved: () 
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}><X className="h-4 w-4" /> Cancel</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             Post Announcement
           </Button>

@@ -24,7 +24,7 @@ const EVENT_TYPES = ['Event', 'Exam', 'Holiday', 'Meeting'] as const
 
 const EVENT_STYLES: Record<string, { dot: string; pill: string; text: string }> = {
   Exam: { dot: '#ef4444', pill: 'bg-rose-100 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300', text: 'text-rose-700 dark:text-rose-300' },
-  Event: { dot: '#10b981', pill: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300', text: 'text-emerald-700 dark:text-emerald-300' },
+  Event: { dot: 'var(--chart-1)', pill: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand', text: 'text-brand-strong dark:text-brand' },
   Holiday: { dot: '#8b5cf6', pill: 'bg-violet-100 text-violet-700 dark:bg-violet-950/50 dark:text-violet-300', text: 'text-violet-700 dark:text-violet-300' },
   Meeting: { dot: '#f59e0b', pill: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300', text: 'text-amber-700 dark:text-amber-300' },
 }
@@ -141,7 +141,7 @@ export function EventsView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
@@ -149,7 +149,7 @@ export function EventsView() {
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">
               <CalendarDays className="h-7 w-7" /> Events Calendar
             </h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">
+            <p className="mt-1.5 text-sm text-brand-foreground/85">
               Stay on top of exams, holidays, meetings and school events.
             </p>
           </div>
@@ -187,7 +187,7 @@ export function EventsView() {
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
                 <CardTitle className="flex items-center gap-2 text-base">
-                  <CalendarRange className="h-4 w-4 text-emerald-600" /> {monthName} {year}
+                  <CalendarRange className="h-4 w-4 text-brand" /> {monthName} {year}
                 </CardTitle>
                 <CardDescription>Click a day to see all events</CardDescription>
               </div>
@@ -231,15 +231,15 @@ export function EventsView() {
                       className={cn(
                         'min-h-[84px] rounded-lg border p-1.5 text-left align-top transition sm:min-h-[100px]',
                         isSelected
-                          ? 'border-emerald-500 ring-1 ring-emerald-500/40'
-                          : 'border-border hover:border-emerald-400/60 hover:bg-muted/40',
-                        isToday && !isSelected && 'border-emerald-500/60',
+                          ? 'border-brand/60 ring-1 ring-brand/40'
+                          : 'border-border hover:border-brand/50 hover:bg-muted/40',
+                        isToday && !isSelected && 'border-brand/60',
                       )}
                     >
                       <div className="flex items-center justify-between">
                         <span className={cn(
                           'inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold',
-                          isToday ? 'bg-emerald-600 text-white' : 'text-foreground',
+                          isToday ? 'bg-brand text-brand-foreground' : 'text-foreground',
                         )}>
                           {c.day}
                         </span>
@@ -277,7 +277,7 @@ export function EventsView() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-base">
-                  <Clock className="h-4 w-4 text-emerald-600" />
+                  <Clock className="h-4 w-4 text-brand" />
                   {selectedDate ? selectedDateLabel : 'Select a day'}
                 </CardTitle>
                 <CardDescription>
@@ -343,7 +343,7 @@ export function EventsView() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-base">
-                  <CalendarRange className="h-4 w-4 text-emerald-600" /> Upcoming
+                  <CalendarRange className="h-4 w-4 text-brand" /> Upcoming
                 </CardTitle>
                 <CardDescription>Next 5 events on the calendar</CardDescription>
               </CardHeader>
@@ -438,7 +438,7 @@ function AddEventDialog({ onClose, onSaved }: { onClose: () => void; onSaved: ()
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Plus className="h-4 w-4 text-emerald-600" /> Add Event
+            <Plus className="h-4 w-4 text-brand" /> Add Event
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-2">
@@ -470,7 +470,7 @@ function AddEventDialog({ onClose, onSaved }: { onClose: () => void; onSaved: ()
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}><X className="h-4 w-4" /> Cancel</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             Create Event
           </Button>
@@ -496,7 +496,7 @@ function EventDetailDialog({
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Info className="h-4 w-4 text-emerald-600" /> Event Details
+            <Info className="h-4 w-4 text-brand" /> Event Details
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-3 py-2">

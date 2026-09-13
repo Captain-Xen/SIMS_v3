@@ -26,9 +26,9 @@ import {
 // Category → tailwind classes for badge + card accent.
 const CATEGORY_STYLES: Record<string, { badge: string; bar: string; dot: string }> = {
   Fiction: {
-    badge: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
-    bar: 'bg-emerald-500',
-    dot: '#10b981',
+    badge: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
+    bar: 'bg-brand',
+    dot: 'var(--chart-1)',
   },
   Science: {
     badge: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
@@ -197,7 +197,7 @@ export function LibraryView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
@@ -205,7 +205,7 @@ export function LibraryView() {
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">
               <LibraryIcon className="h-7 w-7" /> Library
             </h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">
+            <p className="mt-1.5 text-sm text-brand-foreground/85">
               Browse the catalogue, borrow books, and track your loans.
             </p>
           </div>
@@ -293,7 +293,7 @@ export function LibraryView() {
                           <div className="flex items-center justify-between gap-2 pt-1">
                             <div className="text-xs">
                               {b.available > 0 ? (
-                                <span className="font-medium text-emerald-600">
+                                <span className="font-medium text-brand">
                                   {b.available} of {b.copies} available
                                 </span>
                               ) : (
@@ -307,7 +307,7 @@ export function LibraryView() {
                                 size="sm"
                                 onClick={() => borrow(b)}
                                 disabled={isBorrowing}
-                                className="bg-emerald-600 text-white hover:bg-emerald-700"
+                                className="bg-brand text-brand-foreground hover:bg-brand-strong"
                               >
                                 {isBorrowing ? <Loader2 className="h-4 w-4 animate-spin" /> : <BookCheck className="h-4 w-4" />}
                                 Borrow
@@ -328,7 +328,7 @@ export function LibraryView() {
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-base">
-                      <Layers className="h-4 w-4 text-emerald-600" /> Categories
+                      <Layers className="h-4 w-4 text-brand" /> Categories
                     </CardTitle>
                     <CardDescription>Distribution by subject</CardDescription>
                   </CardHeader>
@@ -349,7 +349,7 @@ export function LibraryView() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-base">
-                    <BookCheck className="h-4 w-4 text-emerald-600" />
+                    <BookCheck className="h-4 w-4 text-brand" />
                     {isStudent ? 'My Loans' : 'All Loans'}
                   </CardTitle>
                   <CardDescription>
@@ -420,12 +420,12 @@ function StatusBadge({ status, overdue }: { status: string; overdue: boolean }) 
   if (status === 'Returned') {
     return <Badge variant="secondary" className="bg-muted text-muted-foreground">Returned</Badge>
   }
-  return <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">Borrowed</Badge>
+  return <Badge className="bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand">Borrowed</Badge>
 }
 
 function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: string; value: string; sub: string; color: string }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     teal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
     amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     red: 'bg-rose-100 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300',
@@ -442,7 +442,7 @@ function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: 
         </div>
         <p className="mt-3 text-2xl font-bold">{value}</p>
         <p className="text-xs text-muted-foreground">{label}</p>
-        <p className="mt-1 text-[10px] font-medium text-emerald-600">{sub}</p>
+        <p className="mt-1 text-[10px] font-medium text-brand">{sub}</p>
       </CardContent>
     </Card>
   )
@@ -495,7 +495,7 @@ function AddBookDialog({ onClose, onSaved }: { onClose: () => void; onSaved: () 
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Plus className="h-4 w-4 text-emerald-600" /> Add Book
+            <Plus className="h-4 w-4 text-brand" /> Add Book
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-2">
@@ -537,7 +537,7 @@ function AddBookDialog({ onClose, onSaved }: { onClose: () => void; onSaved: () 
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}><X className="h-4 w-4" /> Cancel</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             Add Book
           </Button>

@@ -108,10 +108,10 @@ export function ExamsView() {
     w.document.write(`<!doctype html><html><head><title>Exam Timetable — EduCenterJM</title>
       <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 32px; color: #0f172a; }
-        h1 { font-size: 22px; margin: 0 0 4px; color: #047857; }
+        h1 { font-size: 22px; margin: 0 0 4px; color: var(--brand-strong); }
         .sub { color: #64748b; font-size: 13px; margin-bottom: 24px; }
         table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        th { background: #ecfdf5; color: #047857; text-align: left; padding: 10px 12px; border-bottom: 2px solid #a7f3d0; }
+        th { background: var(--brand-tint-faint); color: var(--brand-strong); text-align: left; padding: 10px 12px; border-bottom: 2px solid var(--brand-tint-soft); }
         td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; }
         tr:nth-child(even) td { background: #f8fafc; }
         .foot { margin-top: 28px; color: #94a3b8; font-size: 11px; text-align: center; }
@@ -134,7 +134,7 @@ export function ExamsView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
@@ -142,7 +142,7 @@ export function ExamsView() {
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">
               <GraduationCap className="h-7 w-7" /> Exam Management
             </h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">
+            <p className="mt-1.5 text-sm text-brand-foreground/85">
               {isStudent
                 ? 'View your upcoming exams, rooms, and times.'
                 : 'Schedule exams, assign rooms, and view the exam timetable.'}
@@ -159,7 +159,7 @@ export function ExamsView() {
             {canManage && (
               <Button
                 onClick={() => setAdding(true)}
-                className="border-0 bg-white text-emerald-700 hover:bg-emerald-50"
+                className="border-0 bg-white text-brand-strong hover:bg-brand/5"
               >
                 <Plus className="h-4 w-4" /> Schedule Exam
               </Button>
@@ -215,7 +215,7 @@ export function ExamsView() {
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2 text-base">
-                <CalendarDays className="h-4 w-4 text-emerald-600" /> Exam Timetable
+                <CalendarDays className="h-4 w-4 text-brand" /> Exam Timetable
               </CardTitle>
               <CardDescription>
                 {filtered.length} exam{filtered.length === 1 ? '' : 's'} {classFilter !== 'all' ? `in class ${classFilter}` : 'across all classes'}
@@ -227,7 +227,7 @@ export function ExamsView() {
                   <FileText className="h-10 w-10 opacity-40" />
                   <p className="text-sm">No exams scheduled{classFilter !== 'all' ? ` for class ${classFilter}` : ''}.</p>
                   {canManage && (
-                    <Button size="sm" className="mt-1 bg-emerald-600 text-white hover:bg-emerald-700" onClick={() => setAdding(true)}>
+                    <Button size="sm" className="mt-1 bg-brand text-brand-foreground hover:bg-brand-strong" onClick={() => setAdding(true)}>
                       <Plus className="h-4 w-4" /> Schedule Exam
                     </Button>
                   )}
@@ -262,7 +262,7 @@ export function ExamsView() {
                               </p>
                             </td>
                             <td className="hidden p-3 sm:table-cell">
-                              <Badge variant="outline" className="border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900/50 dark:bg-emerald-950/30 dark:text-emerald-300">
+                              <Badge variant="outline" className="border-brand/25 bg-brand/5 text-brand-strong dark:border-brand/40 dark:bg-brand/10 dark:text-brand">
                                 {e.subject}
                               </Badge>
                             </td>
@@ -350,9 +350,9 @@ function StudentExams({ upcoming, totalExams, today }: { upcoming: Exam[]; total
   return (
     <>
       {/* Count badge */}
-      <Card className="border-emerald-200/60 bg-gradient-to-br from-emerald-50/80 to-teal-50/40 dark:border-emerald-900/40 dark:from-emerald-950/30 dark:to-teal-950/20">
+      <Card className="border-brand/60 bg-gradient-to-br from-brand/10 to-brand/10 dark:border-brand/40 dark:from-brand/10 dark:to-brand/10">
         <CardContent className="flex items-center gap-3 p-4">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand">
             <AlarmClock className="h-5 w-5" />
           </div>
           <div className="flex-1">
@@ -397,7 +397,7 @@ function StudentExams({ upcoming, totalExams, today }: { upcoming: Exam[]; total
                 className={cn(
                   'overflow-hidden border-l-4 transition hover:shadow-md',
                   urgent && 'border-l-amber-500',
-                  soon && 'border-l-emerald-500',
+                  soon && 'border-l-brand',
                   !urgent && !soon && 'border-l-muted',
                 )}
               >
@@ -405,7 +405,7 @@ function StudentExams({ upcoming, totalExams, today }: { upcoming: Exam[]; total
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <h3 className="font-semibold leading-tight">{e.title}</h3>
-                      <Badge variant="outline" className="border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900/50 dark:bg-emerald-950/30 dark:text-emerald-300">
+                      <Badge variant="outline" className="border-brand/25 bg-brand/5 text-brand-strong dark:border-brand/40 dark:bg-brand/10 dark:text-brand">
                         {e.subject}
                       </Badge>
                       <Badge variant="secondary" className="bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300">
@@ -417,7 +417,7 @@ function StudentExams({ upcoming, totalExams, today }: { upcoming: Exam[]; total
                         </Badge>
                       )}
                       {soon && (
-                        <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+                        <Badge className="bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand">
                           In {days} days
                         </Badge>
                       )}
@@ -427,18 +427,18 @@ function StudentExams({ upcoming, totalExams, today }: { upcoming: Exam[]; total
                     )}
                     <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
                       <span className="flex items-center gap-1">
-                        <CalendarDays className="h-3.5 w-3.5 text-emerald-600" /> {formatDate(e.date)}
+                        <CalendarDays className="h-3.5 w-3.5 text-brand" /> {formatDate(e.date)}
                       </span>
                       <span className="flex items-center gap-1">
-                        <Clock className="h-3.5 w-3.5 text-emerald-600" /> {e.startTime} · {e.duration} min
+                        <Clock className="h-3.5 w-3.5 text-brand" /> {e.startTime} · {e.duration} min
                       </span>
                       {e.room && (
                         <span className="flex items-center gap-1">
-                          <DoorOpen className="h-3.5 w-3.5 text-emerald-600" /> Room {e.room}
+                          <DoorOpen className="h-3.5 w-3.5 text-brand" /> Room {e.room}
                         </span>
                       )}
                       <span className="flex items-center gap-1">
-                        <FileText className="h-3.5 w-3.5 text-emerald-600" /> {e.totalMarks} marks (pass {e.passingMarks})
+                        <FileText className="h-3.5 w-3.5 text-brand" /> {e.totalMarks} marks (pass {e.passingMarks})
                       </span>
                     </div>
                   </div>
@@ -527,7 +527,7 @@ function ExamDialog({ exam, onClose, onSaved }: { exam: Exam | null; onClose: ()
       <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <GraduationCap className="h-5 w-5 text-emerald-600" />
+            <GraduationCap className="h-5 w-5 text-brand" />
             {exam ? 'Edit Exam' : 'Schedule New Exam'}
           </DialogTitle>
         </DialogHeader>
@@ -582,7 +582,7 @@ function ExamDialog({ exam, onClose, onSaved }: { exam: Exam | null; onClose: ()
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}><X className="h-4 w-4" /> Cancel</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             {exam ? 'Save Changes' : 'Schedule Exam'}
           </Button>
@@ -595,7 +595,7 @@ function ExamDialog({ exam, onClose, onSaved }: { exam: Exam | null; onClose: ()
 // ---------------- helpers ----------------
 function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: string; value: string; sub: string; color: string }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     teal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
     amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     cyan: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',
@@ -610,7 +610,7 @@ function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: 
         </div>
         <p className="mt-3 text-2xl font-bold tracking-tight">{value}</p>
         <p className="text-xs font-medium text-muted-foreground">{label}</p>
-        <p className="mt-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">{sub}</p>
+        <p className="mt-1 text-[10px] font-semibold text-brand dark:text-brand">{sub}</p>
       </CardContent>
     </Card>
   )

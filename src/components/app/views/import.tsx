@@ -130,7 +130,7 @@ function ImportCard({
     <Card>
       <CardHeader>
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand">
             <Icon className="h-5 w-5" />
           </div>
           <div>
@@ -142,10 +142,10 @@ function ImportCard({
       <CardContent className="space-y-4">
         {/* Success state */}
         {successCount !== null ? (
-          <div className="flex flex-col items-center gap-3 rounded-lg border border-emerald-300 bg-emerald-50 p-6 text-center dark:border-emerald-900 dark:bg-emerald-950/30">
-            <CheckCircle2 className="h-12 w-12 text-emerald-600" />
-            <p className="text-lg font-bold text-emerald-700 dark:text-emerald-300">{successCount} record(s) imported</p>
-            <p className="text-xs text-emerald-700/80 dark:text-emerald-300/80">All valid rows were processed.</p>
+          <div className="flex flex-col items-center gap-3 rounded-lg border border-brand/35 bg-brand/5 p-6 text-center dark:border-brand/30 dark:bg-brand/10">
+            <CheckCircle2 className="h-12 w-12 text-brand" />
+            <p className="text-lg font-bold text-brand-strong dark:text-brand">{successCount} record(s) imported</p>
+            <p className="text-xs text-brand-strong/80 dark:text-brand/80">All valid rows were processed.</p>
             <Button variant="outline" size="sm" onClick={reset}>Import more</Button>
           </div>
         ) : (
@@ -192,7 +192,7 @@ function ImportCard({
                   </table>
                   {rows.length > 50 && <p className="p-2 text-center text-xs text-muted-foreground">+ {rows.length - 50} more rows…</p>}
                 </div>
-                <Button onClick={runImport} disabled={importing} className="w-full bg-emerald-600 text-white hover:bg-emerald-700">
+                <Button onClick={runImport} disabled={importing} className="w-full bg-brand text-brand-foreground hover:bg-brand-strong">
                   {importing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                   Import {rows.length} {kind}
                 </Button>

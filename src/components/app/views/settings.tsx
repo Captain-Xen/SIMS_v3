@@ -194,7 +194,7 @@ export function SettingsView() {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300"><School className="h-5 w-5" /></div>
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand"><School className="h-5 w-5" /></div>
             <div>
               <CardTitle className="text-base">School Branding</CardTitle>
               <CardDescription>Update the name, tagline, and logo shown across the app</CardDescription>
@@ -238,7 +238,7 @@ export function SettingsView() {
             </div>
           </div>
 
-          <Button onClick={saveBranding} disabled={savingBranding} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={saveBranding} disabled={savingBranding} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {savingBranding ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
             Save Branding
           </Button>
@@ -261,7 +261,7 @@ export function SettingsView() {
             {activeAccent ? (
               <>
                 <span className="h-4 w-4 rounded-full" style={{ background: activeAccent.swatch }} />
-                <span className="text-sm font-medium">Current theme: <span className="text-emerald-600">{activeAccent.label}</span></span>
+                <span className="text-sm font-medium">Current theme: <span className="text-brand">{activeAccent.label}</span></span>
               </>
             ) : (
               <span className="text-sm text-muted-foreground">Current theme: Custom</span>
@@ -277,12 +277,12 @@ export function SettingsView() {
                   title={a.label}
                   className={cn(
                     'group relative flex flex-col items-center gap-1.5 rounded-lg border p-2 transition',
-                    selected ? 'border-emerald-500 ring-2 ring-emerald-500/30' : 'border-border hover:border-emerald-300 hover:bg-muted/40',
+                    selected ? 'border-brand/60 ring-2 ring-brand/30' : 'border-border hover:border-brand/35 hover:bg-muted/40',
                   )}
                 >
                   <span className="h-8 w-8 rounded-full shadow-sm" style={{ background: a.swatch }} />
                   <span className="text-[10px] font-medium">{a.label}</span>
-                  {selected && <CheckCircle2 className="absolute -right-1 -top-1 h-4 w-4 text-emerald-600" />}
+                  {selected && <CheckCircle2 className="absolute -right-1 -top-1 h-4 w-4 text-brand" />}
                 </button>
               )
             })}
@@ -325,7 +325,7 @@ export function SettingsView() {
               <Textarea value={settings.address} onChange={(e) => patchLocal({ address: e.target.value })} rows={2} className="pl-10" placeholder="123 Knowledge Way, Kingston, Jamaica" />
             </div>
           </div>
-          <Button onClick={saveContact} disabled={savingContact} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={saveContact} disabled={savingContact} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {savingContact ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
             Save Contact
           </Button>

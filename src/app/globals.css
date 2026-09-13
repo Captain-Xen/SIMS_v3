@@ -34,6 +34,9 @@
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-brand-foreground: var(--brand-foreground);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -46,6 +49,10 @@
 
 :root {
   --radius: 0.625rem;
+  /* Brand bases — overridden at runtime by src/lib/theme.ts (applyAccentVars).
+     Defaults match the seeded emerald accent. */
+  --brand-base: rgb(5 150 105);
+  --brand-strong-base: rgb(4 120 87);
   /* EduCenterJM — emerald/green branded theme */
   --background: oklch(0.98 0.004 150);
   --foreground: oklch(0.18 0.02 165);
@@ -53,31 +60,37 @@
   --card-foreground: oklch(0.18 0.02 165);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.18 0.02 165);
-  --primary: oklch(0.55 0.13 155);
-  --primary-foreground: oklch(0.99 0 0);
+  /* Brand-derived tokens — changing --brand-base re-skins the whole app */
+  --brand: var(--brand-base);
+  --brand-strong: var(--brand-strong-base);
+  --brand-foreground: oklch(0.99 0 0);
+  --brand-tint-soft: color-mix(in oklab, var(--brand) 25%, white);
+  --brand-tint-faint: color-mix(in oklab, var(--brand) 10%, white);
+  --primary: var(--brand);
+  --primary-foreground: var(--brand-foreground);
+  --accent: color-mix(in oklab, var(--brand) 10%, var(--card));
+  --accent-foreground: var(--brand-strong);
   --secondary: oklch(0.96 0.01 150);
   --secondary-foreground: oklch(0.25 0.02 160);
   --muted: oklch(0.96 0.005 150);
   --muted-foreground: oklch(0.48 0.02 160);
-  --accent: oklch(0.55 0.13 155);
-  --accent-foreground: oklch(0.99 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.9 0.01 150);
   --input: oklch(0.92 0.008 150);
-  --ring: oklch(0.6 0.15 160);
-  --chart-1: oklch(0.6 0.13 155);
+  --ring: var(--brand);
+  --chart-1: var(--brand);
   --chart-2: oklch(0.65 0.18 85);
   --chart-3: oklch(0.55 0.2 250);
   --chart-4: oklch(0.7 0.18 30);
   --chart-5: oklch(0.6 0.2 320);
   --sidebar: oklch(0.99 0.003 150);
   --sidebar-foreground: oklch(0.18 0.02 165);
-  --sidebar-primary: oklch(0.55 0.13 155);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-primary: var(--brand);
+  --sidebar-primary-foreground: var(--brand-foreground);
   --sidebar-accent: oklch(0.95 0.02 150);
   --sidebar-accent-foreground: oklch(0.25 0.02 160);
   --sidebar-border: oklch(0.9 0.01 150);
-  --sidebar-ring: oklch(0.6 0.15 160);
+  --sidebar-ring: var(--brand);
 }
 
 .dark {
@@ -87,31 +100,35 @@
   --card-foreground: oklch(0.96 0.005 150);
   --popover: oklch(0.21 0.018 165);
   --popover-foreground: oklch(0.96 0.005 150);
-  --primary: oklch(0.65 0.15 158);
-  --primary-foreground: oklch(0.16 0.02 165);
+  /* Brand — lightened slightly in dark mode so text/tints stay legible */
+  --brand: color-mix(in oklab, var(--brand-base) 85%, white);
+  --brand-strong: var(--brand-base);
+  --brand-foreground: oklch(0.17 0.02 165);
+  --primary: var(--brand);
+  --primary-foreground: var(--brand-foreground);
+  --accent: color-mix(in oklab, var(--brand) 14%, var(--card));
+  --accent-foreground: var(--brand);
   --secondary: oklch(0.27 0.02 160);
   --secondary-foreground: oklch(0.96 0.005 150);
   --muted: oklch(0.25 0.015 160);
   --muted-foreground: oklch(0.7 0.015 155);
-  --accent: oklch(0.65 0.15 158);
-  --accent-foreground: oklch(0.16 0.02 165);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 12%);
   --input: oklch(1 0 0 / 14%);
-  --ring: oklch(0.6 0.15 160);
-  --chart-1: oklch(0.65 0.15 158);
+  --ring: var(--brand);
+  --chart-1: var(--brand);
   --chart-2: oklch(0.7 0.18 85);
   --chart-3: oklch(0.6 0.2 250);
   --chart-4: oklch(0.65 0.2 30);
   --chart-5: oklch(0.6 0.2 320);
   --sidebar: oklch(0.2 0.018 165);
   --sidebar-foreground: oklch(0.96 0.005 150);
-  --sidebar-primary: oklch(0.65 0.15 158);
-  --sidebar-primary-foreground: oklch(0.16 0.02 165);
+  --sidebar-primary: var(--brand);
+  --sidebar-primary-foreground: var(--brand-foreground);
   --sidebar-accent: oklch(0.27 0.02 160);
   --sidebar-accent-foreground: oklch(0.96 0.005 150);
   --sidebar-border: oklch(1 0 0 / 12%);
-  --sidebar-ring: oklch(0.6 0.15 160);
+  --sidebar-ring: var(--brand);
 }
 
 @layer base {
@@ -179,9 +196,9 @@
 }
 
 @keyframes pulse-ring {
-  0% { box-shadow: 0 0 0 0 oklch(0.6 0.15 160 / 0.5); }
-  70% { box-shadow: 0 0 0 8px oklch(0.6 0.15 160 / 0); }
-  100% { box-shadow: 0 0 0 0 oklch(0.6 0.15 160 / 0); }
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--brand) 50%, transparent); }
+  70% { box-shadow: 0 0 0 8px color-mix(in srgb, var(--brand) 0%, transparent); }
+  100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--brand) 0%, transparent); }
 }
 .animate-pulse-ring {
   animation: pulse-ring 2s infinite;

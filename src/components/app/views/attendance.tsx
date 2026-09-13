@@ -19,14 +19,14 @@ import {
 const STATUSES = ['Present', 'Late', 'Absent', 'Excused']
 
 const STATUS_COLORS: Record<string, string> = {
-  Present: '#10b981',
+  Present: 'var(--chart-1)',
   Late: '#f59e0b',
   Absent: '#ef4444',
   Excused: '#8b5cf6',
 }
 
 const STATUS_BADGE: Record<string, string> = {
-  Present: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+  Present: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
   Late: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
   Absent: 'bg-rose-100 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300',
   Excused: 'bg-violet-100 text-violet-700 dark:bg-violet-950/50 dark:text-violet-300',
@@ -111,13 +111,13 @@ function TeacherAttendance() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
           <div className="min-w-0">
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl"><ClipboardCheck className="h-7 w-7" /> Attendance Tracking</h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">Record and monitor student attendance.</p>
+            <p className="mt-1.5 text-sm text-brand-foreground/85">Record and monitor student attendance.</p>
           </div>
         </CardContent>
       </Card>
@@ -138,7 +138,7 @@ function TeacherAttendance() {
               <Button key={s} variant="outline" size="sm" onClick={() => setAll(s)}>{s}</Button>
             ))}
           </div>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
             Save Attendance
           </Button>
@@ -149,7 +149,7 @@ function TeacherAttendance() {
         {/* Summary cards + donut */}
         <Card className="lg:col-span-1">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-base"><ClipboardCheck className="h-4 w-4 text-emerald-600" /> Summary</CardTitle>
+            <CardTitle className="flex items-center gap-2 text-base"><ClipboardCheck className="h-4 w-4 text-brand" /> Summary</CardTitle>
             <CardDescription>{date} · {students.length} students</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -160,7 +160,7 @@ function TeacherAttendance() {
               <SummaryStat icon={AlertCircle} label="Excused" value={summary.Excused ?? 0} color="violet" />
             </div>
             <div className="rounded-lg border border-border p-3 text-center">
-              <p className="text-3xl font-bold text-emerald-600">{presentPct}%</p>
+              <p className="text-3xl font-bold text-brand">{presentPct}%</p>
               <p className="text-xs text-muted-foreground">present today</p>
             </div>
             {donutData.length > 0 && (
@@ -283,7 +283,7 @@ function StudentAttendance() {
           <CardHeader><CardTitle className="text-base">Attendance Rate</CardTitle></CardHeader>
           <CardContent className="space-y-3">
             <div className="rounded-lg border border-border p-4 text-center">
-              <p className="text-4xl font-bold text-emerald-600">{presentPct}%</p>
+              <p className="text-4xl font-bold text-brand">{presentPct}%</p>
               <p className="text-xs text-muted-foreground">present across {records.length} record(s)</p>
             </div>
             {donutData.length > 0 && (
@@ -342,7 +342,7 @@ function StudentAttendance() {
 
 function SummaryStat({ icon: Icon, label, value, color }: { icon: any; label: string; value: number; color: string }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     rose: 'bg-rose-100 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300',
     violet: 'bg-violet-100 text-violet-700 dark:bg-violet-950/50 dark:text-violet-300',

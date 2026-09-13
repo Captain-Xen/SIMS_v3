@@ -36,7 +36,7 @@ const EXPENSE_CATEGORIES = [
 ] as const
 
 const CATEGORY_BADGE: Record<string, string> = {
-  Salaries: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+  Salaries: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
   Supplies: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
   Maintenance: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
   Transport: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300',
@@ -142,7 +142,7 @@ export function FinanceView() {
   return (
     <div className="space-y-6">
       {/* Header — emerald gradient banner */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white shadow-xl shadow-emerald-900/20">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-brand via-brand/70 to-brand-strong text-brand-foreground shadow-xl shadow-brand/20">
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 right-1/3 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl" />
         <CardContent className="relative flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center sm:p-7">
@@ -150,7 +150,7 @@ export function FinanceView() {
             <h2 className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight sm:text-3xl">
               <Wallet className="h-7 w-7" /> School Finance
             </h2>
-            <p className="mt-1.5 text-sm text-emerald-50/85">
+            <p className="mt-1.5 text-sm text-brand-foreground/85">
               Budget allocation, expense tracking, and financial overview.
             </p>
           </div>
@@ -219,7 +219,7 @@ export function FinanceView() {
               <Card className="lg:col-span-2">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-base">
-                    <Banknote className="h-4 w-4 text-emerald-600" /> Budget vs Spending
+                    <Banknote className="h-4 w-4 text-brand" /> Budget vs Spending
                   </CardTitle>
                   <CardDescription>Allocated vs spent per category (in dollars).</CardDescription>
                 </CardHeader>
@@ -240,7 +240,7 @@ export function FinanceView() {
                         formatter={(v: number) => [`$${v.toLocaleString()}`, '']}
                       />
                       <Legend iconType="circle" wrapperStyle={{ fontSize: 12 }} />
-                      <Bar dataKey="Allocated" fill="#10b981" radius={[4, 4, 0, 0]} maxBarSize={36} />
+                      <Bar dataKey="Allocated" fill="var(--chart-1)" radius={[4, 4, 0, 0]} maxBarSize={36} />
                       <Bar dataKey="Spent" fill="#f59e0b" radius={[4, 4, 0, 0]} maxBarSize={36} />
                     </BarChart>
                   </ResponsiveContainer>
@@ -251,7 +251,7 @@ export function FinanceView() {
             <Card className={cn(chartData.length === 0 && 'lg:col-span-3')}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-base">
-                  <PiggyBank className="h-4 w-4 text-emerald-600" /> Budget Categories
+                  <PiggyBank className="h-4 w-4 text-brand" /> Budget Categories
                 </CardTitle>
                 <CardDescription>
                   {budgets.length === 0 ? 'No budgets defined yet.' : `${budgets.length} ${budgets.length === 1 ? 'category' : 'categories'} tracked.`}
@@ -262,7 +262,7 @@ export function FinanceView() {
                   <div className="flex flex-col items-center gap-2 py-6 text-muted-foreground">
                     <Wallet className="h-8 w-8 opacity-40" />
                     <p className="text-xs">No budgets created.</p>
-                    <Button size="sm" onClick={() => setManagingBudgets(true)} className="bg-emerald-600 text-white hover:bg-emerald-700">
+                    <Button size="sm" onClick={() => setManagingBudgets(true)} className="bg-brand text-brand-foreground hover:bg-brand-strong">
                       <Settings2 className="h-4 w-4" /> Add a budget
                     </Button>
                   </div>
@@ -281,7 +281,7 @@ export function FinanceView() {
                             </div>
                             <span className={cn(
                               'shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-semibold',
-                              tone === 'emerald' && 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+                              tone === 'emerald' && 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
                               tone === 'amber' && 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
                               tone === 'red' && 'bg-rose-100 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300',
                             )}>
@@ -292,7 +292,7 @@ export function FinanceView() {
                             value={pct}
                             className={cn(
                               'mt-2 h-1.5',
-                              tone === 'emerald' && '[&>div]:bg-emerald-500',
+                              tone === 'emerald' && '[&>div]:bg-brand',
                               tone === 'amber' && '[&>div]:bg-amber-500',
                               tone === 'red' && '[&>div]:bg-rose-500',
                             )}
@@ -300,7 +300,7 @@ export function FinanceView() {
                           <div className="mt-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-0.5 text-[11px] text-muted-foreground">
                             <span>Spent <span className="font-medium text-foreground/80">{formatMoney(b.spent)}</span></span>
                             <span>of <span className="font-medium text-foreground/80">{formatMoney(b.allocated)}</span></span>
-                            <span className={cn('font-medium', remaining >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400')}>
+                            <span className={cn('font-medium', remaining >= 0 ? 'text-brand dark:text-brand' : 'text-rose-600 dark:text-rose-400')}>
                               {remaining >= 0 ? 'left ' : 'over '} {formatMoney(Math.abs(remaining))}
                             </span>
                           </div>
@@ -317,7 +317,7 @@ export function FinanceView() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base">
-                <Receipt className="h-4 w-4 text-emerald-600" /> Expenses
+                <Receipt className="h-4 w-4 text-brand" /> Expenses
               </CardTitle>
               <CardDescription>
                 {expenses.length} {expenses.length === 1 ? 'record' : 'records'} logged.
@@ -328,7 +328,7 @@ export function FinanceView() {
                 <div className="flex h-48 flex-col items-center justify-center gap-2 text-muted-foreground">
                   <Receipt className="h-10 w-10 opacity-40" />
                   <p className="text-sm">No expenses recorded yet.</p>
-                  <Button size="sm" onClick={() => setAddingExpense(true)} className="bg-emerald-600 text-white hover:bg-emerald-700">
+                  <Button size="sm" onClick={() => setAddingExpense(true)} className="bg-brand text-brand-foreground hover:bg-brand-strong">
                     <Plus className="h-4 w-4" /> Log the first expense
                   </Button>
                 </div>
@@ -426,7 +426,7 @@ export function FinanceView() {
 // ---------------------------------------------------------------------------
 function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: string; value: string; sub: string; color: string }) {
   const colors: Record<string, string> = {
-    emerald: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    emerald: 'bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand',
     teal: 'bg-teal-100 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300',
     amber: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     red: 'bg-rose-100 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300',
@@ -443,7 +443,7 @@ function StatCard({ icon: Icon, label, value, sub, color }: { icon: any; label: 
         </div>
         <p className="mt-3 text-2xl font-bold">{value}</p>
         <p className="text-xs text-muted-foreground">{label}</p>
-        <p className="mt-1 text-[10px] font-medium text-emerald-600">{sub}</p>
+        <p className="mt-1 text-[10px] font-medium text-brand">{sub}</p>
       </CardContent>
     </Card>
   )
@@ -511,7 +511,7 @@ function ExpenseDialog({
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Receipt className="h-4 w-4 text-emerald-600" />
+            <Receipt className="h-4 w-4 text-brand" />
             {expense ? 'Edit Expense' : 'Add Expense'}
           </DialogTitle>
           <DialogDescription>
@@ -564,7 +564,7 @@ function ExpenseDialog({
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}><X className="h-4 w-4" /> Cancel</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button onClick={save} disabled={saving} className="bg-brand text-brand-foreground hover:bg-brand-strong">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             {expense ? 'Save Changes' : 'Add Expense'}
           </Button>
@@ -654,7 +654,7 @@ function BudgetsDialog({
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Settings2 className="h-4 w-4 text-emerald-600" /> Manage Budgets
+            <Settings2 className="h-4 w-4 text-brand" /> Manage Budgets
           </DialogTitle>
           <DialogDescription>Adjust allocations or create new budget categories.</DialogDescription>
         </DialogHeader>
@@ -692,7 +692,7 @@ function BudgetsDialog({
                       size="sm"
                       onClick={() => saveOne(b)}
                       disabled={savingId === b.id}
-                      className="bg-emerald-600 text-white hover:bg-emerald-700"
+                      className="bg-brand text-brand-foreground hover:bg-brand-strong"
                     >
                       {savingId === b.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
                       <span className="sr-only">Save</span>
@@ -708,7 +708,7 @@ function BudgetsDialog({
           {/* Add new budget */}
           <div>
             <p className="mb-2 flex items-center gap-1.5 text-sm font-semibold">
-              <Plus className="h-4 w-4 text-emerald-600" /> Add New Budget
+              <Plus className="h-4 w-4 text-brand" /> Add New Budget
             </p>
             <div className="grid gap-3 sm:grid-cols-3">
               <div className="space-y-1.5">
@@ -731,7 +731,7 @@ function BudgetsDialog({
                 </Select>
               </div>
             </div>
-            <Button onClick={addBudget} disabled={adding} className="mt-3 bg-emerald-600 text-white hover:bg-emerald-700">
+            <Button onClick={addBudget} disabled={adding} className="mt-3 bg-brand text-brand-foreground hover:bg-brand-strong">
               {adding ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
               Add Budget
             </Button>
