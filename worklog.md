@@ -1193,3 +1193,23 @@ Verification (agent-browser end-to-end):
 
 Stage Summary:
 - Accent picker is now a real theme engine: 16 accents × light/dark re-skin the ENTIRE app (sidebar, buttons, badges, charts, gradients, rings, tints) instantly and persistently. Single source of truth: SchoolSettings.accent → --brand-base/--brand-strong-base → all shadcn + brand tokens.
+
+---
+Task ID: hydration-fix
+Agent: main (user request)
+Task: Fix persistent console hydration error (Grammarly extension attributes on <body>)
+
+Work Log:
+- Diagnosed error: React reported server/client attribute mismatch on <body> — diff showed `data-new-gr-c-s-check-loaded="14.1328.0"` and `data-gr-ext-installed=""`, which are injected by the Grammarly browser extension before React hydrates. Not an app bug.
+- Fix: added `suppressHydrationWarning` to <body> in src/app/layout.tsx (the <html> element already had one). Scoped to the body element's own attributes only — genuine mismatches inside the app still surface. Nothing else touched (+4 lines incl. comment).
+- Proved it with an A/B test simulating the extension: temporarily injected a pre-hydration script setting those exact two attributes on <body>:
+  - WITHOUT suppressHydrationWarning → exact same hydration console error reproduced
+  - WITH suppressHydrationWarning → console clean
+  - Removed the temporary injection script afterwards; final state is the minimal fix.
+
+Verification:
+- bun run lint clean; dev.log clean; agent-browser: fresh reload → zero console errors/page errors, app interactive, theme engine still working (DB accent applied).
+- git diff --stat: only src/app/layout.tsx changed.
+
+Stage Summary:
+- Hydration warning from browser-extension attribute injection on <body> is suppressed at the correct scope; no app code or behavior changed.
