@@ -86,6 +86,90 @@ Every feature below is live in the application. Role restrictions are shown wher
 
 ---
 
+# Version History
+
+Current as of **September 2026** — listed oldest → newest; every entry below is shipped and live in this app.
+
+## v1.0 — The Next.js Rebuild
+- Full reimplementation of the original single-page EduCenterJM app on **Next.js 16 + TypeScript + Prisma (SQLite) + shadcn/ui**
+- Cookie-based login with separate **Staff** and **Student** portals across 7 roles
+- Core modules: Dashboard, Students, Staff, Grades, Attendance, Timetable, Fees, Announcements, Discipline, Subjects, Bulk CSV Import, System Settings
+- Toasts, onboarding flow, idle timeout, printable report cards
+
+## v1.1 — Communication & Coursework
+- **Messaging** (direct chats with unread badges), **Assignments** (create → submit → grade with feedback), **Notifications centre**
+- Dedicated **Student & Teacher profiles** with avatar upload and an edit-profile modal
+- Dashboard **charts** (recharts); Attendance wired into the navigation
+
+## v1.2 — Campus Life
+- **Library** (catalogue, loans, category breakdown), **Events calendar**, **Parent Portal**
+
+## v1.3 — Reports & Guidance
+- **Reports & Transcripts** centre with 4 print-ready report types (Report Card / Attendance / Fee Statement / Class Summary)
+- **Help & FAQ** with role-based quick-start onboarding
+
+## v1.4 — Analytics & Exams
+- **School Analytics** dashboards
+- **Exam Management** (scheduling, rooms, total/passing marks)
+
+## v1.5 — Health & Transport
+- **Health Records** (allergies, conditions, medications, immunizations, clinic visits)
+- **Transportation / Bus Routes** with capacity-aware student assignments
+
+## v1.6 — Cafeteria & Alumni
+- **Cafeteria / Meal Plans** (accounts, top-ups, dietary preferences, menu purchases)
+- **Alumni** registry with graduation workflow
+
+## v1.7 — Front Office
+- **Visitor Management** (check-in/out, gate passes)
+- **Inventory / Asset Management** with low-stock alerts and CSV export
+
+## v1.8 — Facilities & Admissions
+- **Facilities Booking** with approval workflow
+- **Admissions** pipeline (Pending → Reviewing → Accepted/Rejected → Enrolled)
+
+## v1.9 — Planning & HR
+- **Terms & Calendar** management
+- **Staff Performance** reviews with multi-category ratings and radar/bar charts
+
+## v2.0 — Finance & Community
+- **School Finance** (income, expenses, budgets)
+- **Parent-Teacher Conferences** with bookable time slots
+
+## v2.1 — Activities & Operations
+- **School Activities** and **Uniform Management**
+
+## v2.2 — Stability & Preview
+- Auth/session reliability fixes, footer scroll fix, standalone HTML preview page
+
+## v2.3 — Performance Pass
+- Lazy-loaded 36 of 37 views; ~94× lighter notification-badge polling; DB session lookup caching; TTL caching of hot GET endpoints; SQLite WAL mode; Turbopack memory cap
+
+## v2.4 — Theme Engine
+- **16-accent live theme engine** — picking an accent instantly re-skins the entire app (buttons, sidebar, badges, charts, gradients, tints, dark mode) and persists for the whole school
+- Fixed the persistent console hydration warning
+
+## v2.5 — Live Sync & Module Control
+- **Live global settings broadcast** — admin changes reach every signed-in student/teacher/staff session within seconds, no reload
+- Admins can **hide/unhide 32 modules** for all roles at once (core modules always stay on)
+- First docs: **README** (install/run) and **FEATURES** (this file)
+
+## v2.6 — Branding & Uploads
+- **Dynamic school name** everywhere — sidebar, login, footer, browser tab title, print documents
+- New **/api/upload** endpoint fixed the logo/profile-picture 404 (client-side resizing, admin-gated)
+- One-command setup scripts (**setup.ps1** / **setup.bat**), attribution **LICENSE**, footer GitHub credit
+
+## v3.0 — Security & SIMS Identity *(current)*
+- **Security hardening**: scrypt password hashing with legacy migration, hardened httpOnly session cookies, sliding-window rate limiting on auth/registration/email routes, security headers (CSP `frame-ancestors 'none'`, X-Frame-Options DENY, nosniff, Referrer-Policy, Permissions-Policy), size/type-validated admin-only uploads
+- Rebranded as a **School Information Management System (SIMS)** — not secondary-school-only; default display name is now **"School Name"**
+- Neutral centred **Loading** splash with a spinner
+- New footer everywhere (app + login): *© 2026 Xen LabsJM. All Rights Reserved. Free Digital Tools for Education — Developed by Xen · GitHub*
+- Distinct **display fonts** for the school name (Cinzel on the login page, Space Grotesk in the sidebar corner)
+- Dark/light switching moved to the **View Transitions API** — single composited crossfade, no more stutter
+- This file gained the **Hosting, Free Resources & Local Setup Guide** (below); README rebranded to SIMS with a dedicated Security section
+
+---
+
 # Hosting, Free Resources & Local Setup Guide
 
 SIMS is deliberately light on infrastructure: the database is a **single SQLite file**, logo/avatar images live **inside that database** as base64 data URLs (no filesystem or object storage needed), and email works in **demo mode** with zero configuration. It therefore runs — and can even serve a whole school — on entirely free resources. This guide lists the notable free options for hosting, databases, email, storage, and security extras, plus the recommended local setups.

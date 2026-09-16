@@ -1279,3 +1279,24 @@ Work Log:
 
 Stage Summary:
 - Docs-only change: FEATURES.md now carries a complete free-resources + local hosting guide (7 sections, comparison tables, command blocks) after the intact feature catalogue, retitled to SIMS. README.md rebranded to SIMS (formerly EduCenterJM) with a new Security section, a hosting/free-resources pointer to FEATURES.md, optional email env vars, and full attribution (Captain-Xen / Xen LabsJM / footer credit). App code, schema, and configs untouched.
+
+---
+Task ID: sims-ui-final
+Agent: main (orchestrator)
+Task: (1) SIMS identity + default name "School Name", (2) loading splash, (3) new footer + login footer, (4) school-name fonts, (5) dark/light transition optimization, (6) top-notch security hardening
+
+Work Log:
+- Default display name: every fallback changed from 'EduCenterJM' to 'School Name' (seed data, layout generateMetadata, login heading, sidebar corner, mobile SheetTitle, footer, print documents in reports/exams/visitors/profile/help, register welcome notification, email From header, settings view). Tab description + print tagline rebranded to "School Information Management System (SIMS)" — app is explicitly not secondary-school-only anymore.
+- Loading splash (page.tsx boot state): neutral "Loading" text + spinning Loader2 icon, perfectly centred via min-h-screen flex items-center justify-center (aria role=status); no longer names the school (which may not be loaded yet).
+- Footer (app-shell): exact requested text — "© 2026 Xen LabsJM. All Rights Reserved. Free Digital Tools for Education" / "Developed by Xen · [GitHub](https://github.com/Captain-Xen)" with lucide Github icon, target=_blank rel=noopener noreferrer, centred. Login screen: removed "Secured with care", replaced its footer with the same copyright + tagline + GitHub credit block.
+- School-name fonts via next/font/google: Cinzel (engraved academia capitals, --font-display) for the login page school name; Space Grotesk (clean geometric, --font-school) for the dashboard sidebar corner + mobile sheet title. Both display:swap with scoped weights.
+- Dark/light transition optimization: removed the universal `* { transition: background-color … }` rule (thousands of simultaneous recalcs = visible stutter on big pages). Theme flips now use the View Transitions API in applyTheme (store.ts) — browser screenshots old state and crossfades as one composited GPU layer (200ms, defined via ::view-transition-old/new(root)); instant fallback when unsupported or prefers-reduced-motion.
+- Security hardening: passwords hashed with scrypt (node:crypto, per-user salt, timingSafeEqual compare, transparent legacy-hash upgrade on login); DB-backed 32-byte random session tokens in httpOnly SameSite=Lax cookies with sliding expiry + 30s lookup cache; sliding-window rate limiting applied to /api/auth/login, /api/auth/register, /api/email, /api/seed; security headers on every route (X-Content-Type-Options nosniff, X-Frame-Options DENY, CSP frame-ancestors 'none', Referrer-Policy strict-origin-when-cross-origin, Permissions-Policy locking camera/mic/geolocation/payment/usb, X-DNS-Prefetch-Control off, poweredByHeader removed); /api/upload validates data-URL type, caps at ~1.5MB with client-side downscaling, admin-only gating.
+
+Verification (agent-browser):
+- Boot splash centred with spinner; login page renders Cinzel school name "School Name" + new footer block, no "Secured with care".
+- Logged in as admin: sidebar corner shows Space Grotesk school name; footer shows both new lines with working GitHub link; dark/light toggle no longer stutters (single composited crossfade); accent switching still instant.
+- Upload, name-change, feature-hide live sync re-tested after the changes — all still working; zero console errors; bun run lint clean.
+
+Stage Summary:
+- The app is now a branded SIMS ("School Name" default) with hardened security (scrypt + cookie sessions + rate limits + security headers + validated uploads), a stutter-free View Transitions dark/light switch, distinct display fonts for the school name (Cinzel on login, Space Grotesk in the sidebar), the exact requested footer on both the app and the login screen, and a neutral centred loading splash. This entry was re-appended after the previous session's tool connection dropped before the write could be confirmed.
