@@ -3,16 +3,18 @@
 import { useEffect, useRef, useState } from 'react'
 import {
   Settings as SettingsIcon, Save, Upload, Trash2, Loader2, Palette, Mail, Phone, MapPin,
-  School, Image as ImageIcon, AlertTriangle, CheckCircle2, RotateCcw,
+  School, Image as ImageIcon, AlertTriangle, CheckCircle2, RotateCcw, EyeOff,
 } from 'lucide-react'
 import { api, fileToDataUrl } from '@/lib/api'
 import { useAppStore } from '@/lib/store'
-import type { SchoolSettings } from '@/lib/types'
+import type { SchoolSettings, ViewId } from '@/lib/types'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { Switch } from '@/components/ui/switch'
+import { HIDEABLE_FEATURES } from '@/components/app/nav'
 import { cn } from '@/lib/utils'
 
 interface AccentDef {
@@ -64,6 +66,7 @@ export function SettingsView() {
         const s = res.settings ?? {
           name: 'EduCenterJM', tagline: 'Excellence in Education', logo: null,
           accent: '16,185,129|20,184,166|13,148,136', email: '', phone: '', address: '',
+          features: {}, version: 1,
         }
         setLocal(s)
         if (!storeSettings) setSettings(s)
@@ -145,6 +148,29 @@ export function SettingsView() {
     }
   }
 
+  async function toggleFeature(id: ViewId, label: string, enabled: boolean) {
+    if (!settings) return
+    const prevFeatures = settings.features
+    const features = { ...prevFeatures, [id]: enabled }
+    patchLocal({ features }) // optimistic
+    try {
+      const res = await api<{ settings: SchoolSettings }>('/api/settings', {
+        method: 'PATCH',
+        body: { features },
+      })
+      setLocal(res.settings)
+      setSettings(res.settings)
+      addToast({
+        type: 'success',
+        title: enabled ? 'Feature visible' : 'Feature hidden',
+        body: `"${label}" is now ${enabled ? 'shown to' : 'removed from'} every role's navigation.`,
+      })
+    } catch (e: any) {
+      patchLocal({ features: prevFeatures }) // revert
+      addToast({ type: 'error', title: 'Save failed', body: e.message })
+    }
+  }
+
   async function saveContact() {
     if (!settings) return
     setSavingContact(true)
@@ -177,6 +203,7 @@ export function SettingsView() {
   }
 
   const activeAccent = ACCENTS.find((a) => settings?.accent === a.shades.join('|'))
+  const hiddenCount = HIDEABLE_FEATURES.filter((f) => settings?.features?.[f.id] === false).length
 
   if (loading || !settings) {
     return (
@@ -284,6 +311,49 @@ export function SettingsView() {
                   <span className="text-[10px] font-medium">{a.label}</span>
                   {selected && <CheckCircle2 className="absolute -right-1 -top-1 h-4 w-4 text-brand" />}
                 </button>
+              )
+            })}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Feature visibility */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand"><EyeOff className="h-5 w-5" /></div>
+            <div>
+              <CardTitle className="text-base">Feature Visibility</CardTitle>
+              <CardDescription>Hide or show entire modules for every role — updates go live for all users</CardDescription>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border bg-muted/40 p-3">
+            <span className="text-sm font-medium">
+              {HIDEABLE_FEATURES.length - hiddenCount} of {HIDEABLE_FEATURES.length} modules visible
+            </span>
+            <span className="text-xs text-muted-foreground">
+              Everyone sees changes within ~45s, or instantly when they refocus the app. Dashboard, Profile, Notifications, Help and Settings stay on.
+            </span>
+          </div>
+          <div className="max-h-96 space-y-1 overflow-y-auto rounded-lg border border-border p-2">
+            {HIDEABLE_FEATURES.map((f) => {
+              const enabled = settings.features?.[f.id] !== false
+              return (
+                <div key={f.id} className="flex items-center justify-between gap-3 rounded-lg p-2.5 transition hover:bg-muted/50">
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium">{f.label}</p>
+                    <p className="truncate text-xs text-muted-foreground">
+                      {f.roles.length === 0 ? 'All roles' : f.roles.join(', ')}
+                    </p>
+                  </div>
+                  <Switch
+                    checked={enabled}
+                    onCheckedChange={(v) => toggleFeature(f.id, f.label, v)}
+                    aria-label={`${enabled ? 'Hide' : 'Show'} ${f.label}`}
+                  />
+                </div>
               )
             })}
           </div>

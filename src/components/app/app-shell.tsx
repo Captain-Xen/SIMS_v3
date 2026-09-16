@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useMemo, useState, useRef } from 'react'
 import dynamic from 'next/dynamic'
 import {
   GraduationCap, Menu, Search, Moon, Sun, Bell, LogOut, ChevronLeft, ChevronRight,
@@ -101,7 +101,17 @@ export function AppShell() {
   const countdownTimer = useRef<ReturnType<typeof setInterval> | null>(null)
   const lastActivity = useRef(0)
 
-  const nav = user ? navForRole(user.role) : []
+  // Feature-visibility-aware navigation: role filter + admin's global hide/unhide.
+  const nav = useMemo(
+    () => (user ? navForRole(user.role, settings?.features) : []),
+    [user, settings?.features],
+  )
+
+  // If the admin hides the module a user is currently viewing, bounce to Dashboard.
+  useEffect(() => {
+    if (!user || nav.length === 0) return
+    if (!nav.some((n) => n.id === activeView)) setActiveView('dashboard')
+  }, [nav, activeView, user, setActiveView])
 
   // Keyboard shortcut for search
   useEffect(() => {

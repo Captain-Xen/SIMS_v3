@@ -198,6 +198,10 @@ export interface SchoolSettings {
   email: string
   phone: string
   address: string
+  /** Admin-controlled module visibility map (viewId -> enabled). Missing key = enabled. */
+  features: Record<string, boolean>
+  /** Bumped on every settings PATCH — clients poll this to live-sync theme + features. */
+  version: number
 }
 
 export interface Book {

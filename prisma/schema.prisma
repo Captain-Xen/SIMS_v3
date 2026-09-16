@@ -189,6 +189,8 @@ model SchoolSettings {
   email     String   @default("info@educenter.edu")
   phone     String   @default("+1 555 0100")
   address   String   @default("123 Education Lane, Kingston")
+  features  String   @default("{}") // JSON map viewId -> boolean; missing key = enabled
+  version   Int      @default(1) // bumped on every PATCH; clients poll this to live-sync
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

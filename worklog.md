@@ -1213,3 +1213,31 @@ Verification:
 
 Stage Summary:
 - Hydration warning from browser-extension attribute injection on <body> is suppressed at the correct scope; no app code or behavior changed.
+
+---
+Task ID: live-sync-features-readmes
+Agent: main (user request)
+Task: (1) Live global theme/setting propagation, (2) admin hide/unhide of app modules for all roles, (3) two README files
+
+Work Log:
+- Schema: SchoolSettings gained `features` (JSON string map viewId->bool, missing key = enabled) and `version` (int, bumped on every PATCH). bun run db:push applied; dev server restarted to load the regenerated Prisma client (stale in-memory client initially caused a 500 on the new select — resolved by restart).
+- lib/features.ts (new): parseFeatures/stringifyFeatures/isFeatureEnabled (safe JSON, boolean-only, corrupt-tolerant).
+- types.ts: SchoolSettings += features: Record<string, boolean>, version: number.
+- API /api/settings: GET ?mode=version returns just {version} (~15 bytes, no cache) for cheap live-sync probes; GET serializes features into the response (30s cache kept for full payload); PATCH accepts features (server-side whitelist against NAV ids, boolean-only), bumps version, busts cache.
+- nav.ts: navForRole(role, features?) now also filters by feature flags; exported HIDEABLE_FEATURES (32 modules) and isHideable; ALWAYS_ON = dashboard, profile, settings, help, notifications (no lockout).
+- page.tsx: live-sync poller — checks /api/settings?mode=version every 45s, paused while the tab is hidden, instant check on window focus/visibility regain; on version change fetches full settings once and setSettings() -> applyAccentVars + features flow everywhere (login screen included).
+- app-shell.tsx: nav memoized with features filter; guard effect — if the admin hides the module a user is currently viewing, they are bounced to Dashboard automatically.
+- settings.tsx: new "Feature Visibility" card (admin) — Switch per module with roles hint, visible/hidden counter, optimistic toggle + revert on error + toast, max-h-96 scrollable list.
+- dashboard.tsx: welcome-banner shortcut and quick-action tiles now respect feature flags too (no dead buttons pointing at hidden modules).
+- README.md (new): prerequisites (Bun or Node 20+), install, .env/DATABASE_URL, db:push, demo seeding + demo accounts table, dev/prod run commands, lint/db commands, tech stack, project structure.
+- FEATURES.md (new): full feature catalogue grouped by area (accounts, dashboard, people, academics, communication, operations, finance, administration, profile/gamification, platform/UX) with role annotations.
+
+Verification (agent-browser, two parallel sessions):
+- Admin session + student session logged in simultaneously.
+- Admin set Rose + hid Library & Assignments -> student dispatched focus -> within ~2s: brand-base flipped to rgb(225 29 72), Library/Assignments removed from sidebar, student who was ON Library got bounced to Dashboard automatically.
+- Dashboard quick-action "Assignments" tile also removed (count 0).
+- Admin re-enabled both modules -> student refocus -> both back in sidebar live.
+- Admin restored the user's Yellow accent; both sessions zero console errors; lint clean; dev.log healthy (version probe ~10ms).
+
+Stage Summary:
+- Settings are now a live broadcast: any admin change (theme, feature visibility, branding) reaches every student/teacher/staff session automatically (45s heartbeat or instant on focus). Admins can hide/unhide 32 modules globally with lockout-safe always-on core. Docs: README.md (install/run) + FEATURES.md (capabilities).

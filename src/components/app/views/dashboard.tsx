@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import { api, timeAgo } from '@/lib/api'
 import { useAppStore } from '@/lib/store'
+import { isFeatureEnabled } from '@/lib/features'
 import type { Announcement, CalendarEvent, Loan } from '@/lib/types'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -26,6 +27,7 @@ export function DashboardView() {
   const user = useAppStore((s) => s.user)!
   const setActiveView = useAppStore((s) => s.setActiveView)
   const addToast = useAppStore((s) => s.addToast)
+  const features = useAppStore((s) => s.settings?.features)
 
   const [stats, setStats] = useState({ students: 0, staff: 0, feesCollected: 0, feesPending: 0, present: 0, absent: 0, late: 0, totalFees: 0 })
   const [announcements, setAnnouncements] = useState<Announcement[]>([])
@@ -128,12 +130,12 @@ export function DashboardView() {
             </p>
           </div>
           <div className="flex shrink-0 gap-2">
-            {!isStudent && (
+            {!isStudent && isFeatureEnabled(features, 'students') && (
               <Button onClick={() => setActiveView('students')} variant="secondary" className="border-0 bg-white/15 text-white backdrop-blur hover:bg-white/25">
                 <Users className="h-4 w-4" /> View Students
               </Button>
             )}
-            {isStudent && (
+            {isStudent && isFeatureEnabled(features, 'assignments') && (
               <Button onClick={() => setActiveView('assignments')} variant="secondary" className="border-0 bg-white/15 text-white backdrop-blur hover:bg-white/25">
                 <BookOpen className="h-4 w-4" /> My Assignments
               </Button>
@@ -217,17 +219,17 @@ export function DashboardView() {
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {isStudent ? (
                   <>
-                    <QuickAction icon={ClipboardList} label="My Grades" color="emerald" onClick={() => setActiveView('grades')} />
-                    <QuickAction icon={BookOpen} label="Assignments" color="teal" onClick={() => setActiveView('assignments')} />
-                    <QuickAction icon={Library} label="Borrow Book" color="amber" onClick={() => setActiveView('library')} />
-                    <QuickAction icon={FileText} label="Reports" color="cyan" onClick={() => setActiveView('reports')} />
+                    {isFeatureEnabled(features, 'grades') && <QuickAction icon={ClipboardList} label="My Grades" color="emerald" onClick={() => setActiveView('grades')} />}
+                    {isFeatureEnabled(features, 'assignments') && <QuickAction icon={BookOpen} label="Assignments" color="teal" onClick={() => setActiveView('assignments')} />}
+                    {isFeatureEnabled(features, 'library') && <QuickAction icon={Library} label="Borrow Book" color="amber" onClick={() => setActiveView('library')} />}
+                    {isFeatureEnabled(features, 'reports') && <QuickAction icon={FileText} label="Reports" color="cyan" onClick={() => setActiveView('reports')} />}
                   </>
                 ) : (
                   <>
-                    <QuickAction icon={Users} label="Students" color="emerald" onClick={() => setActiveView('students')} />
-                    <QuickAction icon={ClipboardList} label="Grades" color="teal" onClick={() => setActiveView('grades')} />
-                    <QuickAction icon={Megaphone} label="Announce" color="amber" onClick={() => setActiveView('announcements')} />
-                    <QuickAction icon={FileText} label="Reports" color="cyan" onClick={() => setActiveView('reports')} />
+                    {isFeatureEnabled(features, 'students') && <QuickAction icon={Users} label="Students" color="emerald" onClick={() => setActiveView('students')} />}
+                    {isFeatureEnabled(features, 'grades') && <QuickAction icon={ClipboardList} label="Grades" color="teal" onClick={() => setActiveView('grades')} />}
+                    {isFeatureEnabled(features, 'announcements') && <QuickAction icon={Megaphone} label="Announce" color="amber" onClick={() => setActiveView('announcements')} />}
+                    {isFeatureEnabled(features, 'reports') && <QuickAction icon={FileText} label="Reports" color="cyan" onClick={() => setActiveView('reports')} />}
                   </>
                 )}
               </div>

@@ -1,4 +1,5 @@
 import type { ViewId } from '@/lib/types'
+import { isFeatureEnabled } from '@/lib/features'
 import {
   LayoutDashboard, UserCircle, BookOpen, UserPlus, Users, BadgeCheck,
   ClipboardList, CalendarClock, DollarSign, Megaphone, Gavel,
@@ -56,8 +57,19 @@ export const NAV: NavItem[] = [
   { id: 'help', label: 'Help & FAQ', icon: HelpCircle, roles: [] },
 ]
 
-export function navForRole(role: string): NavItem[] {
-  return NAV.filter((n) => n.roles.length === 0 || n.roles.includes(role))
+export function navForRole(role: string, features?: Record<string, boolean>): NavItem[] {
+  return NAV.filter((n) =>
+    (n.roles.length === 0 || n.roles.includes(role)) && isFeatureEnabled(features, n.id))
+}
+
+// Core modules every role always keeps — hiding these could lock users out.
+const ALWAYS_ON: ViewId[] = ['dashboard', 'profile', 'settings', 'help', 'notifications']
+
+/** Modules the admin may hide/unhide globally via Settings → Feature Visibility. */
+export const HIDEABLE_FEATURES: NavItem[] = NAV.filter((n) => !ALWAYS_ON.includes(n.id))
+
+export function isHideable(id: ViewId): boolean {
+  return !ALWAYS_ON.includes(id)
 }
 
 export const VIEW_TITLES: Record<ViewId, string> = {
