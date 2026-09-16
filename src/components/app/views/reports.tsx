@@ -25,7 +25,7 @@ const CURRENT_TERM = 'Term 1'
 
 // School branding used on every printed report — comes from live-synced settings.
 interface SchoolInfo { name: string; tagline: string }
-const DEFAULT_SCHOOL: SchoolInfo = { name: 'EduCenterJM', tagline: 'Excellence in Education' }
+const DEFAULT_SCHOOL: SchoolInfo = { name: 'School Name', tagline: 'School Information Management System (SIMS)' }
 
 const REPORT_STYLES = `
   * { box-sizing: border-box; }
@@ -290,7 +290,7 @@ export function ReportsView() {
   const addToast = useAppStore((s) => s.addToast)
   const settings = useAppStore((s) => s.settings)
   const school: SchoolInfo = {
-    name: settings?.name || 'EduCenterJM',
+    name: settings?.name || 'School Name',
     tagline: settings?.tagline || 'Excellence in Education',
   }
   const isStudent = user.role === 'Student'

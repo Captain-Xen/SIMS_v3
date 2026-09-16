@@ -1,4 +1,4 @@
-// Shared types for EduCenterJM
+// Shared types for the SIMS school management app
 
 export type Role =
   | 'Admin'

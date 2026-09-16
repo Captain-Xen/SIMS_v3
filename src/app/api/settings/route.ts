@@ -53,10 +53,18 @@ export async function GET(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const body = await req.json()
+  // Branding, accent, and feature visibility are school-wide — Admin only.
+  // (The Settings view is already Admin-only in the nav; this enforces it server-side.)
+  if (session.role !== 'Admin') {
+    return NextResponse.json({ error: 'Only admins can change school settings' }, { status: 403 })
+  }
+  const body = await req.json().catch(() => null)
+  if (!body || typeof body !== 'object') {
+    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
+  }
   const data: Record<string, unknown> = {}
   for (const k of ['name', 'tagline', 'logo', 'accent', 'email', 'phone', 'address']) {
-    if (body[k] !== undefined) data[k] = body[k]
+    if (typeof body[k] === 'string' && body[k].length <= 2_000_000) data[k] = body[k]
   }
   if (body.features !== undefined) {
     const features = cleanFeatures(body.features)

@@ -84,7 +84,7 @@ const FAQS: FAQItem[] = [
   },
   {
     q: 'How does the discipline system work?',
-    a: 'EduCenterJM uses a progressive escalation policy: 3 detentions automatically escalate to 1 suspension, and 4 suspensions lead to expulsion. Staff with discipline permissions can issue detentions, warnings, or suspensions from the Discipline view. Each record includes a reason and the issuing staff member.',
+    a: 'The school uses a progressive escalation policy: 3 detentions automatically escalate to 1 suspension, and 4 suspensions lead to expulsion. Staff with discipline permissions can issue detentions, warnings, or suspensions from the Discipline view. Each record includes a reason and the issuing staff member.',
   },
   {
     q: 'How do I contact the school?',
@@ -139,8 +139,8 @@ export function HelpView() {
     email: 'info@educenterjm.edu',
     phone: '+1 (876) 555-0100',
     address: '123 Knowledge Way, Kingston, Jamaica',
-    name: 'EduCenterJM',
-    tagline: 'Excellence in Education',
+    name: 'School Name',
+    tagline: 'School Information Management System (SIMS)',
   })
 
   useEffect(() => {

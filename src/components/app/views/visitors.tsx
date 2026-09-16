@@ -151,7 +151,7 @@ export function VisitorsView() {
   }
 
   function printGatePass(v: Visitor) {
-    const school = escapeHtml(settings?.name || 'EduCenterJM')
+    const school = escapeHtml(settings?.name || 'School Name')
     const w = window.open('', '_blank', 'width=520,height=720')
     if (!w) {
       addToast({ type: 'error', title: 'Popup blocked', body: 'Please allow popups to print the gate pass.' })

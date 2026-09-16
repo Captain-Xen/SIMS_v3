@@ -127,7 +127,7 @@ export function ProfileView() {
     if (!profile) return
     const win = window.open('', '_blank')
     if (!win) return
-    const schoolName = useAppStore.getState().settings?.name || 'EduCenterJM'
+    const schoolName = useAppStore.getState().settings?.name || 'School Name'
     const subjects = grades.length ? grades : [
       { subject: 'Mathematics', score: 85 },
       { subject: 'English Language', score: 78 },

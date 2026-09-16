@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { GraduationCap, Moon, Sun, LogIn, UserPlus, KeyRound, ArrowLeft, Loader2, Mail, Lock, User, ShieldCheck } from 'lucide-react'
+import { GraduationCap, Moon, Sun, LogIn, UserPlus, KeyRound, ArrowLeft, Loader2, Mail, Lock, User, ShieldCheck, Github } from 'lucide-react'
 import { api } from '@/lib/api'
 import { useAppStore } from '@/lib/store'
 import type { SessionUser } from '@/lib/types'
@@ -26,7 +26,7 @@ export function LoginScreen() {
   const toggleTheme = useAppStore((s) => s.toggleTheme)
   const settings = useAppStore((s) => s.settings)
   // Admin-configurable school name (Settings → Branding) — shown across the app.
-  const schoolName = settings?.name || 'EduCenterJM'
+  const schoolName = settings?.name || 'School Name'
 
   const [mode, setMode] = useState<Mode>('login')
   const [portal, setPortal] = useState<Portal>('Staff')
@@ -105,8 +105,8 @@ export function LoginScreen() {
               <GraduationCap className="h-11 w-11" />
             )}
           </div>
-          <h1 className="font-serif text-3xl font-bold leading-tight tracking-tight">{schoolName}</h1>
-          <p className="mt-1.5 text-sm font-medium text-foreground/70">{settings?.tagline || 'Secondary School Management System'}</p>
+          <h1 className="font-display text-2xl font-bold leading-tight tracking-wide sm:text-3xl">{schoolName}</h1>
+          <p className="mt-1.5 text-sm font-medium text-foreground/70">{settings?.tagline || 'School Information Management System (SIMS)'}</p>
         </div>
 
         {mode === 'login' && (
@@ -247,9 +247,22 @@ export function LoginScreen() {
         )}
       </div>
 
-      <p className="relative z-[1] mt-6 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} {schoolName} · Secured with care
-      </p>
+      <footer className="relative z-[1] mt-8 flex flex-col items-center gap-0.5 text-center text-xs text-muted-foreground">
+        <p>© 2026 Xen LabsJM. All Rights Reserved. Free Digital Tools for Education</p>
+        <p className="flex items-center gap-1">
+          <span>Developed by Xen</span>
+          <span aria-hidden="true">·</span>
+          <a
+            href="https://github.com/Captain-Xen"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 font-medium underline-offset-2 transition-colors hover:text-brand hover:underline"
+          >
+            <Github className="h-3.5 w-3.5" aria-hidden="true" />
+            GitHub
+          </a>
+        </p>
+      </footer>
     </div>
   )
 }

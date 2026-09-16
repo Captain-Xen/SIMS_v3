@@ -1,8 +1,8 @@
-# EduCenterJM — Secondary School Management System
+# SIMS — School Information Management System (formerly EduCenterJM)
 
-A full-featured school management web application for students, teachers, staff, and administrators — built as a single-page Next.js app with a Prisma/SQLite backend.
+A full-featured school management web application for students, teachers, staff, and administrators — built as a single-page Next.js app with a Prisma/SQLite backend. It is **not** limited to secondary schools: it fits primary, secondary, and all-through schools alike. The default school display name is **"School Name"** until an admin sets the real one in **System Settings → Branding** (changes propagate live to every connected user).
 
-> Looking for what the app can do? See **[FEATURES.md](./FEATURES.md)**.
+> Looking for what the app can do? See **[FEATURES.md](./FEATURES.md)** — it also includes a full free-hosting / database / email / storage guide.
 
 ---
 
@@ -51,6 +51,11 @@ The project ships with a `.env` file pointing at the local SQLite database:
 
 ```env
 DATABASE_URL=file:/absolute/path/to/db/custom.db
+
+# Optional — real email sending via Resend. Without a key the app runs in
+# demo mode: emails are logged to the console + shown as in-app notifications.
+RESEND_API_KEY=
+RESEND_FROM="SIMS <no-reply@yourschool.com>"
 ```
 
 If you cloned this project to a new machine, update the path (or use a relative one):
@@ -124,7 +129,29 @@ bun run start        # serves the standalone build on port 3000
 - **State:** Zustand (client state) — session cookies for auth
 - **Live sync:** lightweight settings-version polling — admin theme & feature-visibility changes propagate to every connected user automatically
 
-## 9. Project structure
+## 9. Security
+
+Implemented in the app — nothing extra to install:
+
+- **scrypt password hashing** — legacy plaintext passwords are detected and transparently re-hashed (migrated) on first login
+- **DB-backed sessions** — random 32-byte session tokens stored server-side, delivered in an `httpOnly`, `SameSite=Lax` cookie (`Secure` in production)
+- **Rate limiting** — in-memory sliding-window limits on the login, register, and email endpoints
+- **Admin-only gating** — settings changes, logo upload, and the DB reseed (Danger Zone) are restricted to admins
+- **Security headers** — `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`, and CSP `frame-ancestors 'none'`
+- **Upload hardening** — server-side validation (image MIME whitelist, 1.5 MB cap) plus client-side downscaling before anything is stored
+
+### Production hardening tips
+
+- Set `RESEND_API_KEY` (+ `RESEND_FROM`) so notification emails really send
+- Serve over **HTTPS** (Cloudflare Tunnel, Caddy, or Let's Encrypt — see [FEATURES.md](./FEATURES.md))
+- Running **multiple instances or serverless**? Move to a hosted Postgres (e.g. Neon) — SQLite is a single file on one machine
+- **Change or remove the demo passwords** (`admin@edu.edu` / `admin123`, …) before real use
+
+## 10. Hosting, free resources & local email testing
+
+SIMS runs on entirely free infrastructure if you want it to. **[FEATURES.md](./FEATURES.md)** has the full guide: **Free Hosting Options** (Vercel, Render, Oracle VPS, Raspberry Pi + Cloudflare Tunnel, …), **Free Database Options** (Turso / Neon / Supabase for serverless), **Free Email Options**, **Local Email Testing** (Mailpit & friends), **Free File/Image Storage**, **Free Auth / Security / Monitoring Extras**, and step-by-step **Running / Hosting Locally** (LAN + secure public exposure).
+
+## 11. Project structure
 
 ```
 src/
@@ -138,10 +165,11 @@ db/custom.db           # SQLite database file
 setup.ps1 / setup.bat  # one-command dependency + DB setup (Windows/mac/Linux)
 ```
 
-## 10. License
+## 12. License
 
 Released under the **Attribution License** (see [LICENSE](./LICENSE)): you can
 do whatever you want with this project — personal, educational, or commercial —
 the only condition is to **give credit to the original author,
-[Captain-Xen](https://github.com/Captain-Xen)**, and keep the credit link in the
-app footer.
+[Captain-Xen](https://github.com/Captain-Xen) of Xen LabsJM, and keep the credit
+link in the app footer** (the app ships with this credit in its footer — please
+leave it in place).

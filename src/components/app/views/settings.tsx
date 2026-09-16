@@ -64,7 +64,7 @@ export function SettingsView() {
         const res = await api<{ settings: SchoolSettings | null }>('/api/settings')
         if (!active) return
         const s = res.settings ?? {
-          name: 'EduCenterJM', tagline: 'Excellence in Education', logo: null,
+          name: 'School Name', tagline: 'School Information Management System (SIMS)', logo: null,
           accent: '16,185,129|20,184,166|13,148,136', email: '', phone: '', address: '',
           features: {}, version: 1,
         }

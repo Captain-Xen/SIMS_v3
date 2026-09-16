@@ -1,12 +1,16 @@
+import { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
-import { SESSION_COOKIE, invalidateSessionCache } from '@/lib/auth'
+import { SESSION_COOKIE, destroySession, invalidateSessionCache } from '@/lib/auth'
 
-export async function POST() {
-  // Clear the cached session row so a re-login sees fresh data immediately.
+export async function POST(_req: NextRequest) {
   const store = await cookies()
-  const userId = store.get(SESSION_COOKIE)?.value
-  if (userId) invalidateSessionCache(userId)
+  const token = store.get(SESSION_COOKIE)?.value
+  if (token) {
+    // Truly revoke: delete the DB row so the token can never be reused.
+    await destroySession(token)
+    invalidateSessionCache()
+  }
 
   const res = NextResponse.json({ ok: true })
   res.cookies.delete(SESSION_COOKIE)

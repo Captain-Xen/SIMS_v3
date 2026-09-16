@@ -1,4 +1,4 @@
-// EduCenterJM — Secondary School Management schema
+// SIMS — School Information Management System schema
 generator client {
   provider = "prisma-client-js"
 }
@@ -66,6 +66,7 @@ model User {
   conferenceBookings ConferenceBooking[]
   eventParticipants EventParticipant[]
   uniformAllocations UniformAllocation[]
+  sessions         Session[]
 }
 
 model Announcement {
@@ -499,4 +500,21 @@ model UniformAllocation {
   status      String   @default("Issued") // Issued | Returned
   date        String
   createdAt   DateTime @default(now())
+}
+
+// Server-side sessions. The browser cookie holds a random 32-byte token —
+// never a user id — so sessions cannot be forged by editing cookies. Rows are
+// revocable (logout / expiry) and let getSession resolve the real user.
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique // random 32-byte hex; stored server-side, cookie only carries it
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  ip        String?
+  userAgent String?
+
+  @@index([userId])
+  @@index([expiresAt])
 }

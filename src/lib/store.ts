@@ -97,5 +97,29 @@ export const useAppStore = create<AppState>((set, get) => ({
 
 export function applyTheme(theme: 'light' | 'dark') {
   if (typeof document === 'undefined') return
-  document.documentElement.classList.toggle('dark', theme === 'dark')
+  const root = document.documentElement
+  const next = theme === 'dark'
+  // Nothing to do (e.g. the pre-paint inline script already set the class) —
+  // skip entirely so the initial mount never triggers a pointless transition.
+  if (root.classList.contains('dark') === next) return
+
+  // Respect users who prefer reduced motion — switch instantly for them.
+  const reduceMotion =
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  // View Transitions API (Chrome 111+/Safari 18+/Firefox 139+): crossfades the
+  // whole page as ONE composited layer instead of transitioning thousands of
+  // individual elements — no stutter even on the heaviest views. Older
+  // browsers fall back to an instant, zero-cost switch.
+  const doc = document as Document & {
+    startViewTransition?: (update: () => void) => unknown
+  }
+  if (!reduceMotion && typeof doc.startViewTransition === 'function') {
+    doc.startViewTransition(() => {
+      root.classList.toggle('dark', next)
+    })
+  } else {
+    root.classList.toggle('dark', next)
+  }
 }

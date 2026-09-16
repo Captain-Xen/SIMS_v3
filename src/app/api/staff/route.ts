@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
       department: body.department || 'General',
       subjects: JSON.stringify(body.subjects || []),
       phone: body.phone || null,
-      bio: body.bio || `${body.role || 'Teacher'} at EduCenterJM.`,
+      bio: body.bio || `${body.role || 'Teacher'} at the school.`,
     },
   })
   return NextResponse.json({ ok: true, id: user.id })

@@ -29,7 +29,7 @@ export function ExamsView() {
   const user = useAppStore((s) => s.user)!
   const addToast = useAppStore((s) => s.addToast)
   const settings = useAppStore((s) => s.settings)
-  const school = escapeHtml(settings?.name || 'EduCenterJM')
+  const school = escapeHtml(settings?.name || 'School Name')
 
   const [exams, setExams] = useState<Exam[]>([])
   const [loading, setLoading] = useState(true)

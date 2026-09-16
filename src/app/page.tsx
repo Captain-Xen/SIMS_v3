@@ -5,14 +5,13 @@ import { useAppStore, applyTheme } from '@/lib/store'
 import { api } from '@/lib/api'
 import { LoginScreen } from '@/components/app/login-screen'
 import { AppShell } from '@/components/app/app-shell'
-import { Loader2 } from 'lucide-react'
+import { Loader2, GraduationCap } from 'lucide-react'
 import type { SessionUser, SchoolSettings } from '@/lib/types'
 
 export default function Home() {
   const user = useAppStore((s) => s.user)
   const setUser = useAppStore((s) => s.setUser)
   const setSettings = useAppStore((s) => s.setSettings)
-  const settings = useAppStore((s) => s.settings)
   const theme = useAppStore((s) => s.theme)
   const [booting, setBooting] = useState(true)
 
@@ -83,12 +82,18 @@ export default function Home() {
   }, [setSettings])
 
   if (booting) {
+    // Centered boot splash — neutral "Loading" (the school name may not be
+    // known yet, and a spinning loader communicates progress better).
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-gradient-to-br from-brand/10 via-brand/10 to-brand/10 dark:from-slate-950 dark:via-slate-900 dark:to-brand/10">
-        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-brand to-brand-strong text-brand-foreground shadow-lg shadow-brand/30">
-          <Loader2 className="h-8 w-8 animate-spin" />
+      <div className="flex min-h-screen flex-col items-center justify-center gap-5 bg-background" role="status" aria-label="Loading">
+        <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-brand to-brand-strong text-brand-foreground shadow-lg shadow-brand/30">
+          <GraduationCap className="h-8 w-8" aria-hidden="true" />
+          <span className="absolute inset-0 rounded-2xl animate-pulse-ring" aria-hidden="true" />
         </div>
-        <p className="text-sm text-muted-foreground">Loading {settings?.name || 'EduCenterJM'}...</p>
+        <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+          <Loader2 className="h-4 w-4 animate-spin text-brand" aria-hidden="true" />
+          <span>Loading</span>
+        </div>
       </div>
     )
   }

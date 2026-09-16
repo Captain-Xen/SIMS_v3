@@ -1,4 +1,5 @@
 import { db } from './db'
+import { hashPassword } from './auth'
 
 const SUBJECTS = ['Mathematics', 'English Language', 'Biology', 'Chemistry', 'Physics', 'History', 'Geography', 'Spanish', 'Physical Education', 'Information Technology']
 const CLASSES = ['7A', '7B', '8A', '8B', '9A', '9B', '10A', '10B', '11A', '11B', '12A', '12B']
@@ -35,8 +36,8 @@ export async function seedDatabase() {
   await db.schoolSettings.create({
     data: {
       id: 'singleton',
-      name: 'EduCenterJM',
-      tagline: 'Secondary School Management System',
+      name: 'School Name',
+      tagline: 'School Information Management System (SIMS)',
       accent: '5,150,105|4,120,87|16,185,129',
       email: 'info@educenter.edu',
       phone: '+1 876 555 0100',
@@ -44,12 +45,19 @@ export async function seedDatabase() {
     },
   })
 
-  // staff
-  const admin = await db.user.create({ data: { email: 'admin@edu.edu', name: 'Dr. Admin', password: 'admin123', role: 'Admin', status: 'Active', bio: 'System Administrator overseeing all school operations.', department: 'Administration', phone: '555-0100', points: 196, level: 2, badges: 3 } })
-  const principal = await db.user.create({ data: { email: 'principal@edu.edu', name: 'Mrs. principal', password: 'principal123', role: 'Principal', status: 'Active', bio: 'Principal of EduCenterJM.', department: 'Administration', phone: '555-0101' } })
-  const teacher = await db.user.create({ data: { email: 'staff@edu.edu', name: 'Ms. Teacher', password: 'staff123', role: 'Teacher', status: 'Active', bio: 'Mathematics & Physics educator passionate about STEM.', department: 'Sciences', subjects: JSON.stringify(['Mathematics', 'Physics']), phone: '555-0102', points: 142, level: 2, badges: 2 } })
-  const teacher2 = await db.user.create({ data: { email: 'english@edu.edu', name: 'Mr. Shakespeare', password: 'staff123', role: 'Teacher', status: 'Active', bio: 'English Language & Literature teacher.', department: 'Languages', subjects: JSON.stringify(['English Language', 'History']), phone: '555-0103', points: 110, level: 1, badges: 1 } })
-  const nurse = await db.user.create({ data: { email: 'nurse@edu.edu', name: 'Nurse Betty', password: 'nurse123', role: 'Nurse', status: 'Active', bio: 'School nurse.', department: 'Health', phone: '555-0104' } })
+  // staff — demo passwords are hashed with scrypt (same scheme as production logins)
+  const [pwAdmin, pwPrincipal, pwStaff, pwNurse, pwStudent] = await Promise.all([
+    hashPassword('admin123'),
+    hashPassword('principal123'),
+    hashPassword('staff123'),
+    hashPassword('nurse123'),
+    hashPassword('student123'),
+  ])
+  const admin = await db.user.create({ data: { email: 'admin@edu.edu', name: 'Dr. Admin', password: pwAdmin, role: 'Admin', status: 'Active', bio: 'System Administrator overseeing all school operations.', department: 'Administration', phone: '555-0100', points: 196, level: 2, badges: 3 } })
+  const principal = await db.user.create({ data: { email: 'principal@edu.edu', name: 'Mrs. principal', password: pwPrincipal, role: 'Principal', status: 'Active', bio: 'Principal of the school.', department: 'Administration', phone: '555-0101' } })
+  const teacher = await db.user.create({ data: { email: 'staff@edu.edu', name: 'Ms. Teacher', password: pwStaff, role: 'Teacher', status: 'Active', bio: 'Mathematics & Physics educator passionate about STEM.', department: 'Sciences', subjects: JSON.stringify(['Mathematics', 'Physics']), phone: '555-0102', points: 142, level: 2, badges: 2 } })
+  const teacher2 = await db.user.create({ data: { email: 'english@edu.edu', name: 'Mr. Shakespeare', password: pwStaff, role: 'Teacher', status: 'Active', bio: 'English Language & Literature teacher.', department: 'Languages', subjects: JSON.stringify(['English Language', 'History']), phone: '555-0103', points: 110, level: 1, badges: 1 } })
+  const nurse = await db.user.create({ data: { email: 'nurse@edu.edu', name: 'Nurse Betty', password: pwNurse, role: 'Nurse', status: 'Active', bio: 'School nurse.', department: 'Health', phone: '555-0104' } })
 
   // students
   const studentUsers = []
@@ -65,7 +73,7 @@ export async function seedDatabase() {
           data: {
             email,
             name,
-            password: 'student123',
+            password: pwStudent,
             role: 'Student',
             status: 'Active',
             dob: `200${(g - 7) + 5}-0${(i % 9) + 1}-1${i % 9}`,
@@ -92,7 +100,7 @@ export async function seedDatabase() {
     data: {
       email: 'student@edu.edu',
       name: 'Jane Doe',
-      password: 'student123',
+      password: pwStudent,
       role: 'Student',
       status: 'Active',
       dob: '2008-05-12',

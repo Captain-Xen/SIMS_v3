@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  Playfair_Display,
+  Cinzel,
+  Space_Grotesk,
+} from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { db } from "@/lib/db";
@@ -21,14 +27,30 @@ const playfair = Playfair_Display({
   weight: ["400", "600", "700", "900"],
 });
 
+// Distinct display fonts for the school name: engraved "academia" capitals on
+// the login screen, a clean geometric face in the sidebar corner.
+const cinzel = Cinzel({
+  variable: "--font-cinzel",
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  display: "swap",
+});
+
 // Tab title/description follow the admin-configurable school name (Settings →
 // Branding). Reuses the same 30s cache key as /api/settings so it costs no
 // extra queries in practice. Falls back to the default name if the DB is
 // unavailable or the row doesn't exist yet.
 export async function generateMetadata(): Promise<Metadata> {
-  const DEFAULT_NAME = "EduCenterJM";
+  const DEFAULT_NAME = "School Name";
   let name = DEFAULT_NAME;
-  let tagline = "A modern secondary school management system for students, teachers, and administrators. Manage students, staff, grades, attendance, fees, messaging, and more.";
+  let tagline = "A modern School Information Management System (SIMS) for students, teachers, and administrators. Manage students, staff, grades, attendance, fees, messaging, and more.";
   try {
     const key = "settings:singleton";
     let row = getCached<{ name?: string; tagline?: string }>(key);
@@ -45,9 +67,9 @@ export async function generateMetadata(): Promise<Metadata> {
     // DB not ready / missing table — keep defaults.
   }
   return {
-    title: `${name} | Secondary School Management`,
+    title: `${name} | SIMS — School Information Management System`,
     description: tagline,
-    keywords: ["school management", "education", "students", "teachers", "grades", "attendance", name],
+    keywords: ["school management", "SIMS", "school information management system", "education", "students", "teachers", "grades", "attendance", name],
     authors: [{ name }],
     icons: {
       icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
@@ -80,7 +102,7 @@ export default function RootLayout({
           hydrates. This silences mismatches for the body element itself only. */}
       <body
         suppressHydrationWarning
-        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased bg-background text-foreground`}
+        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${cinzel.variable} ${spaceGrotesk.variable} antialiased bg-background text-foreground`}
       >
         <style>{`font-family: var(--font-geist-sans), system-ui, sans-serif;`}</style>
         {children}
