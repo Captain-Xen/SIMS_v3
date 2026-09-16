@@ -1,5 +1,5 @@
-EduCenterJM — Secondary School Management System
-Copyright (c) 2026 Captain-Xen (https://github.com/Captain-Xen)
+SIMS — School Information Management System (formerly EduCenterJM)
+Copyright (c) 2026 Captain-Xen / Xen LabsJM (https://github.com/Captain-Xen)
 
 ATTRIBUTION LICENSE
 ===================
@@ -23,10 +23,13 @@ ATTRIBUTION LICENSE
      b) Keeping (or adding) a visible credit in the application's footer (or
         an equivalent reasonably visible place), for example:
 
-            "Powered by EduCenterJM — https://github.com/Captain-Xen"
+            "© 2026 Xen LabsJM. All Rights Reserved. Free Digital Tools for Education
+             Developed by Xen · https://github.com/Captain-Xen"
+
+       (the default footer credit shipped with the app already satisfies this)
 
    If you build something great on top of this, a link back or a shout-out is
-   always appreciated.
+   always appreciated. — https://github.com/Captain-Xen
 
 3. NO WARRANTY
    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
