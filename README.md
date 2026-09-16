@@ -6,6 +6,23 @@ A full-featured school management web application for students, teachers, staff,
 
 ---
 
+## ⚡ Quick setup (one command)
+
+On a fresh machine, run the bundled setup script — it detects Bun/Node, installs
+every dependency, writes the `.env`, and creates the database schema:
+
+```powershell
+# Windows — double-click setup.bat, or from CMD/PowerShell:
+powershell -NoProfile -ExecutionPolicy Bypass -File .\setup.ps1
+
+# macOS / Linux (with PowerShell 7 installed):
+pwsh ./setup.ps1
+```
+
+Prefer manual steps? Follow sections 1–6 below.
+
+---
+
 ## 1. Prerequisites
 
 | Tool | Version | Notes |
@@ -81,6 +98,10 @@ The login screen also has one-click buttons for Admin / Teacher / Student.
 # development (hot reload) — http://localhost:3000
 bun run dev          # or: npm run dev
 
+# Windows (CMD / PowerShell) — the default `dev` script pipes through `tee`,
+# which only exists on Unix shells, so Windows uses the plain variant:
+npm run dev:win      # or: bun run dev:win
+
 # production
 bun run build
 bun run start        # serves the standalone build on port 3000
@@ -114,4 +135,13 @@ src/
   lib/                 # db client, auth, store, theme engine, feature flags
 prisma/schema.prisma   # full data model
 db/custom.db           # SQLite database file
+setup.ps1 / setup.bat  # one-command dependency + DB setup (Windows/mac/Linux)
 ```
+
+## 10. License
+
+Released under the **Attribution License** (see [LICENSE](./LICENSE)): you can
+do whatever you want with this project — personal, educational, or commercial —
+the only condition is to **give credit to the original author,
+[Captain-Xen](https://github.com/Captain-Xen)**, and keep the credit link in the
+app footer.

@@ -69,6 +69,7 @@ function isThisWeek(iso: string, ref: Date): boolean {
 export function VisitorsView() {
   const user = useAppStore((s) => s.user)!
   const addToast = useAppStore((s) => s.addToast)
+  const settings = useAppStore((s) => s.settings)
 
   const [visitors, setVisitors] = useState<Visitor[]>([])
   const [loading, setLoading] = useState(true)
@@ -150,7 +151,7 @@ export function VisitorsView() {
   }
 
   function printGatePass(v: Visitor) {
-    const school = 'EduCenterJM Secondary School'
+    const school = escapeHtml(settings?.name || 'EduCenterJM')
     const w = window.open('', '_blank', 'width=520,height=720')
     if (!w) {
       addToast({ type: 'error', title: 'Popup blocked', body: 'Please allow popups to print the gate pass.' })
@@ -188,7 +189,7 @@ export function VisitorsView() {
 <body>
   <div class="pass">
     <div class="header">
-      <h1>${escapeHtml(school)}</h1>
+      <h1>${school}</h1>
       <div class="sub">Visitor Gate Pass</div>
     </div>
     <div class="body">

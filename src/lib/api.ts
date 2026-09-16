@@ -37,6 +37,42 @@ export function fileToDataUrl(file: File): Promise<string> {
   })
 }
 
+// Downscale + compress an image file client-side before uploading (avatars,
+// school logo). Stored data URLs ride along inside API payloads, so keeping
+// them tiny matters. Prefers WebP; falls back to PNG when the browser can't
+// encode it (e.g. older Safari). Static first frame for animated GIFs.
+export function resizeImageToDataUrl(file: File, maxDim = 256, quality = 0.9): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file)
+    const img = new Image()
+    const cleanup = () => URL.revokeObjectURL(url)
+    img.onload = () => {
+      try {
+        const scale = Math.min(1, maxDim / Math.max(img.width, img.height))
+        const w = Math.max(1, Math.round(img.width * scale))
+        const h = Math.max(1, Math.round(img.height * scale))
+        const canvas = document.createElement('canvas')
+        canvas.width = w
+        canvas.height = h
+        const ctx = canvas.getContext('2d')
+        if (!ctx) throw new Error('Canvas is not supported in this browser')
+        ctx.drawImage(img, 0, 0, w, h)
+        cleanup()
+        const webp = canvas.toDataURL('image/webp', quality)
+        resolve(webp.startsWith('data:image/webp') ? webp : canvas.toDataURL('image/png'))
+      } catch (err) {
+        cleanup()
+        reject(err instanceof Error ? err : new Error('Could not process image'))
+      }
+    }
+    img.onerror = () => {
+      cleanup()
+      reject(new Error('That file could not be read as an image'))
+    }
+    img.src = url
+  })
+}
+
 export function initials(name: string): string {
   return name
     .split(/\s+/)

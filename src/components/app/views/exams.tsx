@@ -28,6 +28,8 @@ const STAFF_ROLES = ['Admin', 'Principal', 'Vice Principal', 'Teacher']
 export function ExamsView() {
   const user = useAppStore((s) => s.user)!
   const addToast = useAppStore((s) => s.addToast)
+  const settings = useAppStore((s) => s.settings)
+  const school = escapeHtml(settings?.name || 'EduCenterJM')
 
   const [exams, setExams] = useState<Exam[]>([])
   const [loading, setLoading] = useState(true)
@@ -105,7 +107,7 @@ export function ExamsView() {
       addToast({ type: 'error', title: 'Pop-up blocked', body: 'Please allow pop-ups to print.' })
       return
     }
-    w.document.write(`<!doctype html><html><head><title>Exam Timetable — EduCenterJM</title>
+    w.document.write(`<!doctype html><html><head><title>Exam Timetable — ${school}</title>
       <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 32px; color: #0f172a; }
         h1 { font-size: 22px; margin: 0 0 4px; color: var(--brand-strong); }
@@ -116,7 +118,7 @@ export function ExamsView() {
         tr:nth-child(even) td { background: #f8fafc; }
         .foot { margin-top: 28px; color: #94a3b8; font-size: 11px; text-align: center; }
       </style></head><body>
-      <h1>EduCenterJM — Exam Timetable</h1>
+      <h1>${school} — Exam Timetable</h1>
       <div class="sub">${isStudent ? 'Upcoming exams for your class' : 'All scheduled exams'} · Generated ${new Date().toLocaleString()}</div>
       <table>
         <thead><tr>
@@ -124,7 +126,7 @@ export function ExamsView() {
         </tr></thead>
         <tbody>${rows || '<tr><td colspan="8" style="text-align:center;padding:24px;color:#94a3b8">No exams scheduled.</td></tr>'}</tbody>
       </table>
-      <div class="foot">© EduCenterJM · Printed on ${new Date().toLocaleDateString()}</div>
+      <div class="foot">© ${school} · Printed on ${new Date().toLocaleDateString()}</div>
       </body></html>`)
     w.document.close()
     w.focus()

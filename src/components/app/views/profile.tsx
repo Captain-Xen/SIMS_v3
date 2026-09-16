@@ -5,7 +5,7 @@ import {
   Camera, Mail, Phone, IdCard, GraduationCap, BookOpen, Award, Target, TrendingUp,
   Pencil, FileDown, Save, X, Trash2, Loader2, MapPin, Briefcase, Calendar, Droplet, Users2, ShieldCheck, Star,
 } from 'lucide-react'
-import { api, fileToDataUrl, gradeToForm, scoreToLetter, timeAgo } from '@/lib/api'
+import { api, resizeImageToDataUrl, gradeToForm, scoreToLetter, timeAgo } from '@/lib/api'
 import { useAppStore } from '@/lib/store'
 import type { SessionUser, Grade, Assignment } from '@/lib/types'
 import { UserAvatar } from '../user-avatar'
@@ -83,7 +83,8 @@ export function ProfileView() {
     if (!isOwn) return
     setUploading(true)
     try {
-      const dataUrl = await fileToDataUrl(file)
+      // Downscale client-side so the stored avatar stays a small data URL.
+      const dataUrl = await resizeImageToDataUrl(file, 256, 0.9)
       const res = await api<{ avatar: string }>('/api/upload', { method: 'POST', body: { dataUrl } })
       setUser({ ...user, avatar: res.avatar })
       setProfile({ ...profile!, avatar: res.avatar })
@@ -126,6 +127,7 @@ export function ProfileView() {
     if (!profile) return
     const win = window.open('', '_blank')
     if (!win) return
+    const schoolName = useAppStore.getState().settings?.name || 'EduCenterJM'
     const subjects = grades.length ? grades : [
       { subject: 'Mathematics', score: 85 },
       { subject: 'English Language', score: 78 },
@@ -142,7 +144,7 @@ export function ProfileView() {
       <html><head><title>Report Card - ${profile.name}</title>
       <style>body{font-family:Arial,sans-serif;padding:40px;color:#1e293b}h1{color:var(--brand)}</style>
       </head><body>
-      <h1>EduCenterJM</h1>
+      <h1>${schoolName}</h1>
       <h2>Semester Report Card</h2>
       <p><strong>Student:</strong> ${profile.name}<br>
       <strong>ID:</strong> ${profile.id.slice(-8)}<br>

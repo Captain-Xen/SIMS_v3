@@ -23,6 +23,10 @@ import { cn } from '@/lib/utils'
 const CLASSES = ['7A', '7B', '8A', '8B', '9A', '9B', '10A', '10B', '11A', '11B', '12A', '12B']
 const CURRENT_TERM = 'Term 1'
 
+// School branding used on every printed report — comes from live-synced settings.
+interface SchoolInfo { name: string; tagline: string }
+const DEFAULT_SCHOOL: SchoolInfo = { name: 'EduCenterJM', tagline: 'Excellence in Education' }
+
 const REPORT_STYLES = `
   * { box-sizing: border-box; }
   body { font-family: Georgia, 'Times New Roman', serif; padding: 40px; color: #1e293b; max-width: 820px; margin: 0 auto; background: #fff; }
@@ -77,7 +81,7 @@ function letterColor(score: number): string {
   return '#dc2626'
 }
 
-function generateReportCard(student: Student, grades: Grade[], term: string) {
+function generateReportCard(student: Student, grades: Grade[], term: string, school: SchoolInfo = DEFAULT_SCHOOL) {
   const avg = grades.length ? Math.round(grades.reduce((a, g) => a + g.score, 0) / grades.length) : 0
   const letter = scoreToLetter(avg)
   const rows = grades.length
@@ -86,8 +90,8 @@ function generateReportCard(student: Student, grades: Grade[], term: string) {
 
   const body = `
     <div class="header">
-      <h1>EduCenterJM</h1>
-      <p class="tag">Excellence in Education &middot; Est. 1995</p>
+      <h1>${school.name}</h1>
+      <p class="tag">${school.tagline} &middot; Est. 1995</p>
       <span class="badge">Academic Report Card</span>
     </div>
     <div class="info-grid">
@@ -114,12 +118,12 @@ function generateReportCard(student: Student, grades: Grade[], term: string) {
     </div>
     <div class="footer">
       <span>Generated on ${new Date().toLocaleString()}</span>
-      <span>EduCenterJM School Management System</span>
+      <span>${school.name} &middot; School Management System</span>
     </div>`
   return printReport(`Report Card - ${student.name}`, body)
 }
 
-function generateAttendanceReport(student: Student, attendance: Attendance[]) {
+function generateAttendanceReport(student: Student, attendance: Attendance[], school: SchoolInfo = DEFAULT_SCHOOL) {
   const today = new Date().toISOString().slice(0, 10)
   const todayRec = attendance.find((a) => a.date === today)
   const todayStatus = todayRec?.status ?? 'Not Recorded'
@@ -135,8 +139,8 @@ function generateAttendanceReport(student: Student, attendance: Attendance[]) {
 
   const body = `
     <div class="header">
-      <h1>EduCenterJM</h1>
-      <p class="tag">Excellence in Education &middot; Est. 1995</p>
+      <h1>${school.name}</h1>
+      <p class="tag">${school.tagline} &middot; Est. 1995</p>
       <span class="badge">Attendance Report</span>
     </div>
     <div class="info-grid">
@@ -172,12 +176,12 @@ function generateAttendanceReport(student: Student, attendance: Attendance[]) {
     </div>
     <div class="footer">
       <span>Generated on ${new Date().toLocaleString()}</span>
-      <span>EduCenterJM School Management System</span>
+      <span>${school.name} &middot; School Management System</span>
     </div>`
   return printReport(`Attendance Report - ${student.name}`, body)
 }
 
-function generateFeeStatement(student: Student, fees: Fee[]) {
+function generateFeeStatement(student: Student, fees: Fee[], school: SchoolInfo = DEFAULT_SCHOOL) {
   const paid = fees.filter((f) => f.status === 'Paid').reduce((a, f) => a + f.amount, 0)
   const pending = fees.filter((f) => f.status === 'Pending').reduce((a, f) => a + f.amount, 0)
   const total = paid + pending
@@ -189,8 +193,8 @@ function generateFeeStatement(student: Student, fees: Fee[]) {
 
   const body = `
     <div class="header">
-      <h1>EduCenterJM</h1>
-      <p class="tag">Excellence in Education &middot; Est. 1995</p>
+      <h1>${school.name}</h1>
+      <p class="tag">${school.tagline} &middot; Est. 1995</p>
       <span class="badge">Fee Statement</span>
     </div>
     <div class="info-grid">
@@ -217,7 +221,7 @@ function generateFeeStatement(student: Student, fees: Fee[]) {
     </div>
     <div class="footer">
       <span>Generated on ${new Date().toLocaleString()}</span>
-      <span>EduCenterJM School Management System</span>
+      <span>${school.name} &middot; School Management System</span>
     </div>`
   return printReport(`Fee Statement - ${student.name}`, body)
 }
@@ -227,6 +231,7 @@ function generateClassSummary(
   classStudents: Student[],
   classGrades: Record<string, Grade[]>,
   classAttendance: Attendance[],
+  school: SchoolInfo = DEFAULT_SCHOOL,
 ) {
   const today = new Date().toISOString().slice(0, 10)
   const rows = classStudents.map((s) => {
@@ -248,8 +253,8 @@ function generateClassSummary(
 
   const body = `
     <div class="header">
-      <h1>EduCenterJM</h1>
-      <p class="tag">Excellence in Education &middot; Est. 1995</p>
+      <h1>${school.name}</h1>
+      <p class="tag">${school.tagline} &middot; Est. 1995</p>
       <span class="badge">Class Summary - ${className}</span>
     </div>
     <div class="info-grid">
@@ -275,7 +280,7 @@ function generateClassSummary(
     </div>
     <div class="footer">
       <span>Generated on ${new Date().toLocaleString()}</span>
-      <span>EduCenterJM School Management System</span>
+      <span>${school.name} &middot; School Management System</span>
     </div>`
   return printReport(`Class Summary - ${className}`, body)
 }
@@ -283,6 +288,11 @@ function generateClassSummary(
 export function ReportsView() {
   const user = useAppStore((s) => s.user)!
   const addToast = useAppStore((s) => s.addToast)
+  const settings = useAppStore((s) => s.settings)
+  const school: SchoolInfo = {
+    name: settings?.name || 'EduCenterJM',
+    tagline: settings?.tagline || 'Excellence in Education',
+  }
   const isStudent = user.role === 'Student'
 
   const [students, setStudents] = useState<Student[]>([])
@@ -420,9 +430,9 @@ export function ReportsView() {
       }
       const target = studentRecord ?? me
       let ok = false
-      if (rt === 'card') ok = generateReportCard(target, grades, CURRENT_TERM)
-      else if (rt === 'attendance') ok = generateAttendanceReport(target, attendance)
-      else if (rt === 'fees') ok = generateFeeStatement(target, fees)
+      if (rt === 'card') ok = generateReportCard(target, grades, CURRENT_TERM, school)
+      else if (rt === 'attendance') ok = generateAttendanceReport(target, attendance, school)
+      else if (rt === 'fees') ok = generateFeeStatement(target, fees, school)
       if (ok) addToast({ type: 'success', title: 'Report generated', body: 'Use your browser\'s print dialog to save as PDF.' })
       else addToast({ type: 'error', title: 'Popup blocked', body: 'Please allow popups to generate reports.' })
       return
@@ -430,16 +440,16 @@ export function ReportsView() {
     if (rt === 'class') {
       if (!selectedClass) { addToast({ type: 'warning', title: 'Select a class', body: 'Choose a class to generate the summary.' }); return }
       const classStudents = students.filter((s) => s.className === selectedClass)
-      const ok = generateClassSummary(selectedClass, classStudents, classGrades, classAttendance)
+      const ok = generateClassSummary(selectedClass, classStudents, classGrades, classAttendance, school)
       if (ok) addToast({ type: 'success', title: 'Class summary generated', body: `${classStudents.length} students included.` })
       else addToast({ type: 'error', title: 'Popup blocked', body: 'Please allow popups to generate reports.' })
       return
     }
     if (!selectedStudent) { addToast({ type: 'warning', title: 'Select a student', body: 'Choose a student to generate the report.' }); return }
     let ok = false
-    if (rt === 'card') ok = generateReportCard(selectedStudent, grades, CURRENT_TERM)
-    else if (rt === 'attendance') ok = generateAttendanceReport(selectedStudent, attendance)
-    else if (rt === 'fees') ok = generateFeeStatement(selectedStudent, fees)
+    if (rt === 'card') ok = generateReportCard(selectedStudent, grades, CURRENT_TERM, school)
+    else if (rt === 'attendance') ok = generateAttendanceReport(selectedStudent, attendance, school)
+    else if (rt === 'fees') ok = generateFeeStatement(selectedStudent, fees, school)
     if (ok) addToast({ type: 'success', title: 'Report generated', body: 'Use your browser\'s print dialog to save as PDF.' })
     else addToast({ type: 'error', title: 'Popup blocked', body: 'Please allow popups to generate reports.' })
   }

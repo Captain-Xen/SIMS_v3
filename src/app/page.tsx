@@ -12,6 +12,7 @@ export default function Home() {
   const user = useAppStore((s) => s.user)
   const setUser = useAppStore((s) => s.setUser)
   const setSettings = useAppStore((s) => s.setSettings)
+  const settings = useAppStore((s) => s.settings)
   const theme = useAppStore((s) => s.theme)
   const [booting, setBooting] = useState(true)
 
@@ -87,7 +88,7 @@ export default function Home() {
         <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-brand to-brand-strong text-brand-foreground shadow-lg shadow-brand/30">
           <Loader2 className="h-8 w-8 animate-spin" />
         </div>
-        <p className="text-sm text-muted-foreground">Loading EduCenterJM...</p>
+        <p className="text-sm text-muted-foreground">Loading {settings?.name || 'EduCenterJM'}...</p>
       </div>
     )
   }

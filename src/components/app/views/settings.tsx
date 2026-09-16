@@ -5,7 +5,7 @@ import {
   Settings as SettingsIcon, Save, Upload, Trash2, Loader2, Palette, Mail, Phone, MapPin,
   School, Image as ImageIcon, AlertTriangle, CheckCircle2, RotateCcw, EyeOff,
 } from 'lucide-react'
-import { api, fileToDataUrl } from '@/lib/api'
+import { api, resizeImageToDataUrl } from '@/lib/api'
 import { useAppStore } from '@/lib/store'
 import type { SchoolSettings, ViewId } from '@/lib/types'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -105,7 +105,8 @@ export function SettingsView() {
   async function uploadLogo(file: File) {
     setUploading(true)
     try {
-      const dataUrl = await fileToDataUrl(file)
+      // Downscale client-side so the stored logo stays a small data URL.
+      const dataUrl = await resizeImageToDataUrl(file, 320, 0.9)
       const res = await api<{ logo: string }>('/api/upload', { method: 'POST', body: { dataUrl, kind: 'logo' } })
       const next = { ...(settings as SchoolSettings), logo: res.logo }
       setLocal(next)
@@ -224,7 +225,7 @@ export function SettingsView() {
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand-strong dark:bg-brand/15 dark:text-brand"><School className="h-5 w-5" /></div>
             <div>
               <CardTitle className="text-base">School Branding</CardTitle>
-              <CardDescription>Update the name, tagline, and logo shown across the app</CardDescription>
+              <CardDescription>Name, tagline, and logo shown across the app — changes go live for every user</CardDescription>
             </div>
           </div>
         </CardHeader>

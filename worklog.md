@@ -1241,3 +1241,27 @@ Verification (agent-browser, two parallel sessions):
 
 Stage Summary:
 - Settings are now a live broadcast: any admin change (theme, feature visibility, branding) reaches every student/teacher/staff session automatically (45s heartbeat or instant on focus). Admins can hide/unhide 32 modules globally with lockout-safe always-on core. Docs: README.md (install/run) + FEATURES.md (capabilities).
+
+---
+Task ID: branding-upload-license
+Agent: main (user request)
+Task: (1) Dynamic school name everywhere, (2) fix logo upload 404, (3) PowerShell/CMD setup script, (4) attribution LICENSE + footer GitHub link, (5) footer cleanup
+
+Work Log:
+- Logo/avatar 404 root cause: settings.tsx + profile.tsx posted to `/api/upload`, which never existed. New `src/app/api/upload/route.ts`: POST { dataUrl, kind? } -> kind 'logo' (Admin-only, matches Settings nav) upserts SchoolSettings.logo AND bumps `version` so the logo live-syncs to all clients; default kind updates the session user's avatar + invalidateSessionCache(). DELETE clears logo or avatar with the same gating. Data URLs validated against mime regex (png/jpeg/webp/gif) with a 2MB backstop cap.
+- New `resizeImageToDataUrl()` in lib/api.ts: client-side canvas downscale (logo 320px, avatar 256px), WebP q0.9 with PNG fallback. A 113KB test PNG shrank to a 5.4KB WebP data URL — keeps DB rows and the boot `/api/settings` payload tiny. Both upload call sites switched to it.
+- Dynamic school name (was hardcoded "EduCenterJM" in ~20 spots): app-shell sidebar + mobile SheetTitle + footer, login h1 + register toast + forgot-password email + login footer, profile report card, visitors gate pass, exams printable (title/h1/footer), reports printables (all 4 generators now take a SchoolInfo {name, tagline} param, 7 call sites updated), layout.tsx `generateMetadata` (tab title + description from DB, reuses the 30s settings cache), page.tsx boot loader, register welcome notification. All fallback to 'EduCenterJM' when unset. Name rides the existing version-poll live sync, so changes propagate to every role automatically.
+- Footer: removed "Crafted with care for educators & students", single centered row = {school name} · © {year} Secondary School Management System · GitHub link (lucide Github icon, https://github.com/Captain-Xen, target=_blank rel=noopener).
+- LICENSE (new): custom Attribution License — free use/modification/sale for any purpose, sole condition is crediting Captain-Xen (https://github.com/Captain-Xen) + keeping the footer credit. README gained a License section.
+- setup.ps1 (new): PS 5.1+ compatible; detects bun -> node/npm -> offers winget install Oven-sh.Bun; installs deps; writes a portable .env with an absolute DATABASE_URL if missing or pointing at a nonexistent file; prisma generate + db push; prints next steps + demo accounts. setup.bat (new): double-clickable CMD wrapper (powershell -ExecutionPolicy Bypass). package.json: added `dev:win` (plain `next dev -p 3000`) because the default `dev` script pipes through `tee`, which doesn't exist in Windows CMD. README: quick-setup section + Windows run note.
+
+Verification (agent-browser, 2 isolated sessions):
+- Logo upload through the REAL file input (DataTransfer + change event): sidebar img re-rendered with the 5.4KB WebP; GET /api/settings shows logo persisted; no error toasts.
+- Name changed via Settings UI: sidebar + footer updated instantly for admin; second isolated student session picked it up live on focus (before "Sung High School" -> after "Sung High School Academy", no reload); logo visible there too.
+- Tab title after reload: "Sung High School Academy | Secondary School Management" (generateMetadata works).
+- Avatar upload via profile UI: DB avatar set (webp), header avatar updated; Remove picture -> DB null + header cleared. Logo Remove (confirm dialog) -> DB logo null.
+- Left the DB with name "Sung High School" (user's example) and no test logo/avatar.
+- Zero console/page errors in both sessions; dev.log clean (all 200s); bun run lint clean.
+
+Stage Summary:
+- `/api/upload` (POST/DELETE) fixes the 404 for school logo AND profile pictures, with client-side resizing + admin gating + version-bump live sync. School name is a single source of truth (SchoolSettings.name) surfaced across sidebar, login, footer, tab title, all print documents, and server notifications — propagating live to every user. Footer centered with GitHub credit; LICENSE + one-command Windows/mac/Linux setup scripts added (setup.ps1/setup.bat, `npm run dev:win`).

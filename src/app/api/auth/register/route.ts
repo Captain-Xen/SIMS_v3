@@ -23,7 +23,10 @@ export async function POST(req: NextRequest) {
       ...(isStudent ? { grade: 7, className: '7A' } : { department: 'General', subjects: '[]' }),
     },
   })
-  await db.notification.create({ data: { userId: user.id, title: 'Welcome to EduCenterJM!', body: `Hello ${name}, your account is ready. Explore your dashboard to get started.`, type: 'success' } })
+  // Welcome notification uses the admin-configurable school name.
+  const schoolSettings = await db.schoolSettings.findUnique({ where: { id: 'singleton' }, select: { name: true } })
+  const schoolName = schoolSettings?.name || 'EduCenterJM'
+  await db.notification.create({ data: { userId: user.id, title: `Welcome to ${schoolName}!`, body: `Hello ${name}, your account is ready. Explore your dashboard to get started.`, type: 'success' } })
   const res = NextResponse.json({ user: toSessionUser(user) })
   res.cookies.set(SESSION_COOKIE, user.id, { httpOnly: true, sameSite: 'lax', path: '/', maxAge: 60 * 60 * 24 * 7 })
   return res

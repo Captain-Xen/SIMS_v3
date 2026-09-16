@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState, useRef } from 'react'
 import dynamic from 'next/dynamic'
 import {
   GraduationCap, Menu, Search, Moon, Sun, Bell, LogOut, ChevronLeft, ChevronRight,
-  PanelLeftClose, PanelLeft, Loader2,
+  PanelLeftClose, PanelLeft, Loader2, Github,
 } from 'lucide-react'
 import { api } from '@/lib/api'
 import { useAppStore } from '@/lib/store'
@@ -280,9 +280,8 @@ export function AppShell() {
             </div>
             {!sidebarCollapsed && (
               <div className="min-w-0 text-left">
-                <p className="truncate font-serif text-base font-bold leading-tight">
-                  <span className="text-brand dark:text-brand">Edu</span>Center<span className="text-brand dark:text-brand">JM</span>
-                </p>
+                {/* School name is admin-configurable (Settings → Branding) and live-syncs everywhere. */}
+                <p className="truncate font-serif text-base font-bold leading-tight">{settings?.name || 'EduCenterJM'}</p>
                 <p className="truncate text-[10px] text-muted-foreground">{user.role} Portal</p>
               </div>
             )}
@@ -395,16 +394,21 @@ export function AppShell() {
 
       {/* Sticky footer — always at viewport bottom (content scrolls above) */}
       <footer className="relative z-10 shrink-0 border-t border-border bg-card/95 px-4 py-2.5 text-xs text-foreground/60 backdrop-blur lg:px-6">
-        <div className="flex flex-col items-center justify-between gap-1 sm:flex-row">
-          <p className="flex items-center gap-1.5">
-            <GraduationCap className="h-3.5 w-3.5 text-brand" />
-            <span className="font-medium text-foreground/80">EduCenterJM</span>
-            <span className="text-foreground/40">·</span>
-            <span>© {new Date().getFullYear()} Secondary School Management System</span>
-          </p>
-          <p className="flex items-center gap-1 text-foreground/50">
-            Crafted with care for educators & students
-          </p>
+        <div className="flex flex-wrap items-center justify-center gap-1.5 text-center">
+          <GraduationCap className="h-3.5 w-3.5 shrink-0 text-brand" aria-hidden="true" />
+          <span className="font-medium text-foreground/80">{settings?.name || 'EduCenterJM'}</span>
+          <span className="text-foreground/40" aria-hidden="true">·</span>
+          <span>© {new Date().getFullYear()} Secondary School Management System</span>
+          <span className="text-foreground/40" aria-hidden="true">·</span>
+          <a
+            href="https://github.com/Captain-Xen"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 font-medium text-foreground/70 underline-offset-2 transition-colors hover:text-brand hover:underline"
+          >
+            <Github className="h-3.5 w-3.5" aria-hidden="true" />
+            Captain-Xen
+          </a>
         </div>
       </footer>
 
@@ -415,9 +419,7 @@ export function AppShell() {
             <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-brand to-brand-strong text-brand-foreground shadow-md">
               {settings?.logo ? <img src={settings.logo} alt="School" className="h-full w-full object-cover" /> : <GraduationCap className="h-5 w-5" />}
             </div>
-            <SheetTitle className="font-serif text-base font-bold">
-              <span className="text-brand dark:text-brand">Edu</span>Center<span className="text-brand dark:text-brand">JM</span>
-            </SheetTitle>
+            <SheetTitle className="min-w-0 truncate font-serif text-base font-bold">{settings?.name || 'EduCenterJM'}</SheetTitle>
           </SheetHeader>
           <nav className="flex-1 space-y-1 overflow-y-auto p-3">
             {nav.map((item) => {

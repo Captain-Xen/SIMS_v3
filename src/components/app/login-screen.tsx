@@ -25,6 +25,8 @@ export function LoginScreen() {
   const theme = useAppStore((s) => s.theme)
   const toggleTheme = useAppStore((s) => s.toggleTheme)
   const settings = useAppStore((s) => s.settings)
+  // Admin-configurable school name (Settings → Branding) — shown across the app.
+  const schoolName = settings?.name || 'EduCenterJM'
 
   const [mode, setMode] = useState<Mode>('login')
   const [portal, setPortal] = useState<Portal>('Staff')
@@ -52,7 +54,7 @@ export function LoginScreen() {
     try {
       const res = await api<{ user: SessionUser }>('/api/auth/register', { method: 'POST', body: form })
       setUser(res.user)
-      addToast({ type: 'success', title: 'Account created!', body: `Welcome to EduCenterJM, ${form.name.split(' ')[0]}.` })
+      addToast({ type: 'success', title: 'Account created!', body: `Welcome to ${schoolName}, ${form.name.split(' ')[0]}.` })
     } catch (err: any) {
       addToast({ type: 'error', title: 'Registration failed', body: err.message })
     } finally {
@@ -64,7 +66,7 @@ export function LoginScreen() {
     e.preventDefault()
     setLoading(true)
     try {
-      await api('/api/email', { method: 'POST', body: { to: forgotEmail, subject: 'EduCenterJM — Password Reset', body: 'A password reset link has been requested for your EduCenterJM account. (Demo mode — no real link.)' } })
+      await api('/api/email', { method: 'POST', body: { to: forgotEmail, subject: `${schoolName} — Password Reset`, body: `A password reset link has been requested for your ${schoolName} account. (Demo mode — no real link.)` } })
       addToast({ type: 'success', title: 'Reset link sent', body: `Check ${forgotEmail} for instructions.` })
       setMode('login')
     } catch (err: any) {
@@ -103,11 +105,7 @@ export function LoginScreen() {
               <GraduationCap className="h-11 w-11" />
             )}
           </div>
-          <h1 className="font-serif text-3xl font-bold tracking-tight">
-            <span className="text-brand dark:text-brand">Edu</span>
-            <span>Center</span>
-            <span className="text-brand dark:text-brand">JM</span>
-          </h1>
+          <h1 className="font-serif text-3xl font-bold leading-tight tracking-tight">{schoolName}</h1>
           <p className="mt-1.5 text-sm font-medium text-foreground/70">{settings?.tagline || 'Secondary School Management System'}</p>
         </div>
 
@@ -250,7 +248,7 @@ export function LoginScreen() {
       </div>
 
       <p className="relative z-[1] mt-6 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} EduCenterJM · Secured with care
+        © {new Date().getFullYear()} {schoolName} · Secured with care
       </p>
     </div>
   )
