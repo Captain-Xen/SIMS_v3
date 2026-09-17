@@ -1,8 +1,10 @@
+# READ THIS FILE BEFORE YOU START WORKING ON THE PROJECT
+# READ README.md FILE BEFORE YOU START WORKING ON THE PROJECT
 # School Information Management System (SIMS) — Feature List
 
 Every feature below is live in the application. Role restrictions are shown where they apply — **Admin, Principal, Vice Principal, Teacher, Nurse, Ancillary Staff, Student**.
 
-> Admins can **hide/show entire modules** for every role at once (System Settings → Feature Visibility); hidden modules disappear from everyone's navigation on the fly. Core modules (Dashboard, Profile, Notifications, Help, Settings) always stay on.
+> Admins can **hide/show entire modules** for every role at once (System Settings → Feature Visibility); hidden modules disappear from everyone's navigation on the fly. Core modules (Dashboard, Profile, Notifications, Help, Settings) always stay on. 
 
 ---
 
@@ -14,6 +16,7 @@ Every feature below is live in the application. Role restrictions are shown wher
 - **Initial real administrator with forced first-login password change** — first-time setup creates one real admin (separate from demo) with a securely generated temporary password shown once in the server console; that account must set a permanent password before anything unlocks. The requirement is **enforced by the backend** (all data APIs return 401 until the change is done), so it cannot be bypassed by typing protected URLs. Available any time via `bun run admin:create`.
 - Automatic idle-timeout with warning countdown (security on shared computers)
 - One-click logout with confirmation dialog
+- Default account name for the initial real administrator is "administrator@sims.local" with a temporary password, so change it before someone tries to do something stupid(YES, YOU WILL BE FORCED TO CHANGE IT UPON FIRST LOGIN).
 
 ## Dashboard (all roles)
 - Role-aware overview: live counts (students, staff, fees collected, attendance %)
@@ -389,3 +392,5 @@ bun run start     # serves it in production mode on :3000
 ```
 
 Before going live, skim the README's **Security** section: real email key, HTTPS, changed demo passwords, and a backup routine.
+
+## If you've read this far, congrats lol uhh... Also reminder to let this web app remain FREE for everyone. Don't sell it or use it for profit. Don't be that person.

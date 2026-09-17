@@ -1,5 +1,5 @@
-# SIMS — School Information Management System (formerly EduCenterJM)
-
+# SIMS — School Information Management System by Xen LabsJM
+License: Xen LabsJM Attribution License (see [LICENSE](./LICENSE))
 A full-featured school management web application for students, teachers, staff, and administrators — built as a single-page Next.js app with a Prisma/SQLite backend. It is **not** limited to secondary schools: it fits primary, secondary, and all-through schools alike. The default school display name is **"School Name"** until an admin sets the real one in **System Settings → Branding** (changes propagate live to every connected user).
 
 > Looking for what the app can do? See **[FEATURES.md](./FEATURES.md)** — it also includes a full free-hosting / database / email / storage guide.
