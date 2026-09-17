@@ -5,7 +5,7 @@
 - ADMIN DASHBOARD (Dark Theme) PAGE
 ![SIMS Admin](screenshots/admin_dashboard.png)
 
-- ADMIN DASHBOARD (Light Theme) PAGE
+- ADMIN DASHBOARD (Light Theme) PAGE (Colour changed to Rose)
 ![SIMS Admin Light](screenshots/admin_light_dboard.png)
 
 - Admin Settings Page
