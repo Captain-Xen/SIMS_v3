@@ -28,3 +28,4 @@ main()
     console.error('Failed:', e)
     process.exit(1)
   })
+// here's a comment
