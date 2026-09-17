@@ -113,6 +113,11 @@ export function AppShell() {
     if (!nav.some((n) => n.id === activeView)) setActiveView('dashboard')
   }, [nav, activeView, user, setActiveView])
 
+  // Content scrolls at document level — start each view from the top.
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [activeView])
+
   // Keyboard shortcut for search
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -261,12 +266,12 @@ export function AppShell() {
   }
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-background">
-      <div className="flex min-h-0 flex-1 overflow-hidden">
-        {/* Desktop Sidebar */}
+    <div className="flex min-h-screen flex-col bg-background">
+      <div className="flex flex-1">
+        {/* Desktop Sidebar — sticky so it stays in view while the page scrolls */}
         <aside
           className={cn(
-            'hidden shrink-0 flex-col border-r border-sidebar-border bg-sidebar transition-all duration-300 md:flex',
+            'sticky top-0 hidden h-screen shrink-0 self-start flex-col border-r border-sidebar-border bg-sidebar transition-all duration-300 md:flex',
             sidebarCollapsed ? 'w-20' : 'w-64'
           )}
         >
@@ -343,9 +348,9 @@ export function AppShell() {
         </aside>
 
         {/* Main */}
-        <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-          {/* Header */}
-          <header className="flex h-16 shrink-0 items-center gap-1.5 border-b border-border bg-card/80 px-3 backdrop-blur sm:gap-2 sm:px-4 lg:px-6">
+        <div className="flex min-w-0 flex-1 flex-col">
+          {/* Header — sticky so the top bar stays available while the page scrolls */}
+          <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center gap-1.5 border-b border-border bg-card/80 px-3 backdrop-blur sm:gap-2 sm:px-4 lg:px-6">
             <button onClick={() => setMobileNavOpen(true)} className="shrink-0 rounded-lg p-2 text-muted-foreground hover:bg-muted hover:text-foreground md:hidden" aria-label="Open menu">
               <Menu className="h-5 w-5" />
             </button>
@@ -402,8 +407,8 @@ export function AppShell() {
             </div>
           </header>
 
-          {/* Content */}
-          <main className="min-h-0 flex-1 overflow-y-auto p-4 lg:p-6">
+          {/* Content — natural document flow; the whole page scrolls, footer sits at the very end */}
+          <main className="flex-1 p-4 lg:p-6">
             <div key={activeView} className="animate-fade-slide">
               {renderView()}
             </div>
@@ -411,8 +416,8 @@ export function AppShell() {
         </div>
       </div>
 
-      {/* Sticky footer — always at viewport bottom (content scrolls above) */}
-      <footer className="relative z-10 shrink-0 border-t border-border bg-card/95 px-4 py-2 text-xs text-foreground/60 backdrop-blur lg:px-6">
+      {/* Footer — end of the page content (mt-auto keeps it at the viewport bottom on short pages) */}
+      <footer className="relative z-10 mt-auto shrink-0 border-t border-border bg-card/95 px-4 py-2 text-xs text-foreground/60 backdrop-blur lg:px-6">
         <div className="flex flex-col items-center justify-center gap-0.5 text-center leading-snug">
           <p>© 2026 Xen LabsJM. All Rights Reserved. Free Digital Tools for Education</p>
           <p className="flex items-center gap-1">

@@ -1,7 +1,7 @@
-# EduCenterJM — Next.js Reimplementation Worklog
+# Xen LabsJM SIMS Platform — Next.js Reimplementation Worklog
 
 ## Project Overview
-Reimplementing + expanding the uploaded `EduCenterJM` Secondary School Management
+Reimplementing + expanding the uploaded `Xen LabsJM SIMS Platform` School Management
 single-page HTML/Alpine.js app as a Next.js 16 + Prisma + shadcn/ui application.
 
 Original app features: auth (Staff/Student portals), dashboard, students/staff mgmt,

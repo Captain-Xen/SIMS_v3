@@ -1,5 +1,7 @@
 # READ THIS FILE BEFORE YOU START WORKING ON THE PROJECT
+
 # READ README.md FILE BEFORE YOU START WORKING ON THE PROJECT
+
 # School Information Management System (SIMS) — Feature List
 
 Every feature below is live in the application. Role restrictions are shown where they apply — **Admin, Principal, Vice Principal, Teacher, Nurse, Ancillary Staff, Student**.
@@ -8,7 +10,10 @@ Every feature below is live in the application. Role restrictions are shown wher
 
 ---
 
+
+
 ## Accounts & Access
+
 - Secure login with cookie sessions; separate portals for **Staff** and **Students**
 - Self-service **user registration** (new staff/student accounts)
 - 7 role types with role-based navigation and view permissions
@@ -16,22 +21,31 @@ Every feature below is live in the application. Role restrictions are shown wher
 - **Initial real administrator with forced first-login password change** — first-time setup creates one real admin (separate from demo) with a securely generated temporary password shown once in the server console; that account must set a permanent password before anything unlocks. The requirement is **enforced by the backend** (all data APIs return 401 until the change is done), so it cannot be bypassed by typing protected URLs. Available any time via `bun run admin:create`.
 - Automatic idle-timeout with warning countdown (security on shared computers)
 - One-click logout with confirmation dialog
-- Default account name for the initial real administrator is "administrator@sims.local" with a temporary password, so change it before someone tries to do something stupid(YES, YOU WILL BE FORCED TO CHANGE IT UPON FIRST LOGIN).
+- Default account name for the initial real administrator is "[administrator@sims.local](mailto:administrator@sims.local)" with a temporary password, so change it before someone tries to do something stupid(YES, YOU WILL BE FORCED TO CHANGE IT UPON FIRST LOGIN).
+
+
 
 ## Dashboard (all roles)
+
 - Role-aware overview: live counts (students, staff, fees collected, attendance %)
 - Grade-distribution chart and today's attendance donut
 - Today's schedule, announcements feed, and quick actions
 - Welcome banner with school branding and date
 
+
+
 ## People Management
+
 - **Students** — searchable/filterable roster; add, edit, view profile, suspend/terminate/expel *(Admin, Principal, Vice Principal, Teacher, Nurse)*
 - **Staff Management** — staff directory and records *(Admin, Principal)*
 - **Admissions** — applicant pipeline (Pending → Reviewing → Accepted/Rejected → Enrolled) *(Admin, Principal)*
 - **Alumni** — graduate registry *(Admin, Principal)*
 - **Visitors** — check-in/check-out log with gate passes *(Admin, Principal, Ancillary Staff)*
 
+
+
 ## Academics
+
 - **Academics & Grades** — record/edit scores per subject & term; student view is read-only *(Teacher, Admin, Student)*
 - **Exam Management** — schedule exams with room, duration, total/passing marks *(Admin, Principal, Teacher, Student)*
 - **Attendance** — daily Present/Absent/Late/Excused register *(Teacher, Admin, Student)*
@@ -41,14 +55,20 @@ Every feature below is live in the application. Role restrictions are shown wher
 - **Reports & Transcripts** — report cards and printable/PDF transcripts *(Admin, Principal, Teacher, Student)*
 - **Staff Performance** — structured review periods with multi-category ratings *(Admin, Principal, Teacher)*
 
+
+
 ## Communication
+
 - **Messages** — internal direct messaging between any users with conversation list and unread badges
 - **Announcements** — school-wide posts *(Admin, Principal; read: Student, Teacher)*
 - **Notifications Center** — in-app notification feed with unread badge (email-ready)
 - **Parent-Teacher Conferences** — teachers publish slots; parents book them *(Admin, Principal, Teacher, Student)*
 - **Parent Portal** — guardian-facing summary for their child *(Student role)*
 
+
+
 ## Operations
+
 - **Library** — book catalogue, borrow/return with due dates and overdue tracking
 - **Transportation** — bus routes, drivers, stops, and student route assignments *(Admin, Principal, Student)*
 - **Cafeteria** — meal accounts, top-ups, purchases, and meal plans *(Admin, Principal, Student)*
@@ -59,11 +79,17 @@ Every feature below is live in the application. Role restrictions are shown wher
 - **Activities** — sports/science/cultural/charity activities with participant sign-up *(Admin, Principal, Teacher, Student)*
 - **Health Records** — allergies, conditions, medication, clinic visits with severity *(Nurse, Admin, Principal)*
 
+
+
 ## Finance
+
 - **Fee Management** — student fee records, paid/pending status, collection stats *(Admin, Student)*
 - **School Finance** — budget categories with allocated vs. actual expense tracking *(Admin, Principal)*
 
+
+
 ## Administration
+
 - **Discipline Module** — incident logging (warning/detention/suspension) and escalation *(Principal, Vice Principal, Admin)*
 - **Terms & Calendar** — academic terms, active term, holidays and exam weeks *(Admin, Principal, Teacher)*
 - **Analytics** — attendance, gender split, fees, and grade-band charts *(Admin, Principal, Teacher)*
@@ -76,12 +102,18 @@ Every feature below is live in the application. Role restrictions are shown wher
   - School contact info (email, phone, address)
   - Danger zone — reset/reseed demo data
 
+
+
 ## Profile & Gamification
+
 - Personal profile page with **avatar upload** (falls back to a default user icon)
 - Editable bio, phone, and personal details
 - Points, levels, and badges earned through activity
 
+
+
 ## Platform & UX
+
 - **Live global settings sync** — when an admin changes the theme or hides a feature, every signed-in user (student/teacher/staff) picks it up automatically within seconds — no reload needed
 - **⌘K / Ctrl+K quick search** across students and staff
 - **Dark / light mode** toggle, remembered per browser
@@ -91,80 +123,134 @@ Every feature below is live in the application. Role restrictions are shown wher
 
 ---
 
+
+
 # Version History
 
 Current as of **September 2026** — listed oldest → newest; every entry below is shipped and live in this app.
 
 ## v1.0 — The Next.js Rebuild
+
 - Full reimplementation of the original single-page EduCenterJM app on **Next.js 16 + TypeScript + Prisma (SQLite) + shadcn/ui**
 - Cookie-based login with separate **Staff** and **Student** portals across 7 roles
 - Core modules: Dashboard, Students, Staff, Grades, Attendance, Timetable, Fees, Announcements, Discipline, Subjects, Bulk CSV Import, System Settings
 - Toasts, onboarding flow, idle timeout, printable report cards
 
+
+
 ## v1.1 — Communication & Coursework
+
 - **Messaging** (direct chats with unread badges), **Assignments** (create → submit → grade with feedback), **Notifications centre**
 - Dedicated **Student & Teacher profiles** with avatar upload and an edit-profile modal
 - Dashboard **charts** (recharts); Attendance wired into the navigation
 
+
+
 ## v1.2 — Campus Life
+
 - **Library** (catalogue, loans, category breakdown), **Events calendar**, **Parent Portal**
 
+
+
 ## v1.3 — Reports & Guidance
+
 - **Reports & Transcripts** centre with 4 print-ready report types (Report Card / Attendance / Fee Statement / Class Summary)
 - **Help & FAQ** with role-based quick-start onboarding
 
+
+
 ## v1.4 — Analytics & Exams
+
 - **School Analytics** dashboards
 - **Exam Management** (scheduling, rooms, total/passing marks)
 
+
+
 ## v1.5 — Health & Transport
+
 - **Health Records** (allergies, conditions, medications, immunizations, clinic visits)
 - **Transportation / Bus Routes** with capacity-aware student assignments
 
+
+
 ## v1.6 — Cafeteria & Alumni
+
 - **Cafeteria / Meal Plans** (accounts, top-ups, dietary preferences, menu purchases)
 - **Alumni** registry with graduation workflow
 
+
+
 ## v1.7 — Front Office
+
 - **Visitor Management** (check-in/out, gate passes)
 - **Inventory / Asset Management** with low-stock alerts and CSV export
 
+
+
 ## v1.8 — Facilities & Admissions
+
 - **Facilities Booking** with approval workflow
 - **Admissions** pipeline (Pending → Reviewing → Accepted/Rejected → Enrolled)
 
+
+
 ## v1.9 — Planning & HR
+
 - **Terms & Calendar** management
 - **Staff Performance** reviews with multi-category ratings and radar/bar charts
 
+
+
 ## v2.0 — Finance & Community
+
 - **School Finance** (income, expenses, budgets)
 - **Parent-Teacher Conferences** with bookable time slots
 
+
+
 ## v2.1 — Activities & Operations
+
 - **School Activities** and **Uniform Management**
 
+
+
 ## v2.2 — Stability & Preview
+
 - Auth/session reliability fixes, footer scroll fix, standalone HTML preview page
 
+
+
 ## v2.3 — Performance Pass
+
 - Lazy-loaded 36 of 37 views; ~94× lighter notification-badge polling; DB session lookup caching; TTL caching of hot GET endpoints; SQLite WAL mode; Turbopack memory cap
 
+
+
 ## v2.4 — Theme Engine
+
 - **16-accent live theme engine** — picking an accent instantly re-skins the entire app (buttons, sidebar, badges, charts, gradients, tints, dark mode) and persists for the whole school
 - Fixed the persistent console hydration warning
 
+
+
 ## v2.5 — Live Sync & Module Control
+
 - **Live global settings broadcast** — admin changes reach every signed-in student/teacher/staff session within seconds, no reload
 - Admins can **hide/unhide 32 modules** for all roles at once (core modules always stay on)
 - First docs: **README** (install/run) and **FEATURES** (this file)
 
+
+
 ## v2.6 — Branding & Uploads
+
 - **Dynamic school name** everywhere — sidebar, login, footer, browser tab title, print documents
 - New **/api/upload** endpoint fixed the logo/profile-picture 404 (client-side resizing, admin-gated)
 - One-command setup scripts (**setup.ps1** / **setup.bat**), attribution **LICENSE**, footer GitHub credit
 
+
+
 ## v3.0 — Security & SIMS Identity
+
 - **Security hardening**: scrypt password hashing with legacy migration, hardened httpOnly session cookies, sliding-window rate limiting on auth/registration/email routes, security headers (CSP `frame-ancestors 'none'`, X-Frame-Options DENY, nosniff, Referrer-Policy, Permissions-Policy), size/type-validated admin-only uploads
 - Rebranded as a **School Information Management System (SIMS)** — not secondary-school-only; default display name is now **"School Name"**
 - Neutral centred **Loading** splash with a spinner
@@ -173,14 +259,32 @@ Current as of **September 2026** — listed oldest → newest; every entry below
 - Dark/light switching moved to the **View Transitions API** — single composited crossfade, no more stutter
 - This file gained the **Hosting, Free Resources & Local Setup Guide** (below); README rebranded to SIMS with a dedicated Security section
 
+
+
 ## v3.1 — Real Admin vs. Demo Accounts *(current, September 2026)*
-- **`accountType` flag** (`real` / `demo`) on every user account; existing sample-data accounts are marked `demo` and identified in the UI with a **DEMO ACCOUNT** badge (header + sidebar + mobile nav)
+
+- `accountType` **flag** (`real` / `demo`) on every user account; existing sample-data accounts are marked `demo` and identified in the UI with a **DEMO ACCOUNT** badge (header + sidebar + mobile nav)
 - **Initial real administrator** provisioned during first-time setup (`bun run admin:create`) with a cryptographically random temporary password printed **once** to the console — never stored or displayed in plaintext afterwards, only its scrypt hash
 - **Mandatory first-login password change** (`mustChangePassword` flag) for the real admin: temporary password → forced "Change Your Password" screen → permanent password (8+ chars, must differ) → dashboard unlocks. Session token is rotated on success
 - **Server-side enforcement**: while the flag is set, every protected API returns 401 — the change cannot be bypassed via protected URLs; only `/api/auth/me`, `/api/auth/logout`, and `/api/auth/change-password` remain reachable
 - Demo accounts keep their existing credentials, roles, and data, and are **never** forced through the password change
 
+
+
+## v3.2 — Natural Page Scroll & Footer Placement (current, September 2026)
+
+- The app now scrolls like a normal web page: the footer sits at the very end of the page content — after the last card/record — instead of being pinned to the bottom of the first screen with empty space below it on tall pages. 
+- Sticky sidebar & header: the sidebar and the top bar stay in view while long pages scroll, so nothing was lost from the old fixed-frame behaviour Switching modules now auto-scrolls back to the top of the page Removed the global html, body { height: 100%; overflow: hidden } scroll lock; on short pages the footer still rests at the bottom of the screen (min-h-screen flexible layout)
+
+
+
+# **Side-note:** If you use Firefox to take screenshots, the sidebar may be glitchy but it remains functional.
+## **Broken Sidebar in Firefox:** It's a known issue and it's not a big deal. It's only visible when you use Firefox to take screenshots. 
+![SIMS BROKEN SIDEBAR](screenshots/glitchy_sidebar.png)
+
 ---
+
+
 
 # Hosting, Free Resources & Local Setup Guide
 
@@ -190,20 +294,24 @@ SIMS is deliberately light on infrastructure: the database is a **single SQLite 
 
 > **SQLite caveat:** on always-on hosts (a VPS, Raspberry Pi, Docker, Render/Railway/Fly with a persistent disk) the SQLite file just works. On **serverless** platforms (Vercel, Netlify, Cloudflare) the filesystem is ephemeral — the DB is wiped on every deploy/restart and instances cannot share a file. Pair those with a free hosted database (next section).
 
-| Platform | Free tier | Notes |
-|----------|-----------|-------|
-| **Vercel** | Hobby plan | Best Next.js fit (same makers) — free HTTPS, CI, preview deploys. **SQLite does NOT persist on serverless**; pair with a hosted DB. |
-| **Netlify** | Free plan | Solid Next.js support; same serverless filesystem caveat. |
-| **Render** | Free web service | Git/Docker deploys; free instances **sleep after inactivity** (slow first hit) and have no persistent disk. |
-| **Railway** | One-time trial credits | Great DX with volumes; credits run out, then it's paid. |
-| **Fly.io** | Small free allowance | Docker-native deploys with **persistent volumes** (can keep SQLite). |
-| **Koyeb** | One free service | Scales to zero / sleeps when idle; Git or Docker deploys. |
-| **Cloudflare Pages / Workers** | Free plan | Via the **OpenNext** adapter; no filesystem — needs a hosted DB; very generous request limits. |
-| **Google Cloud Run** | Free monthly tier | Scale-to-zero containers; stateless, so a hosted DB is required. |
-| **Oracle Cloud Always Free** | Small VMs incl. ARM, indefinitely | A real always-on **VPS** for $0 — the strongest "free forever", full-control option. |
-| **AWS Lightsail / GCP free tier** | Trial small VMs | AWS 12-month free tier; GCP `e2-micro` always-free in select regions — fine for a pilot year. |
-| **Hugging Face Spaces** | Free CPU tier | Runs the app from a **Dockerfile** — handy demo host; storage is ephemeral. |
-| **Replit** | Free plan | Zero-setup in-browser runs and deployments (sleep; ephemeral FS) — best as a demo tool. |
+
+| Platform                          | Free tier                         | Notes                                                                                                                               |
+| --------------------------------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **Vercel**                        | Hobby plan                        | Best Next.js fit (same makers) — free HTTPS, CI, preview deploys. **SQLite does NOT persist on serverless**; pair with a hosted DB. |
+| **Netlify**                       | Free plan                         | Solid Next.js support; same serverless filesystem caveat.                                                                           |
+| **Render**                        | Free web service                  | Git/Docker deploys; free instances **sleep after inactivity** (slow first hit) and have no persistent disk.                         |
+| **Railway**                       | One-time trial credits            | Great DX with volumes; credits run out, then it's paid.                                                                             |
+| **Fly.io**                        | Small free allowance              | Docker-native deploys with **persistent volumes** (can keep SQLite).                                                                |
+| **Koyeb**                         | One free service                  | Scales to zero / sleeps when idle; Git or Docker deploys.                                                                           |
+| **Cloudflare Pages / Workers**    | Free plan                         | Via the **OpenNext** adapter; no filesystem — needs a hosted DB; very generous request limits.                                      |
+| **Google Cloud Run**              | Free monthly tier                 | Scale-to-zero containers; stateless, so a hosted DB is required.                                                                    |
+| **Oracle Cloud Always Free**      | Small VMs incl. ARM, indefinitely | A real always-on **VPS** for $0 — the strongest "free forever", full-control option.                                                |
+| **AWS Lightsail / GCP free tier** | Trial small VMs                   | AWS 12-month free tier; GCP `e2-micro` always-free in select regions — fine for a pilot year.                                       |
+| **Hugging Face Spaces**           | Free CPU tier                     | Runs the app from a **Dockerfile** — handy demo host; storage is ephemeral.                                                         |
+| **Replit**                        | Free plan                         | Zero-setup in-browser runs and deployments (sleep; ephemeral FS) — best as a demo tool.                                             |
+
+
+
 
 ### Host it yourself (still $0)
 
@@ -212,15 +320,21 @@ SIMS is deliberately light on infrastructure: the database is a **single SQLite 
 - **Tailscale** — free mesh VPN; reach the school server from anywhere as if on the LAN, with no public URL at all.
 - **ngrok** — `ngrok http 3000` for an instant temporary public HTTPS link (demos).
 
+
+
 ### What to pick
 
-| Scenario | Recommendation |
-|----------|----------------|
-| Hobby / easiest public deploy | **Vercel** + Turso or Neon (hosted DB) |
-| Full control, $0 forever | **Oracle Cloud Always Free VPS** or a **Raspberry Pi** + Cloudflare Tunnel |
-| School already has a server | **Docker** on that existing machine (SQLite keeps working) |
-| Computer-lab / LAN-only use | Production build on any PC — see *Running / Hosting Locally* below |
-| Quick shareable demo | ngrok / Replit / Hugging Face Spaces |
+
+| Scenario                      | Recommendation                                                             |
+| ----------------------------- | -------------------------------------------------------------------------- |
+| Hobby / easiest public deploy | **Vercel** + Turso or Neon (hosted DB)                                     |
+| Full control, $0 forever      | **Oracle Cloud Always Free VPS** or a **Raspberry Pi** + Cloudflare Tunnel |
+| School already has a server   | **Docker** on that existing machine (SQLite keeps working)                 |
+| Computer-lab / LAN-only use   | Production build on any PC — see *Running / Hosting Locally* below         |
+| Quick shareable demo          | ngrok / Replit / Hugging Face Spaces                                       |
+
+
+
 
 ## Free Database Options
 
@@ -228,39 +342,45 @@ The app ships with **SQLite via Prisma** (`db/custom.db`) — no server, no setu
 
 Free managed databases that Prisma works with:
 
-| Service | Engine | Why pick it |
-|---------|--------|-------------|
-| **Turso** | libSQL (SQLite fork) | **Closest to what the app already uses** — SQLite dialect, built for the edge, generous free tier |
-| **Neon** | Postgres | Serverless Postgres with autosuspend and a built-in connection pooler |
-| **Supabase** | Postgres | Database **+ file storage + auth** bundled in one free project |
-| **MongoDB Atlas** | MongoDB (M0) | Free ~512 MB cluster; Prisma has a native MongoDB connector |
-| **CockroachDB** | Postgres-compatible | Distributed SQL with a free tier; speaks the Postgres wire protocol |
-| **Upstash** | Redis + serverless Postgres | Per-request pricing — very serverless-friendly free allowances |
-| **Aiven** | Postgres / MySQL / Redis | Free managed plans for classic open-source engines |
-| **Firebase Firestore** | NoSQL (Spark plan) | Google ecosystem; NoSQL — not a drop-in for Prisma's relational connectors |
+
+| Service                | Engine                      | Why pick it                                                                                       |
+| ---------------------- | --------------------------- | ------------------------------------------------------------------------------------------------- |
+| **Turso**              | libSQL (SQLite fork)        | **Closest to what the app already uses** — SQLite dialect, built for the edge, generous free tier |
+| **Neon**               | Postgres                    | Serverless Postgres with autosuspend and a built-in connection pooler                             |
+| **Supabase**           | Postgres                    | Database **+ file storage + auth** bundled in one free project                                    |
+| **MongoDB Atlas**      | MongoDB (M0)                | Free ~512 MB cluster; Prisma has a native MongoDB connector                                       |
+| **CockroachDB**        | Postgres-compatible         | Distributed SQL with a free tier; speaks the Postgres wire protocol                               |
+| **Upstash**            | Redis + serverless Postgres | Per-request pricing — very serverless-friendly free allowances                                    |
+| **Aiven**              | Postgres / MySQL / Redis    | Free managed plans for classic open-source engines                                                |
+| **Firebase Firestore** | NoSQL (Spark plan)          | Google ecosystem; NoSQL — not a drop-in for Prisma's relational connectors                        |
+
 
 What switching actually involves (a small, contained change):
 
-1. **`prisma/schema.prisma`** — change the datasource `provider` (e.g. `"sqlite"` → `"postgresql"`); models are standard Prisma and mostly carry over.
-2. **`.env`** — point `DATABASE_URL` at the hosted connection string.
-3. **`bun run db:push`** — recreate the schema on the new database.
+1. `prisma/schema.prisma` — change the datasource `provider` (e.g. `"sqlite"` → `"postgresql"`); models are standard Prisma and mostly carry over.
+2. `.env` — point `DATABASE_URL` at the hosted connection string.
+3. `bun run db:push` — recreate the schema on the new database.
 4. **Connection pooling** — serverless functions open many short-lived connections; use the provider's pooler (Neon pooled URL, Supabase's PgBouncer port, PgBouncer) or **Prisma Accelerate**.
+
+
 
 ## Free Email Options
 
 The app is **Resend-ready**: set `RESEND_API_KEY` (and optionally `RESEND_FROM`) in `.env` and emails send for real; without a key it stays in demo mode (see *Local Email Testing* below).
 
-| Provider | Free allowance | Notes |
-|----------|----------------|-------|
-| **Resend** | ~3,000 emails/mo | **Already integrated** — just add the API key |
-| **Brevo** (ex-Sendinblue) | 300/day | Transactional + marketing suite |
-| **SendGrid** | 100/day | Classic transactional API (Twilio) |
-| **Postmark** | 100/mo (dev tier) | Superb deliverability documentation |
-| **Mailgun** | Trial credits | Solid API; trial, then paid |
-| **Amazon SES** | 62,000/mo free from EC2 | Cheapest at scale if you're already on AWS |
-| **SMTP2GO** | Free plan | Simple SMTP relay — easy swap-in |
-| **Zoho Mail** | Free plan | Free **custom-domain inbox** (small team) — receive mail at `yourschool.com` |
-| **Gmail SMTP** + app password | Free | Testing only — not for production volume |
+
+| Provider                      | Free allowance          | Notes                                                                        |
+| ----------------------------- | ----------------------- | ---------------------------------------------------------------------------- |
+| **Resend**                    | ~3,000 emails/mo        | **Already integrated** — just add the API key                                |
+| **Brevo** (ex-Sendinblue)     | 300/day                 | Transactional + marketing suite                                              |
+| **SendGrid**                  | 100/day                 | Classic transactional API (Twilio)                                           |
+| **Postmark**                  | 100/mo (dev tier)       | Superb deliverability documentation                                          |
+| **Mailgun**                   | Trial credits           | Solid API; trial, then paid                                                  |
+| **Amazon SES**                | 62,000/mo free from EC2 | Cheapest at scale if you're already on AWS                                   |
+| **SMTP2GO**                   | Free plan               | Simple SMTP relay — easy swap-in                                             |
+| **Zoho Mail**                 | Free plan               | Free **custom-domain inbox** (small team) — receive mail at `yourschool.com` |
+| **Gmail SMTP** + app password | Free                    | Testing only — not for production volume                                     |
+
 
 Inbound & forwarding (receive at your school domain, free):
 
@@ -271,6 +391,8 @@ Newsletters & templates:
 
 - **react-email** — write email templates as React components (pairs naturally with Resend)
 - **MJML** — responsive email markup framework; both are free
+
+
 
 ## Local Email Testing
 
@@ -290,16 +412,20 @@ Today the app stores logo/avatars **as base64 data URLs inside SQLite** — zero
 
 If you later want real object storage (bigger media, leaner DB), free tiers:
 
-| Service | Free tier | Notes |
-|---------|-----------|-------|
-| **Cloudinary** | Free plan | Image CDN + on-the-fly transforms |
-| **UploadThing** | Free plan | Built specifically for Next.js file uploads |
-| **Supabase Storage** | Free plan | Storage alongside a Supabase database |
-| **Cloudflare R2** | 10 GB, **zero egress fees** | S3 API — no bandwidth-bill surprises |
-| **Backblaze B2** | 10 GB | S3-compatible, cheap egress |
-| **Firebase Storage** | Free plan | Google ecosystem |
-| **ImageKit** | Free plan | Image optimization / resizing CDN |
-| **MinIO** | Self-hosted, free | S3-compatible object storage in one Docker container — runs on the same school server |
+
+| Service              | Free tier                   | Notes                                                                                 |
+| -------------------- | --------------------------- | ------------------------------------------------------------------------------------- |
+| **Cloudinary**       | Free plan                   | Image CDN + on-the-fly transforms                                                     |
+| **UploadThing**      | Free plan                   | Built specifically for Next.js file uploads                                           |
+| **Supabase Storage** | Free plan                   | Storage alongside a Supabase database                                                 |
+| **Cloudflare R2**    | 10 GB, **zero egress fees** | S3 API — no bandwidth-bill surprises                                                  |
+| **Backblaze B2**     | 10 GB                       | S3-compatible, cheap egress                                                           |
+| **Firebase Storage** | Free plan                   | Google ecosystem                                                                      |
+| **ImageKit**         | Free plan                   | Image optimization / resizing CDN                                                     |
+| **MinIO**            | Self-hosted, free           | S3-compatible object storage in one Docker container — runs on the same school server |
+
+
+
 
 ## Free Auth / Security / Monitoring Extras
 
@@ -321,13 +447,15 @@ Optional free upgrades:
 - **Grade your headers:** [securityheaders.com](https://securityheaders.com) and the Mozilla HTTP Observatory — scan your deployed URL
 - **Backups:** **Litestream** continuously streams the SQLite file to S3/R2/any S3-compatible bucket; the simple option is copying the `db/` folder (see below)
 
+
+
 ## Running / Hosting Locally (Recommended Setups)
 
 **Prerequisites:** Bun 1.1+ (recommended) or Node.js 20 LTS. No database server, web server, or global packages — SQLite is a file and everything else ships with the repo.
 
 ### One command (Windows)
 
-Double-click **`setup.bat`** — or run `powershell -NoProfile -ExecutionPolicy Bypass -File .\setup.ps1`. It detects Bun/Node, installs dependencies, writes a portable `.env` with an absolute `DATABASE_URL`, generates the Prisma client, and pushes the schema.
+Double-click `setup.bat` — or run `powershell -NoProfile -ExecutionPolicy Bypass -File .\setup.ps1`. It detects Bun/Node, installs dependencies, writes a portable `.env` with an absolute `DATABASE_URL`, generates the Prisma client, and pushes the schema.
 
 ### Manual steps
 
@@ -342,10 +470,14 @@ bun run dev                  # http://localhost:3000
                              # Windows CMD/PowerShell: npm run dev:win
 ```
 
+
+
 ### Managing the database locally
 
-- **Prisma Studio** — visual editor for every table: `bunx prisma studio` → http://localhost:5555
+- **Prisma Studio** — visual editor for every table: `bunx prisma studio` → [http://localhost:5555](http://localhost:5555)
 - **DB Browser for SQLite** — free GUI; open `db/custom.db` (read-only is safest while the server runs)
+
+
 
 ### Backups
 
@@ -357,24 +489,24 @@ cp db/custom.db* /path/to/backups/
 - A stopped-server copy of `db/custom.db` (plus `-wal`/`-shm` if present) is a **complete backup** — students, grades, fees, settings, images, everything.
 - For continuous backups, run **Litestream** against any free S3-compatible bucket (R2/B2).
 
+
+
 ### Share it on the school LAN
 
 1. **Production build** (preferred for sharing):
-
-   ```bash
+  ```bash
    bun run build && bun run start   # standalone server on :3000, all interfaces
    # Windows tip: the build/start scripts use cp/tee — run them from Git Bash/WSL,
    # or just share the dev server: bunx next dev -H 0.0.0.0 -p 3000
-   ```
-
+  ```
 2. **Find your LAN IP** — `ipconfig` (Windows) / `ip addr` (Linux/macOS), e.g. `192.168.1.20`.
 3. **Allow port 3000 through the firewall** (Windows):
-
-   ```powershell
+  ```powershell
    netsh advfirewall firewall add rule name="SIMS 3000" dir=in action=allow protocol=TCP localport=3000
-   ```
+  ```
+4. Anyone on the school network opens `http://192.168.1.20:3000`. The repo also ships a `Caddyfile` that reverse-proxies `:81` → `:3000` if you want Caddy in front.
 
-4. Anyone on the school network opens **`http://192.168.1.20:3000`**. The repo also ships a `Caddyfile` that reverse-proxies `:81` → `:3000` if you want Caddy in front.
+
 
 ### Expose it securely to the internet
 
@@ -383,6 +515,8 @@ cloudflared tunnel --url http://localhost:3000   # free HTTPS URL, no open ports
 ngrok http 3000                                  # quick temporary demo link
 tailscale up                                     # private remote access, no public URL
 ```
+
+
 
 ### Production build locally
 
@@ -394,3 +528,4 @@ bun run start     # serves it in production mode on :3000
 Before going live, skim the README's **Security** section: real email key, HTTPS, changed demo passwords, and a backup routine.
 
 ## If you've read this far, congrats lol uhh... Also reminder to let this web app remain FREE for everyone. Don't sell it or use it for profit. Don't be that person.
+
