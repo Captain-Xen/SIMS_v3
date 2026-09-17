@@ -10,6 +10,8 @@ Every feature below is live in the application. Role restrictions are shown wher
 - Secure login with cookie sessions; separate portals for **Staff** and **Students**
 - Self-service **user registration** (new staff/student accounts)
 - 7 role types with role-based navigation and view permissions
+- **Real vs. demo accounts** — every account carries an `accountType` flag (`real` or `demo`); the three demo logins (Admin / Teacher / Student) exist purely to preview the app with sample data and are clearly marked with a **DEMO ACCOUNT** badge in the header and sidebar. Demo accounts can never act as the school's system administrator.
+- **Initial real administrator with forced first-login password change** — first-time setup creates one real admin (separate from demo) with a securely generated temporary password shown once in the server console; that account must set a permanent password before anything unlocks. The requirement is **enforced by the backend** (all data APIs return 401 until the change is done), so it cannot be bypassed by typing protected URLs. Available any time via `bun run admin:create`.
 - Automatic idle-timeout with warning countdown (security on shared computers)
 - One-click logout with confirmation dialog
 
@@ -159,7 +161,7 @@ Current as of **September 2026** — listed oldest → newest; every entry below
 - New **/api/upload** endpoint fixed the logo/profile-picture 404 (client-side resizing, admin-gated)
 - One-command setup scripts (**setup.ps1** / **setup.bat**), attribution **LICENSE**, footer GitHub credit
 
-## v3.0 — Security & SIMS Identity *(current)*
+## v3.0 — Security & SIMS Identity
 - **Security hardening**: scrypt password hashing with legacy migration, hardened httpOnly session cookies, sliding-window rate limiting on auth/registration/email routes, security headers (CSP `frame-ancestors 'none'`, X-Frame-Options DENY, nosniff, Referrer-Policy, Permissions-Policy), size/type-validated admin-only uploads
 - Rebranded as a **School Information Management System (SIMS)** — not secondary-school-only; default display name is now **"School Name"**
 - Neutral centred **Loading** splash with a spinner
@@ -167,6 +169,13 @@ Current as of **September 2026** — listed oldest → newest; every entry below
 - Distinct **display fonts** for the school name (Cinzel on the login page, Space Grotesk in the sidebar corner)
 - Dark/light switching moved to the **View Transitions API** — single composited crossfade, no more stutter
 - This file gained the **Hosting, Free Resources & Local Setup Guide** (below); README rebranded to SIMS with a dedicated Security section
+
+## v3.1 — Real Admin vs. Demo Accounts *(current, September 2026)*
+- **`accountType` flag** (`real` / `demo`) on every user account; existing sample-data accounts are marked `demo` and identified in the UI with a **DEMO ACCOUNT** badge (header + sidebar + mobile nav)
+- **Initial real administrator** provisioned during first-time setup (`bun run admin:create`) with a cryptographically random temporary password printed **once** to the console — never stored or displayed in plaintext afterwards, only its scrypt hash
+- **Mandatory first-login password change** (`mustChangePassword` flag) for the real admin: temporary password → forced "Change Your Password" screen → permanent password (8+ chars, must differ) → dashboard unlocks. Session token is rotated on success
+- **Server-side enforcement**: while the flag is set, every protected API returns 401 — the change cannot be bypassed via protected URLs; only `/api/auth/me`, `/api/auth/logout`, and `/api/auth/change-password` remain reachable
+- Demo accounts keep their existing credentials, roles, and data, and are **never** forced through the password change
 
 ---
 

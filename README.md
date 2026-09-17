@@ -86,7 +86,7 @@ The database seeds with demo students, staff, classes, grades, fees, books, rout
   curl -X POST http://localhost:3000/api/seed
   ```
 
-### Demo accounts
+### Demo accounts (preview only)
 
 | Role | Email | Password |
 |------|-------|----------|
@@ -95,7 +95,23 @@ The database seeds with demo students, staff, classes, grades, fees, books, rout
 | Teacher | `staff@edu.edu` | `staff123` |
 | Student | `student@edu.edu` | `student123` |
 
-The login screen also has one-click buttons for Admin / Teacher / Student.
+The login screen also has one-click buttons for Admin / Teacher / Student. Demo accounts are
+flagged `accountType: demo` in the database and show a **DEMO ACCOUNT** badge inside the app —
+they exist purely to preview each role with sample data and never trigger the password-change flow.
+
+### The real initial administrator (separate from demo)
+
+On first setup the system creates one **real** administrator — `administrator@sims.local` — with a
+**cryptographically random temporary password** printed to the server console **once** (or set
+`INITIAL_ADMIN_PASSWORD` / `INITIAL_ADMIN_EMAIL` before running the command below):
+
+```bash
+bun run admin:create        # or: npm run admin:create
+```
+
+This account starts with `mustChangePassword = true`: every API endpoint is server-gated and the
+first login lands on a mandatory **"Change Your Password"** screen. The dashboard unlocks only
+after a permanent password (8+ characters) is set — the temporary one is then permanently dead.
 
 ## 6. Run the app
 
@@ -139,13 +155,15 @@ Implemented in the app — nothing extra to install:
 - **Admin-only gating** — settings changes, logo upload, and the DB reseed (Danger Zone) are restricted to admins
 - **Security headers** — `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`, and CSP `frame-ancestors 'none'`
 - **Upload hardening** — server-side validation (image MIME whitelist, 1.5 MB cap) plus client-side downscaling before anything is stored
+- **Real vs. demo account separation** — `accountType` flag on every user; demo accounts can never act as the system administrator
+- **Mandatory first-login password change** — the initial administrator's `mustChangePassword` flag is enforced by the backend (every data endpoint returns 401 until the password is changed), not just by frontend routing
 
 ### Production hardening tips
 
 - Set `RESEND_API_KEY` (+ `RESEND_FROM`) so notification emails really send
 - Serve over **HTTPS** (Cloudflare Tunnel, Caddy, or Let's Encrypt — see [FEATURES.md](./FEATURES.md))
 - Running **multiple instances or serverless**? Move to a hosted Postgres (e.g. Neon) — SQLite is a single file on one machine
-- **Change or remove the demo passwords** (`admin@edu.edu` / `admin123`, …) before real use
+- Sign in as the **real initial administrator**, complete the forced password change, and keep those credentials safe — demo accounts (`admin@edu.edu` / `admin123`, …) are public preview logins and should be hidden (Settings → Feature Visibility) or removed for real use
 
 ## 10. Hosting, free resources & local email testing
 

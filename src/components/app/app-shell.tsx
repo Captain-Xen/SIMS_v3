@@ -282,7 +282,17 @@ export function AppShell() {
               <div className="min-w-0 text-left">
                 {/* School name is admin-configurable (Settings → Branding) and live-syncs everywhere. */}
                 <p className="truncate font-school text-[15px] font-bold leading-tight tracking-tight">{settings?.name || 'School Name'}</p>
-                <p className="truncate text-[10px] text-muted-foreground">{user.role} Portal</p>
+                <div className="flex items-center gap-1">
+                  <p className="truncate text-[10px] text-muted-foreground">{user.role} Portal</p>
+                  {user.accountType === 'demo' && (
+                    <span
+                      title="Demo account — you are previewing sample data, not the school's real system"
+                      className="shrink-0 rounded bg-amber-500/15 px-1 py-px text-[8px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400"
+                    >
+                      Demo
+                    </span>
+                  )}
+                </div>
               </div>
             )}
           </button>
@@ -373,6 +383,15 @@ export function AppShell() {
 
               <div className="mx-0.5 h-6 w-px bg-border sm:mx-1" />
 
+              {user.accountType === 'demo' && (
+                <span
+                  title="Demo account — you are previewing sample data, not the school's real system"
+                  className="hidden items-center gap-1 rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-600 dark:text-amber-400 md:inline-flex"
+                >
+                  Demo Account
+                </span>
+              )}
+
               <button onClick={() => setActiveView('profile')} className="flex items-center gap-2 rounded-lg p-1 pr-2 transition hover:bg-muted">
                 <UserAvatar name={user.name} avatar={user.avatar} role={user.role} size="sm" />
                 <div className="hidden text-left sm:block">
@@ -420,6 +439,14 @@ export function AppShell() {
               {settings?.logo ? <img src={settings.logo} alt="School" className="h-full w-full object-cover" /> : <GraduationCap className="h-5 w-5" />}
             </div>
             <SheetTitle className="min-w-0 truncate font-school text-base font-bold">{settings?.name || 'School Name'}</SheetTitle>
+            {user.accountType === 'demo' && (
+              <span
+                title="Demo account — you are previewing sample data, not the school's real system"
+                className="shrink-0 rounded bg-amber-500/15 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400"
+              >
+                Demo
+              </span>
+            )}
           </SheetHeader>
           <nav className="flex-1 space-y-1 overflow-y-auto p-3">
             {nav.map((item) => {

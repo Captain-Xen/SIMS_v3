@@ -22,6 +22,8 @@ export interface SessionUser {
   points: number
   level: number
   badges: number
+  accountType: 'real' | 'demo'
+  mustChangePassword: boolean
 }
 
 // ---------------------------------------------------------------------------
@@ -102,6 +104,65 @@ export async function fakePasswordWork(): Promise<void> {
 }
 
 // ---------------------------------------------------------------------------
+// Initial (real) administrator — first-time setup.
+// A dedicated real admin account (separate from the demo accounts) is created
+// with a cryptographically random temporary password. The password is printed
+// to the server console ONCE during setup; only its scrypt hash is stored.
+// The account carries mustChangePassword=true, which the whole API surface
+// enforces (see getSession below) until the admin sets a permanent password.
+// ---------------------------------------------------------------------------
+export const INITIAL_ADMIN_EMAIL = (process.env.INITIAL_ADMIN_EMAIL || 'administrator@sims.local').toLowerCase()
+
+/** Cryptographically random, human-typeable temp password: xxxx-xxxx-xxxx-xxxx. */
+export function generateTempPassword(): string {
+  const alphabet = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789' // no lookalikes
+  const bytes = randomBytes(16)
+  const chars = Array.from(bytes, (b) => alphabet[b % alphabet.length])
+  return [0, 4, 8, 12].map((i) => chars.slice(i, i + 4).join('')).join('-')
+}
+
+/**
+ * Idempotently ensure the real initial administrator exists. Never creates a
+ * second one, never touches demo accounts, and never logs/returns the temp
+ * password except once at creation time (returned to the setup caller only).
+ */
+export async function ensureInitialAdmin(): Promise<{ created: boolean; email: string; tempPassword?: string }> {
+  const email = INITIAL_ADMIN_EMAIL
+  const existing = await db.user.findUnique({ where: { email }, select: { id: true } })
+  if (existing) return { created: false, email }
+
+  const tempPassword = process.env.INITIAL_ADMIN_PASSWORD || generateTempPassword()
+  const hashed = await hashPassword(tempPassword)
+  await db.user.create({
+    data: {
+      email,
+      name: 'System Administrator',
+      password: hashed,
+      role: 'Admin',
+      status: 'Active',
+      accountType: 'real',
+      mustChangePassword: true,
+      department: 'Administration',
+      bio: 'Initial administrator account created during first-time setup.',
+    },
+  })
+  return { created: true, email, tempPassword }
+}
+
+/** One-time console banner for the setup log. Called only when the account was just created. */
+export function printInitialAdminCredentials(email: string, tempPassword: string): void {
+  const line = '-'.repeat(74)
+  console.log(
+    `\n${line}\n  INITIAL ADMINISTRATOR ACCOUNT CREATED (first-time setup)\n\n` +
+    `  Email:             ${email}\n` +
+    `  Temporary password: ${tempPassword}\n\n` +
+    `  Sign in with these credentials; you will be REQUIRED to set a permanent\n` +
+    `  password before the dashboard unlocks. This temporary password is shown\n` +
+    `  here only once and is stored in the database solely as a scrypt hash.\n${line}\n`,
+  )
+}
+
+// ---------------------------------------------------------------------------
 // Sessions — server-side, revocable, token-based.
 // The cookie carries a random 256-bit token; the DB row maps it to a user.
 // A stolen/forged cookie value alone is useless (no userId enumeration), and
@@ -167,7 +228,12 @@ export async function destroySession(token: string): Promise<void> {
   sessionCache.delete(token)
 }
 
-export async function getSession(): Promise<SessionUser | null> {
+/**
+ * Raw session lookup — used only by the few endpoints that must stay reachable
+ * while a mandatory password change is pending: /api/auth/me, /api/auth/logout
+ * and /api/auth/change-password itself. Every other endpoint uses getSession().
+ */
+export async function getSessionRaw(): Promise<SessionUser | null> {
   const store = await cookies()
   const token = store.get(SESSION_COOKIE)?.value
   if (!token) return null
@@ -197,6 +263,21 @@ export async function getSession(): Promise<SessionUser | null> {
   return toSessionUser(session.user)
 }
 
+/**
+ * Backend-enforced gate: resolves the session like getSessionRaw, but returns
+ * null (=> 401 on every protected route) while mustChangePassword is true.
+ * This is what makes the mandatory "Change Your Password" step impossible to
+ * bypass by typing protected URLs — data simply does not flow until the flag
+ * is cleared server-side. Demo accounts (mustChangePassword=false) are never
+ * affected.
+ */
+export async function getSession(): Promise<SessionUser | null> {
+  const user = await getSessionRaw()
+  if (!user) return null
+  if (user.mustChangePassword) return null
+  return user
+}
+
 export function toSessionUser(user: any): SessionUser {
   return {
     id: user.id,
@@ -214,5 +295,7 @@ export function toSessionUser(user: any): SessionUser {
     points: user.points ?? 0,
     level: user.level ?? 1,
     badges: user.badges ?? 0,
+    accountType: user.accountType === 'demo' ? 'demo' : 'real',
+    mustChangePassword: !!user.mustChangePassword,
   }
 }

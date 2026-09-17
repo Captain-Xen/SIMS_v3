@@ -65,6 +65,8 @@ export interface SessionUser {
   points: number
   level: number
   badges: number
+  accountType: 'real' | 'demo'
+  mustChangePassword: boolean
 }
 
 export interface Student {

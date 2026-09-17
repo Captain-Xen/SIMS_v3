@@ -33,6 +33,10 @@ model User {
   points       Int      @default(0)
   level        Int      @default(1)
   badges       Int      @default(0)
+  // account lifecycle: "real" accounts are actual school accounts; "demo"
+  // accounts ship with the sample data purely for previewing the app.
+  accountType        String  @default("real")  // real | demo
+  mustChangePassword Boolean @default(false)   // true => all APIs gate until password changed
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 

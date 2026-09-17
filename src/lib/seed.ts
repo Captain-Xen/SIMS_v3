@@ -1,5 +1,5 @@
 import { db } from './db'
-import { hashPassword } from './auth'
+import { hashPassword, ensureInitialAdmin, printInitialAdminCredentials } from './auth'
 
 const SUBJECTS = ['Mathematics', 'English Language', 'Biology', 'Chemistry', 'Physics', 'History', 'Geography', 'Spanish', 'Physical Education', 'Information Technology']
 const CLASSES = ['7A', '7B', '8A', '8B', '9A', '9B', '10A', '10B', '11A', '11B', '12A', '12B']
@@ -45,7 +45,10 @@ export async function seedDatabase() {
     },
   })
 
-  // staff — demo passwords are hashed with scrypt (same scheme as production logins)
+  // staff — demo passwords are hashed with scrypt (same scheme as production logins).
+  // Every seeded account is a DEMO account (accountType 'demo',
+  // mustChangePassword false): they exist so users can preview each role with
+  // sample data and never trigger the mandatory first-login password change.
   const [pwAdmin, pwPrincipal, pwStaff, pwNurse, pwStudent] = await Promise.all([
     hashPassword('admin123'),
     hashPassword('principal123'),
@@ -53,11 +56,12 @@ export async function seedDatabase() {
     hashPassword('nurse123'),
     hashPassword('student123'),
   ])
-  const admin = await db.user.create({ data: { email: 'admin@edu.edu', name: 'Dr. Admin', password: pwAdmin, role: 'Admin', status: 'Active', bio: 'System Administrator overseeing all school operations.', department: 'Administration', phone: '555-0100', points: 196, level: 2, badges: 3 } })
-  const principal = await db.user.create({ data: { email: 'principal@edu.edu', name: 'Mrs. principal', password: pwPrincipal, role: 'Principal', status: 'Active', bio: 'Principal of the school.', department: 'Administration', phone: '555-0101' } })
-  const teacher = await db.user.create({ data: { email: 'staff@edu.edu', name: 'Ms. Teacher', password: pwStaff, role: 'Teacher', status: 'Active', bio: 'Mathematics & Physics educator passionate about STEM.', department: 'Sciences', subjects: JSON.stringify(['Mathematics', 'Physics']), phone: '555-0102', points: 142, level: 2, badges: 2 } })
-  const teacher2 = await db.user.create({ data: { email: 'english@edu.edu', name: 'Mr. Shakespeare', password: pwStaff, role: 'Teacher', status: 'Active', bio: 'English Language & Literature teacher.', department: 'Languages', subjects: JSON.stringify(['English Language', 'History']), phone: '555-0103', points: 110, level: 1, badges: 1 } })
-  const nurse = await db.user.create({ data: { email: 'nurse@edu.edu', name: 'Nurse Betty', password: pwNurse, role: 'Nurse', status: 'Active', bio: 'School nurse.', department: 'Health', phone: '555-0104' } })
+  const demoStaff = { accountType: 'demo' as const, mustChangePassword: false }
+  const admin = await db.user.create({ data: { email: 'admin@edu.edu', name: 'Dr. Admin', password: pwAdmin, role: 'Admin', status: 'Active', bio: 'Demo administrator for previewing the app. Sample data only.', department: 'Administration', phone: '555-0100', points: 196, level: 2, badges: 3, ...demoStaff } })
+  const principal = await db.user.create({ data: { email: 'principal@edu.edu', name: 'Mrs. principal', password: pwPrincipal, role: 'Principal', status: 'Active', bio: 'Principal of the school.', department: 'Administration', phone: '555-0101', ...demoStaff } })
+  const teacher = await db.user.create({ data: { email: 'staff@edu.edu', name: 'Ms. Teacher', password: pwStaff, role: 'Teacher', status: 'Active', bio: 'Mathematics & Physics educator passionate about STEM.', department: 'Sciences', subjects: JSON.stringify(['Mathematics', 'Physics']), phone: '555-0102', points: 142, level: 2, badges: 2, ...demoStaff } })
+  const teacher2 = await db.user.create({ data: { email: 'english@edu.edu', name: 'Mr. Shakespeare', password: pwStaff, role: 'Teacher', status: 'Active', bio: 'English Language & Literature teacher.', department: 'Languages', subjects: JSON.stringify(['English Language', 'History']), phone: '555-0103', points: 110, level: 1, badges: 1, ...demoStaff } })
+  const nurse = await db.user.create({ data: { email: 'nurse@edu.edu', name: 'Nurse Betty', password: pwNurse, role: 'Nurse', status: 'Active', bio: 'School nurse.', department: 'Health', phone: '555-0104', ...demoStaff } })
 
   // students
   const studentUsers = []
@@ -88,6 +92,7 @@ export async function seedDatabase() {
             points: 40 + ((sCount * 7) % 160),
             level: 1 + (sCount % 3),
             badges: sCount % 4,
+            ...demoStaff,
           },
         })
         studentUsers.push({ ...student, feeStatus })
@@ -115,6 +120,7 @@ export async function seedDatabase() {
       points: 196,
       level: 2,
       badges: 3,
+      ...demoStaff,
     },
   })
   studentUsers.push({ ...demoStudent, feeStatus: 'Pending' })
@@ -249,5 +255,15 @@ export async function seedDatabase() {
   await db.loan.create({ data: { bookId: (await db.book.findFirst({ where: { title: '1984' } }))!.id, userId: demoStudent.id, borrowDate, dueDate, status: 'Borrowed' } })
   await db.loan.create({ data: { bookId: (await db.book.findFirst({ where: { title: 'Things Fall Apart' } }))!.id, userId: studentUsers[0].id, borrowDate, dueDate: new Date(loanToday.getTime() - 2 * 86400000).toISOString().slice(0, 10), status: 'Overdue' } })
 
-  return { staff: 5, students: studentUsers.length, grades: studentUsers.length * 3, books: books.length }
+  // The REAL initial administrator — completely separate from the demo
+  // accounts above. Created with a cryptographically random temporary
+  // password that is printed to the server console ONCE (and stored only as
+  // a scrypt hash). mustChangePassword=true forces a permanent password at
+  // first login before any dashboard/API access is granted.
+  const initialAdmin = await ensureInitialAdmin()
+  if (initialAdmin.created && initialAdmin.tempPassword) {
+    printInitialAdminCredentials(initialAdmin.email, initialAdmin.tempPassword)
+  }
+
+  return { staff: 5, students: studentUsers.length, grades: studentUsers.length * 3, books: books.length, initialAdminEmail: initialAdmin.email }
 }

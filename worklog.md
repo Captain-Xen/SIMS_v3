@@ -1300,3 +1300,28 @@ Verification (agent-browser):
 
 Stage Summary:
 - The app is now a branded SIMS ("School Name" default) with hardened security (scrypt + cookie sessions + rate limits + security headers + validated uploads), a stutter-free View Transitions dark/light switch, distinct display fonts for the school name (Cinzel on login, Space Grotesk in the sidebar), the exact requested footer on both the app and the login screen, and a neutral centred loading splash. This entry was re-appended after the previous session's tool connection dropped before the write could be confirmed.
+
+---
+Task ID: real-admin-demo-separation
+Agent: main (orchestrator)
+Task: Distinguish the real initial administrator from the 3 demo accounts; mandatory first-login password change enforced backend-side; DEMO indicator; docs update
+
+Work Log:
+- Schema: User.accountType ('real'|'demo', default real) + User.mustChangePassword (default false); db:push (Prisma client regenerated — dev server restarted to load it).
+- src/lib/auth.ts: SessionUser/toSessionUser carry accountType + mustChangePassword; split session resolution into getSessionRaw (me/logout/change-password only) vs getSession (returns null while mustChangePassword → every one of the ~50 protected routes 401s; gate enforced server-side, not by routing); generateTempPassword (crypto random, 4x4 alphabet without lookalikes, 'xxxx-xxxx-xxxx-xxxx'); ensureInitialAdmin (idempotent, separate email administrator@sims.local, env overrides INITIAL_ADMIN_EMAIL/INITIAL_ADMIN_PASSWORD, only scrypt hash stored); printInitialAdminCredentials (one-time console banner).
+- src/lib/seed.ts: every seeded account marked accountType 'demo', mustChangePassword false (3 demo profiles + principal/nurse/2nd teacher/48 students); seedDatabase ends with ensureInitialAdmin and prints the temp password once; return summary includes initialAdminEmail only (never the password).
+- New /api/auth/change-password: rate-limited (10/5min); getSessionRaw-gated; requires current (temporary) password timing-safely verified; new password per existing rule (8+ chars, capped, must differ); scrypt-hashed; sets mustChangePassword=false; ROTATES the session token (old temp-state token revoked); invalidates session cache.
+- /api/auth/me switched to getSessionRaw so a pending account resolves and the UI can route it; login/register responses now include the two new fields automatically.
+- Frontend: new ForceChangePassword screen (branding card, temp/new/confirm fields, live requirement checklist, show/hide toggle, error alert, sign-out escape only) — page.tsx renders it INSTEAD of AppShell while user.mustChangePassword; DEMO badge (amber "Demo" chip in sidebar corner + mobile sheet, "DEMO ACCOUNT" pill in desktop header) when accountType==='demo'.
+- scripts/ensure-admin.ts + package.json "admin:create" — idempotent CLI provisioning for fresh installs.
+- Existing dev DB migrated in place: 48 users marked demo (no data loss), initial admin created (temp password displayed once in setup output, then never again); demo credentials/roles/data untouched.
+
+Verification (agent-browser + curl):
+- Demo admin/teacher/student: login → straight to their dashboards, mustChangePassword=false, accountType=demo, DEMO badges visible; data endpoints work normally.
+- Real admin + temp password: login → mandatory Change Your Password screen only (no dashboard/nav).
+- Bypass attempts with pending session: GET /api/students → 401, PATCH /api/settings → 401 (backend gate holds); /api/auth/me resolves the flag for the UI.
+- Wrong current password → clear rejection; correct change → dashboard unlocks; old temp password → 401 afterwards; re-login with permanent password → straight to dashboard.
+- bun run lint clean; browser console clean; dev.log all 200s (plus expected 401s from the bypass test).
+
+Stage Summary:
+- Real and demo accounts are now distinct at the database level (accountType), the initial administrator is provisioned with a one-time secure temp password and hard-gated (mustChangePassword) until a permanent password is set — enforced server-side across the whole API surface — while the three demo accounts keep working exactly as before, now visibly labelled as DEMO in the UI. FEATURES.md gained the v3.1 version-history entry + updated Accounts & Access; README documents the flow and admin:create.

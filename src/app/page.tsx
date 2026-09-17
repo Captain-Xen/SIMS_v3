@@ -5,6 +5,7 @@ import { useAppStore, applyTheme } from '@/lib/store'
 import { api } from '@/lib/api'
 import { LoginScreen } from '@/components/app/login-screen'
 import { AppShell } from '@/components/app/app-shell'
+import { ForceChangePassword } from '@/components/app/force-change-password'
 import { Loader2, GraduationCap } from 'lucide-react'
 import type { SessionUser, SchoolSettings } from '@/lib/types'
 
@@ -98,5 +99,11 @@ export default function Home() {
     )
   }
 
-  return user ? <AppShell /> : <LoginScreen />
+  if (user) {
+    // Backend-enforced: while mustChangePassword is true every data endpoint
+    // returns 401, so the app renders ONLY the mandatory password-change
+    // screen (no dashboard escape hatch).
+    return user.mustChangePassword ? <ForceChangePassword /> : <AppShell />
+  }
+  return <LoginScreen />
 }
